@@ -2265,6 +2265,27 @@
     color: #fff;
     margin-bottom: 6px;
   }
+  /* Inline field-level validation */
+  .field-error {
+    display: none;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #ff9a8a;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: .01em;
+    margin-top: -2px;
+  }
+  .field.is-invalid .field-error { display: block; }
+  .field.is-invalid .field-input,
+  .field.is-invalid .field-textarea {
+    border-color: rgba(255, 120, 100, 0.6);
+    box-shadow: 0 0 0 3px rgba(255, 120, 100, 0.12);
+  }
+  .field.is-invalid .field-input:focus,
+  .field.is-invalid .field-textarea:focus {
+    border-color: #ff9a8a;
+    box-shadow: 0 0 0 3px rgba(255, 120, 100, 0.22);
+  }
 
   /* Direct reach-out options */
   .reach-list {
@@ -3155,13 +3176,15 @@
         <p class="panel-lede">Four fields, no gatekeeping. Tell us what you&rsquo;re wrestling with — we&rsquo;ll reply within two working days.</p>
 
         <form class="contact-form" id="contactFormMain" novalidate>
-          <label class="field">
+          <label class="field" data-field="name">
             <span class="field-label">Your name</span>
             <input class="field-input" type="text" name="name" required autocomplete="name" placeholder="What should we call you?" />
+            <span class="field-error">Please tell us your name.</span>
           </label>
-          <label class="field">
+          <label class="field" data-field="email">
             <span class="field-label">Email</span>
-            <input class="field-input" type="email" name="email" required autocomplete="email" placeholder="you@company.com" />
+            <input class="field-input" type="email" name="email" required autocomplete="email" placeholder="you@company.com" inputmode="email" />
+            <span class="field-error">Please enter a valid email address (e.g. you@company.com).</span>
           </label>
           <div class="field">
             <span class="field-label">What brings you here?</span>
@@ -3188,9 +3211,10 @@
               </label>
             </div>
           </div>
-          <label class="field">
+          <label class="field" data-field="message">
             <span class="field-label">What&rsquo;s on your mind?</span>
             <textarea class="field-textarea" name="message" rows="4" required placeholder="A sentence or two is enough. We&rsquo;ll follow up with the right questions."></textarea>
+            <span class="field-error">A sentence or two helps us reply meaningfully.</span>
           </label>
           <button type="submit" class="btn btn-primary contact-submit">
             Send a signal
@@ -3501,16 +3525,82 @@
      No backend required — the same approach as the microsite. */
   const contactFormMain = document.getElementById('contactFormMain');
   if (contactFormMain) {
+    // Robust email regex — requires local@domain.tld with TLD of at least 2 chars,
+    // rejects spaces and most junk while staying permissive for real-world addresses.
+    const EMAIL_RE = /^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/;
+
+    const getField = (name) => contactFormMain.querySelector(`[data-field="${name}"]`);
+    const setInvalid = (name, invalid) => {
+      const f = getField(name);
+      if (f) f.classList.toggle('is-invalid', !!invalid);
+    };
+    const setError = (name, message) => {
+      const f = getField(name);
+      if (!f) return;
+      const err = f.querySelector('.field-error');
+      if (err && message) err.textContent = message;
+      f.classList.add('is-invalid');
+    };
+
+    // Live-clear error state as the user types / corrects
+    ['name', 'email', 'message'].forEach((n) => {
+      const f = getField(n);
+      if (!f) return;
+      const input = f.querySelector('.field-input, .field-textarea');
+      if (!input) return;
+      input.addEventListener('input', () => setInvalid(n, false));
+      input.addEventListener('blur', () => {
+        const v = input.value.trim();
+        if (!v) return; // don't nag on empty blur; only on submit
+        if (n === 'email' && !EMAIL_RE.test(v)) {
+          setError('email', 'Please enter a valid email address (e.g. you@company.com).');
+        }
+      });
+    });
+
     contactFormMain.addEventListener('submit', (e) => {
       e.preventDefault();
       const fd = new FormData(contactFormMain);
       const name    = (fd.get('name')    || '').toString().trim();
       const email   = (fd.get('email')   || '').toString().trim();
       const message = (fd.get('message') || '').toString().trim();
-      if (!name || !email || !message) return;
 
-      const subject = `CSOM™ · Signal from ${name}`;
-      const body = `From: ${name} <${email}>\n\n${message}\n\n— Sent from csom.global`;
+      // Reset prior errors
+      ['name', 'email', 'message'].forEach((n) => setInvalid(n, false));
+
+      // Validate
+      let firstBad = null;
+      if (!name) {
+        setError('name', 'Please tell us your name.');
+        firstBad = firstBad || 'name';
+      }
+      if (!email) {
+        setError('email', 'An email address helps us reply.');
+        firstBad = firstBad || 'email';
+      } else if (!EMAIL_RE.test(email)) {
+        setError('email', 'That doesn\u2019t look like a valid email. Try you@company.com.');
+        firstBad = firstBad || 'email';
+      }
+      if (!message) {
+        setError('message', 'A sentence or two helps us reply meaningfully.');
+        firstBad = firstBad || 'message';
+      }
+
+      if (firstBad) {
+        const firstField = getField(firstBad);
+        const input = firstField && firstField.querySelector('.field-input, .field-textarea');
+        if (input) {
+          input.focus({ preventScroll: false });
+          if (typeof input.scrollIntoView === 'function') {
+            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+        return;
+      }
+
+      // All good — compose mail
+      const subject = `CSOM\u2122 \u00b7 Signal from ${name}`;
+      const body = `From: ${name} <${email}>\n\n${message}\n\n\u2014 Sent from csom.global`;
       const href = `mailto:contact@csom.global?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = href;
 
