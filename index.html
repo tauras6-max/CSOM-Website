@@ -2303,6 +2303,65 @@
     gap: 10px;
   }
   .reach-option:first-child { padding-top: 0; border-top: 0; }
+
+  /* Dialogue-encouraging pull-quote between the two reach options */
+  .reach-pullquote {
+    position: relative;
+    margin: 6px 0 2px;
+    padding: 20px 4px 20px 46px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .reach-pullquote::before {
+    content: "\201C";
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 72px;
+    line-height: 1;
+    color: rgba(255, 209, 102, 0.55);
+    font-weight: 700;
+    pointer-events: none;
+  }
+  .reach-pullquote p {
+    margin: 0;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.82);
+    letter-spacing: 0.005em;
+  }
+  .reach-pullquote cite {
+    display: block;
+    margin-top: 12px;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+  }
+  /* Because we inserted a block between the two reach-options, the second one's
+     top border would now doubles up with the pullquote's bottom border.
+     Suppress it so the rhythm stays clean. */
+  .reach-pullquote + .reach-option {
+    padding-top: 22px;
+    border-top: 0;
+  }
+
+  /* Small warm finisher under the call button */
+  .reach-fineprint {
+    display: block;
+    margin-top: 14px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-3);
+    font-style: italic;
+    max-width: 40ch;
+    opacity: 0.9;
+  }
   .reach-head {
     display: flex;
     align-items: center;
@@ -3245,6 +3304,15 @@
             </a>
           </div>
 
+          <blockquote class="reach-pullquote">
+            <p>
+              Bring the question you keep circling — not the polished version of it.
+              The real one your slide deck doesn&rsquo;t quite capture.
+              We&rsquo;d rather wrestle with what&rsquo;s unresolved than rehearse what&rsquo;s already known.
+            </p>
+            <cite>What we mean by &ldquo;reach out.&rdquo;</cite>
+          </blockquote>
+
           <div class="reach-option">
             <div class="reach-head">
               <div class="reach-orbit" aria-hidden="true" style="--reach-color: #5aa9ff;">
@@ -3261,6 +3329,9 @@
               Book a practitioner call
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </a>
+            <span class="reach-fineprint">
+              Your timezone. Your language, if we share one. Zero sales pitch — just two practitioners talking.
+            </span>
           </div>
         </div>
       </div>
