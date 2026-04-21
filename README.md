@@ -62,7 +62,7 @@ Inside `index.html`, search for:
 | You want to change…          | Search for…                              |
 |-------------------------------|------------------------------------------|
 | Hero headline                | `class="hero-title"`                     |
-| The 9 disciplines            | `disciplines =` (JS array near bottom)   |
+| The 7 disciplines + 2 orbits | `planets =` (JS array near bottom — first 7 items render as disciplines, last 2 as orbits) |
 | "Why it fails" cards         | `class="fails-card"`                     |
 | Contact email / socials      | `class="contact"`                        |
 | Brand colors                 | `:root {` (CSS variables at top)         |

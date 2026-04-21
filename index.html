@@ -1083,152 +1083,6 @@
   .solar .wrap {
     text-align: center;
   }
-  .orbit-stage {
-    position: relative;
-    width: min(1280px, 96vw);
-    height: min(640px, 52vw);
-    min-height: 440px;
-    max-height: 72vh;
-    margin: 40px auto 0;
-  }
-  .orbit-rings-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: visible;
-  }
-  .orbit-rings-svg ellipse {
-    fill: none;
-    stroke: rgba(255, 255, 255, 0.10);
-    stroke-width: 1;
-    stroke-dasharray: 2 5;
-  }
-
-  .sun {
-    position: absolute;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    width: 280px; height: 280px;
-    border-radius: 50%;
-    background:
-      radial-gradient(circle at 35% 35%, #fff9dd 0%, #ffe79a 20%, #ffbf48 55%, #cf7b09 100%);
-    box-shadow:
-      0 0 80px rgba(255, 207, 84, .6),
-      0 0 180px rgba(255, 180, 60, .4),
-      0 0 280px rgba(255, 140, 30, .22),
-      inset 0 0 50px rgba(255, 255, 255, .32);
-    display: grid;
-    place-items: center;
-    text-align: center;
-    animation: sunPulse 4.5s ease-in-out infinite;
-  }
-  @keyframes sunPulse {
-    0%, 100% { box-shadow: 0 0 60px rgba(255, 207, 84, .55), 0 0 140px rgba(255, 180, 60, .35), 0 0 220px rgba(255, 140, 30, .18), inset 0 0 40px rgba(255, 255, 255, .3); }
-    50% { box-shadow: 0 0 80px rgba(255, 207, 84, .75), 0 0 180px rgba(255, 180, 60, .5), 0 0 280px rgba(255, 140, 30, .22), inset 0 0 50px rgba(255, 255, 255, .4); }
-  }
-  .sun-label {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: #2a1500;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    line-height: 1.15;
-  }
-  .sun-label strong {
-    display: block;
-    font-size: 22px;
-    margin-top: 4px;
-    letter-spacing: .04em;
-  }
-
-  .planet-orbiter {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 0;
-    height: 0;
-    will-change: transform;
-  }
-  .planet-orbiter .planet {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  .planet {
-    position: absolute;
-    border-radius: 50%;
-    transition: transform .4s var(--ease), box-shadow .4s var(--ease);
-    cursor: pointer;
-    will-change: transform;
-  }
-  .planet::before {
-    /* atmosphere glow */
-    content: "";
-    position: absolute; inset: -8px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--glow, rgba(255,255,255,.3)) 0%, transparent 65%);
-    opacity: .7;
-    filter: blur(2px);
-  }
-  .planet::after {
-    /* highlight */
-    content: "";
-    position: absolute;
-    top: 12%; left: 18%;
-    width: 28%; height: 28%;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,.7), transparent 70%);
-  }
-  .planet { cursor: pointer; }
-  .planet:hover { transform: scale(1.15); }
-  .planet:focus-visible {
-    outline: 2px solid var(--gold);
-    outline-offset: 6px;
-    transform: scale(1.15);
-  }
-
-  /* Spotlight pulse when a planet click scrolls to a discipline card */
-  @keyframes disciplineSpotlight {
-    0%   { box-shadow: 0 0 0 0 rgba(255, 207, 84, 0.55), 0 14px 40px rgba(0, 0, 0, 0.35); border-color: var(--gold); transform: translateY(-3px); }
-    60%  { box-shadow: 0 0 0 16px rgba(255, 207, 84, 0), 0 26px 70px rgba(0, 0, 0, 0.55); border-color: rgba(255, 207, 84, 0.6); }
-    100% { box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35); border-color: var(--line-strong); transform: none; }
-  }
-  .p-card.is-spotlight {
-    animation: disciplineSpotlight 2.4s ease-out;
-  }
-  .planet-tag {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 10px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: #fff;
-    white-space: nowrap;
-    background: rgba(8, 12, 32, 0.72);
-    border: 1px solid var(--line-strong);
-    padding: 5px 11px;
-    border-radius: 999px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
-    pointer-events: none;
-  }
-  .solar-note {
-    margin-top: 40px;
-    color: var(--ink-3);
-    font-size: 13px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-  }
-
   /* ============== PLANETS CARDS ============== */
   .planets-grid {
     display: grid;
@@ -1399,148 +1253,6 @@
     transform: translateX(2px);
   }
 
-  /* ============== SIGNALS FROM THE FIELD ============== */
-  /* Auto-fit grid: tiles are min 320px wide, fill as many per row as fit.
-     At ≤860px viewport it collapses to a single column.
-     Adding a 3rd or 4th tile requires no CSS changes. */
-  .signals-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 18px;
-  }
-  @media (max-width: 860px) {
-    .signals-grid { grid-template-columns: 1fr; }
-  }
-  .signal-tile {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 30px 32px 28px;
-    border-radius: var(--radius);
-    background: linear-gradient(180deg, rgba(4, 8, 18, 0.68) 0%, rgba(4, 8, 18, 0.54) 100%);
-    border: 1px solid var(--line-strong);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
-    text-decoration: none;
-    color: inherit;
-    overflow: hidden;
-    transition: transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
-  }
-  .signal-tile::before {
-    content: "";
-    position: absolute;
-    top: -80px; right: -80px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, var(--acc) 0%, transparent 60%);
-    opacity: .1;
-    transition: opacity .35s var(--ease);
-    pointer-events: none;
-  }
-  .signal-tile:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.5);
-    background: linear-gradient(180deg, rgba(10, 16, 32, 0.82) 0%, rgba(4, 8, 18, 0.6) 100%);
-  }
-  .signal-tile:hover::before { opacity: .22; }
-  .signal-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-  }
-  .signal-type {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--ink-2);
-  }
-  .signal-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--acc);
-    box-shadow: 0 0 10px var(--acc);
-  }
-  .signal-latest {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 9.5px;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: #0A1628;
-    background: linear-gradient(135deg, #FFD054, #FF8A4C);
-    padding: 3px 8px;
-    border-radius: 3px;
-  }
-  .signal-title {
-    font-family: 'IBM Plex Serif', Georgia, serif;
-    font-weight: 500;
-    font-size: clamp(20px, 1.8vw, 24px);
-    line-height: 1.25;
-    letter-spacing: -0.008em;
-    color: #fff;
-    margin: 6px 0 0;
-    flex-grow: 1;
-  }
-  .signal-meta {
-    font-family: 'JetBrains Mono', 'Space Grotesk', monospace;
-    font-size: 11.5px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-  }
-  .signal-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 4px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--gold);
-    padding-bottom: 3px;
-    border-bottom: 1px solid rgba(255, 207, 84, 0.25);
-    align-self: flex-start;
-    transition: color .2s var(--ease), gap .25s var(--ease), border-color .2s var(--ease);
-  }
-  .signal-tile:hover .signal-cta {
-    color: #FFE28C;
-    gap: 14px;
-    border-bottom-color: #FFE28C;
-  }
-  .signal-arrow {
-    transition: transform .25s var(--ease);
-  }
-  .signal-tile:hover .signal-arrow {
-    transform: translateX(2px);
-  }
-  .signals-tail {
-    max-width: 640px;
-    margin: clamp(2.5rem, 4vw, 3.5rem) auto 0;
-    text-align: center;
-    font-family: 'IBM Plex Serif', serif;
-    font-size: clamp(17px, 1.5vw, 21px);
-    line-height: 1.5;
-    font-weight: 500;
-    color: rgba(241, 245, 249, 0.7);
-  }
-  .signals-tail-gold {
-    background: linear-gradient(135deg, #FFD054, #FF8A4C);
-    -webkit-background-clip: text;
-            background-clip: text;
-    color: transparent;
-    font-weight: 600;
-  }
-
   /* ============== CONTACT FORM — new radio group ============== */
   .field-radio-group {
     display: flex;
@@ -1599,15 +1311,18 @@
   }
 
   /* ============== WHY IT FAILS ============== */
-  /* Modern compact grid — 3 columns on desktop, 2 on tablet, 1 on mobile.
-     Each card is a "signal + diagnosis" pair stacked vertically. */
+  /* 2x2 grid on desktop — cards occupy the left half, leaving the
+     right side free for the travelling globe. Collapses to 1 column on mobile. */
   .fails-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    max-width: 780px;
   }
-  @media (max-width: 960px) {
-    .fails-grid { grid-template-columns: repeat(2, 1fr); }
+  #fails .fails-close { max-width: 780px; }
+  @media (max-width: 1024px) {
+    .fails-grid { max-width: none; }
+    #fails .fails-close { max-width: none; }
   }
   @media (max-width: 620px) {
     .fails-grid { grid-template-columns: 1fr; }
@@ -1776,6 +1491,86 @@
   .how-card .how-cta {
     align-self: flex-start;
     margin-top: 8px;
+  }
+
+  /* ---- Spotlight glow (how-cards) ----
+     Cursor-tracked radial gradient painted on the card's background and
+     border. The global pointer handler updates --x/--y/--xp on :root; the
+     hue rotates per card via --base. Masked pseudo-elements produce the
+     border-light. Uses background-attachment: fixed so the gradient lives
+     in viewport space and reads the global pointer position correctly. */
+  .how-card[data-glow] {
+    --base: 42;
+    --spread: 200;
+    --glow-radius: 18px;
+    --border-size: 1.5px;
+    --spotlight-size: 340px;
+    --hue: calc(var(--base) + var(--xp, 0) * var(--spread));
+    background:
+      radial-gradient(
+        var(--spotlight-size) var(--spotlight-size) at
+        calc(var(--x, -9999) * 1px) calc(var(--y, -9999) * 1px),
+        hsl(var(--hue) 100% 72% / 0.18), transparent 62%
+      ) fixed,
+      linear-gradient(180deg, rgba(4, 8, 18, 0.68), rgba(4, 8, 18, 0.52));
+  }
+  .how-card[data-glow]:hover {
+    background:
+      radial-gradient(
+        var(--spotlight-size) var(--spotlight-size) at
+        calc(var(--x, -9999) * 1px) calc(var(--y, -9999) * 1px),
+        hsl(var(--hue) 100% 72% / 0.28), transparent 62%
+      ) fixed,
+      linear-gradient(180deg, rgba(10, 16, 32, 0.82), rgba(4, 8, 18, 0.6));
+  }
+  .how-card[data-glow]::before,
+  .how-card[data-glow]::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: calc(var(--border-size) * -1);
+    border-radius: inherit;
+    border: var(--border-size) solid transparent;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size:
+      calc(100% + (2 * var(--border-size)))
+      calc(100% + (2 * var(--border-size)));
+    -webkit-mask:
+      linear-gradient(transparent, transparent),
+      linear-gradient(#fff, #fff);
+            mask:
+      linear-gradient(transparent, transparent),
+      linear-gradient(#fff, #fff);
+    -webkit-mask-clip: padding-box, border-box;
+            mask-clip: padding-box, border-box;
+    -webkit-mask-composite: xor;
+            mask-composite: intersect;
+    opacity: 0.95;
+  }
+  .how-card[data-glow]::before {
+    background-image: radial-gradient(
+      calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
+      calc(var(--x, -9999) * 1px) calc(var(--y, -9999) * 1px),
+      hsl(var(--hue) 100% 60% / 1), transparent 100%
+    );
+    filter: brightness(1.5);
+  }
+  .how-card[data-glow]::after {
+    background-image: radial-gradient(
+      calc(var(--spotlight-size) * 0.42) calc(var(--spotlight-size) * 0.42) at
+      calc(var(--x, -9999) * 1px) calc(var(--y, -9999) * 1px),
+      hsl(0 0% 100% / 0.9), transparent 100%
+    );
+  }
+  .how-card[data-glow-color="gold"]   { --base: 42;  }
+  .how-card[data-glow-color="green"]  { --base: 140; }
+  .how-card[data-glow-color="purple"] { --base: 270; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .how-card[data-glow]::before,
+    .how-card[data-glow]::after { display: none; }
   }
   .how-icon {
     width: 44px; height: 44px;
@@ -2441,14 +2236,8 @@
     .nav-inner { padding: 16px 22px; }
     .nav-links, .nav-cta { display: none; }
     .menu-btn { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--line-strong); border-radius: 10px; }
-    .hero-inner { padding: 80px 22px 100px; }
-    .planets-grid { grid-template-columns: 1fr; }
     /* .how-card is now flex-column by default — no grid override needed on mobile */
     .cta-band { padding: 36px; }
-    .orbit-stage { height: min(560px, 100vw); width: min(560px, 100vw); }
-    .sun { width: 120px; height: 120px; }
-    .sun-label { font-size: 10px; }
-    .sun-label strong { font-size: 12px; }
   }
 
   /* ============== REVEAL ANIMATION ============== */
@@ -2756,9 +2545,1595 @@
     color: #FFD054;
     transform: translateX(4px);
   }
+
+  /* =====================================================
+     ========   SEVEN + TWO: NEW MODEL LAYOUT  ===========
+     Replaces the 9-planet solar system with the new framing:
+     7 disciplines (orbiting) + 2 orbits (cross-cutting forces).
+     The solar system animation is removed; a video takes its
+     place in the #model section.
+     ===================================================== */
+
+  /* Force 3-col grid so the "Two Orbits" band can span 2 cols
+     on the last row of the discipline cards. */
+  .planets-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 14px;
+  }
+  @media (max-width: 960px) {
+    .planets-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+  @media (max-width: 620px) {
+    .planets-grid { grid-template-columns: 1fr !important; }
+  }
+
+  /* "The Two Orbits" band — sits inside the planets-grid, fills
+     the last two cells of the 3-col grid (after the 7 discipline cards) */
+  .orbits-band {
+    grid-column: span 2;
+    padding: 28px 32px;
+    border-radius: 12px;
+    background:
+      linear-gradient(135deg, rgba(100, 233, 255, 0.10) 0%, rgba(165, 243, 252, 0.06) 40%, rgba(255, 190, 61, 0.06) 70%, rgba(255, 110, 60, 0.12) 100%);
+    border: 1px solid var(--line-strong);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 120px;
+  }
+  @media (max-width: 960px) {
+    .orbits-band { grid-column: span 2; }
+  }
+  @media (max-width: 620px) {
+    .orbits-band { grid-column: span 1; padding: 22px 24px; }
+  }
+  .orbits-band-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(22px, 2.2vw, 30px);
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .orbits-band-sub {
+    font-size: 15px;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  /* Two orbit cards — sit below the planets grid */
+  .orbits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 24px;
+  }
+  @media (max-width: 860px) {
+    .orbits-grid { grid-template-columns: 1fr; }
+  }
+  .orbit-card {
+    position: relative;
+    padding: 30px 32px;
+    border-radius: 14px;
+    background: rgba(4, 8, 18, 0.62);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    gap: 22px;
+    align-items: flex-start;
+    transition: border-color .3s var(--ease), background .3s var(--ease), transform .3s var(--ease);
+  }
+  .orbit-card:hover {
+    border-color: var(--acc);
+    background: rgba(10, 16, 32, 0.74);
+    transform: translateY(-2px);
+  }
+  .orbit-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    stroke: var(--acc);
+    margin-top: 6px;
+    opacity: 0.95;
+  }
+  .orbit-body { flex: 1; min-width: 0; }
+  .orbit-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(4, 8, 18, 0.85);
+    border: 1px solid var(--acc);
+    color: var(--acc);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .orbit-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(22px, 2vw, 28px);
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .orbit-epithet {
+    font-size: 14px;
+    color: var(--acc);
+    margin: 0 0 14px;
+    letter-spacing: 0.02em;
+  }
+  .orbit-desc {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  /* Stage wrapper — contains the video frame + floating label pills
+     (7 disciplines overlaid on the video, 2 orbits outside the frame). */
+  .model-stage {
+    position: relative;
+    max-width: 1400px;
+    width: calc(100% - 48px);
+    margin: 60px auto 68px;   /* extra room above/below for orbit pills */
+  }
+  .model-video-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #03040a;
+    box-shadow:
+      0 40px 100px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(255, 207, 84, 0.32),
+      0 0 100px rgba(255, 207, 84, 0.18),
+      0 0 180px rgba(255, 110, 60, 0.10);
+  }
+  .model-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Discipline pills — 7 pills positioned around the edges of the video */
+  .plabel {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(4, 8, 18, 0.82);
+    border: 1px solid var(--acc);
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    z-index: 3;
+    box-shadow:
+      0 4px 18px rgba(0, 0, 0, 0.55),
+      0 0 16px color-mix(in srgb, var(--acc) 45%, transparent);
+  }
+  .plabel i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--acc);
+    box-shadow: 0 0 8px var(--acc);
+    flex-shrink: 0;
+  }
+  /* 7 positions around the video: top-center, top-left, top-right,
+     middle-left, middle-right, bottom-left, bottom-right */
+  .plabel-tc { top: 20px; left: 50%; transform: translateX(-50%); }
+  .plabel-tl { top: 20px; left: 20px; }
+  .plabel-tr { top: 20px; right: 20px; }
+  .plabel-ml { top: 50%; left: 20px; transform: translateY(-50%); }
+  .plabel-mr { top: 50%; right: 20px; transform: translateY(-50%); }
+  .plabel-bl { bottom: 20px; left: 20px; }
+  .plabel-br { bottom: 20px; right: 20px; }
+
+  /* Orbit pills — sit OUTSIDE the frame (above + below the video),
+     visually representing the cross-cutting forces that orbit the
+     whole system. Distinct from discipline pills via size + uppercase
+     "INNER ORBIT" / "OUTER ORBIT" mini-label. */
+  .olabel {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px 8px 14px;
+    background: rgba(4, 8, 18, 0.92);
+    border: 1px solid var(--acc);
+    border-radius: 999px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 4;
+    box-shadow:
+      0 10px 34px rgba(0, 0, 0, 0.65),
+      0 0 30px color-mix(in srgb, var(--acc) 45%, transparent);
+  }
+  .olabel i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--acc);
+    box-shadow: 0 0 12px var(--acc);
+    flex-shrink: 0;
+  }
+  .olabel-lbl {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--acc);
+    font-weight: 700;
+  }
+  .olabel-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    color: #fff;
+    font-weight: 500;
+  }
+  .olabel-top    { top: -20px; }
+  .olabel-bottom { bottom: -20px; }
+
+  @media (max-width: 1024px) {
+    .model-stage { width: calc(100% - 32px); }
+    .model-video-frame { border-radius: 22px; }
+    .plabel { font-size: 11px; padding: 5px 12px; }
+  }
+  @media (max-width: 860px) {
+    /* Too crowded on mid-size screens — hide the middle-edge pills */
+    .plabel-ml, .plabel-mr { display: none; }
+  }
+  @media (max-width: 740px) {
+    .model-stage {
+      width: calc(100% - 20px);
+      margin: 44px auto 60px;
+    }
+    .model-video-frame {
+      border-radius: 16px;
+      aspect-ratio: 16 / 10;
+    }
+    .plabel { font-size: 10px; padding: 4px 10px; }
+    .plabel-tl, .plabel-tr, .plabel-bl, .plabel-br { display: none; }
+    .olabel { padding: 6px 14px 6px 10px; }
+    .olabel-lbl { display: none; }
+  }
+
+  /* =====================================================
+     ========   3D ORBIT GALLERY (.cg-*)          ========
+     =====================================================
+     500vh scroll container with a sticky inner viewport.
+     Page scroll rotates the ring on Y-axis; idle auto-rotation
+     kicks in when user stops scrolling. Cards fade by angle.
+     Prefix `.cg-` (csom gallery) avoids clashing with the
+     pre-existing `.orbit-card` / `.planets-*` styles above. */
+  .cg-wrap {
+    position: relative;
+    width: 100%;
+    height: 120vh;                  /* pinned scroll length — only ~20vh of rotation scroll, so the section hands off to the next one almost immediately after cards finish */
+    background: linear-gradient(135deg, #1a2a4a 0%, #6b4570 50%, #e8693a 100%);
+    overflow: hidden;
+    font-family: 'DM Sans', 'Space Grotesk', sans-serif;
+  }
+  .cg-sticky {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .cg-veil {
+    position: absolute; inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.42) 100%);
+  }
+  .cg-stars {
+    position: absolute; inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .cg-star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    animation: cg-twinkle 3s ease-in-out infinite;
+  }
+  @keyframes cg-twinkle {
+    0%, 100% { opacity: 0.2; }
+    50%      { opacity: 0.85; }
+  }
+
+  .cg-progress {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    z-index: 50;
+    transform-origin: left center;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, #FFD020, #E07040);
+    transition: transform 0.1s linear;
+    pointer-events: none;
+  }
+
+  .cg-header {
+    position: absolute;
+    top: 48px;
+    left: 0; right: 0;
+    text-align: center;
+    color: #fff;
+    z-index: 10;
+    pointer-events: none;
+    padding: 0 24px;
+  }
+  .cg-eyebrow {
+    display: inline-block;
+    font-family: 'Syne', 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 10px;
+  }
+  .cg-title {
+    font-family: 'Syne', 'Space Grotesk', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+  .cg-lede {
+    font-size: 15px;
+    opacity: 0.8;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .cg-3d {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    perspective: 2000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cg-ring {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.08s linear;
+    will-change: transform;
+  }
+
+  /* Horizontal orbit pills — sit above/below the 3D ring, outside preserve-3d
+     so they stay flat and don't rotate with the cards. `--acc` is set inline
+     per strip (--p8 blue for Data, --p9 cyan for Continual Improvement). */
+  .cg-orbit-strip {
+    /* Anchored to OPPOSITE CORNERS of the sticky stage so the pills
+       are always out of the cards' central rotation path. Inner
+       orbit tags the top-left; outer orbit tags the bottom-right. */
+    position: absolute;
+    z-index: 12;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 20px 12px 16px;
+    border-radius: 22px;
+    width: min(380px, calc(100vw - 48px));
+    box-sizing: border-box;
+    background: rgba(4, 8, 18, 0.82);
+    border: 1px solid var(--acc);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #fff;
+    pointer-events: none;
+    box-shadow:
+      0 10px 34px rgba(0, 0, 0, 0.55),
+      0 0 24px color-mix(in srgb, var(--acc) 40%, transparent);
+  }
+  .cg-orbit-strip .cg-orbit-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--acc);
+    box-shadow: 0 0 10px var(--acc);
+    flex-shrink: 0;
+  }
+  .cg-orbit-strip .cg-orbit-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+  .cg-orbit-strip .cg-orbit-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .cg-orbit-strip .cg-orbit-eyebrow {
+    font-family: 'DM Sans', 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--acc);
+    flex-shrink: 0;
+  }
+  .cg-orbit-strip .cg-orbit-name {
+    font-family: 'Syne', 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .cg-orbit-strip .cg-orbit-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    line-height: 1.35;
+    opacity: 0.78;
+    font-weight: 400;
+  }
+  @media (max-width: 740px) {
+    .cg-orbit-strip { padding: 10px 16px 10px 14px; border-radius: 22px; }
+    .cg-orbit-strip .cg-orbit-sub { font-size: 11px; }
+  }
+  .cg-orbit-strip-top    { top: 28px;    left: 28px; }     /* top-left corner */
+  .cg-orbit-strip-bottom { bottom: 28px; right: 28px; }    /* bottom-right corner */
+
+  .cg-sun {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 140px; height: 140px;
+    margin: -70px 0 0 -70px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    font-family: 'Syne', 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    color: #3A1A00;
+    background: radial-gradient(circle at 35% 35%, #FFFAB0 0%, #FFD020 50%, #FF7000 100%);
+    box-shadow:
+      0 0 80px rgba(255, 180, 40, 0.55),
+      0 0 160px rgba(255, 180, 40, 0.30);
+    animation: cg-sun-beat 4s ease-in-out infinite;
+  }
+  .cg-sun > span:first-of-type { font-size: 14px;   letter-spacing: 1.5px; }
+  .cg-sun > span:last-of-type  { font-size: 10.5px; letter-spacing: 1.5px; margin-top: 2px; }
+  .cg-sun-glow {
+    position: absolute;
+    inset: -40px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    background: radial-gradient(circle, rgba(255, 208, 32, 0.35) 0%, transparent 70%);
+  }
+  @keyframes cg-sun-beat {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.06); }
+  }
+
+  .cg-card {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 250px; height: 390px;
+    margin: -195px 0 0 -125px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.40);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    /* Hide the back-face of cards on the far side of the orbit so
+       their mirrored text doesn't bleed through the front cards. */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: opacity 0.3s linear;
+  }
+  .cg-card-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 25% 15%, rgba(255,255,255,0.18) 0%, rgba(10,12,28,0.88) 65%);
+  }
+  .cg-card-pill {
+    position: absolute;
+    top: 16px; left: 20px;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
+    color: #fff;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.10);
+    border: 0.5px solid rgba(255, 255, 255, 0.25);
+    z-index: 3;
+  }
+  .cg-card-body {
+    position: relative;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 24px 20px;
+    color: #fff;
+    z-index: 2;
+  }
+  .cg-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 32px 0 22px;
+  }
+  .cg-card-orb {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    position: relative;
+  }
+  .cg-card-orb-sheen {
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.55), transparent 60%);
+  }
+  .cg-card-num {
+    font-family: 'Syne', 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    opacity: 0.35;
+  }
+  .cg-card-name {
+    font-family: 'Syne', 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .cg-card-subtitle {
+    font-size: 12.5px;
+    font-style: italic;
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+  .cg-card-divider {
+    height: 1px;
+    margin: 6px 0 14px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  }
+  .cg-card-desc {
+    font-size: 12px;
+    line-height: 1.55;
+    opacity: 0.80;
+  }
+
+  .cg-hint {
+    position: absolute;
+    bottom: 36px;
+    left: 0; right: 0;
+    text-align: center;
+    color: #fff;
+    font-size: 10.5px;
+    letter-spacing: 0.3em;
+    opacity: 0.55;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .cg-hint-arrow {
+    display: inline-block;
+    margin-left: 6px;
+    animation: cg-bounce 1.6s ease-in-out infinite;
+  }
+  @keyframes cg-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(4px); }
+  }
+
+  @media (max-width: 1024px) {
+    .cg-title { font-size: 30px; }
+    .cg-orbit-strip-top    { top: 22px;    left: 22px; }
+    .cg-orbit-strip-bottom { bottom: 22px; right: 22px; }
+  }
+  @media (max-width: 740px) {
+    .cg-wrap { height: 160vh; }
+    .cg-header { top: 28px; }
+    .cg-title { font-size: 24px; }
+    .cg-lede  { font-size: 13px; }
+    .cg-card { width: 210px; height: 340px; margin: -170px 0 0 -105px; }
+    .cg-card-name { font-size: 18px; }
+    .cg-sun { width: 110px; height: 110px; margin: -55px 0 0 -55px; }
+    .cg-orbit-strip { padding: 8px 14px 8px 12px; gap: 8px; }
+    .cg-orbit-strip .cg-orbit-eyebrow { font-size: 9px; letter-spacing: 0.22em; }
+    .cg-orbit-strip .cg-orbit-name    { font-size: 12.5px; }
+    /* On narrow viewports, stack at top/bottom centred so they don't
+       crash into the header/hint which sit centred as well. Width is
+       already clamped by calc(100vw - 48px). */
+    .cg-orbit-strip-top    { top: 14px;    left: 50%; transform: translateX(-50%); }
+    .cg-orbit-strip-bottom { bottom: 14px; left: 50%; right: auto; transform: translateX(-50%); }
+  }
+
+  /* Grab cursor on the 3D stage so users discover drag */
+  .cg-3d { cursor: grab; }
+  .cg-3d.cg-dragging { cursor: grabbing; }
+  .cg-3d.cg-dragging .cg-ring { transition: none; }  /* no lerp during drag */
+
+  @media (prefers-reduced-motion: reduce) {
+    .cg-sun, .cg-hint-arrow, .cg-star {
+      animation: none !important;
+    }
+  }
+
+  /* =====================================================
+     ========   PLANETS HORIZONTAL SCROLLER  =============
+     Replaces the 3-col grid with a scroll-snap carousel.
+     Each card snaps to centre; arrow buttons + progress
+     dots provide non-touch navigation. Breaks out of .wrap
+     for edge-to-edge bleed on wide screens. */
+
+  .planets-scroller-wrap {
+    position: relative;
+    margin-top: 18px;
+  }
+  /* Override the 3-col grid — become a horizontal flex scroller */
+  .planets-grid {
+    display: flex !important;
+    grid-template-columns: none !important;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 22px;
+    padding: 32px max(28px, calc(50vw - 260px)) 44px;
+    scroll-padding-inline: max(28px, calc(50vw - 260px));
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .planets-grid::-webkit-scrollbar { display: none; }
+  .planets-grid .p-card {
+    flex: 0 0 min(520px, 85vw);
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  /* Prev / Next arrow buttons */
+  .p-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(4, 8, 18, 0.75);
+    border: 1px solid var(--line-strong);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.25s var(--ease);
+  }
+  .p-arrow:hover {
+    background: rgba(10, 16, 32, 0.9);
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-50%) scale(1.05);
+  }
+  .p-arrow:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+    transform: translateY(-50%);
+  }
+  .p-arrow-prev { left: 18px; }
+  .p-arrow-next { right: 18px; }
+  @media (max-width: 720px) {
+    .p-arrow { display: none; }  /* touch users swipe */
+  }
+
+  /* Progress dots */
+  .planets-progress {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 auto 40px;
+    padding: 0 28px;
+    flex-wrap: wrap;
+    max-width: 720px;
+  }
+  .p-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s var(--ease);
+  }
+  .p-dot:hover { border-color: var(--gold); }
+  .p-dot.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    transform: scale(1.2);
+    box-shadow: 0 0 12px rgba(255, 207, 84, 0.6);
+  }
+
+  /* Override: orbits-band is now a full-width standalone separator
+     (no longer sits inside the planets-grid as a 2-col-span cell) */
+  .orbits-band {
+    grid-column: unset !important;
+    width: 100%;
+    max-width: 100%;
+    margin: 6px 0 24px !important;
+  }
+
+  /* =====================================================
+     ========   GLOBAL.HTML PARITY FEATURES  =============
+     Scroll progress bar + right-side section nav rail
+     — same pattern as global.html and journey.html. */
+
+  /* Scroll progress bar — top of viewport, 3px brand gradient */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background: var(--brand-gradient);
+    z-index: 200;
+    box-shadow: 0 0 14px rgba(255, 190, 61, 0.7);
+    transition: width 80ms linear;
+    pointer-events: none;
+  }
+
+  /* Vertical section nav rail — fixed right, mid-viewport */
+  .section-nav {
+    position: fixed;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .section-nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .section-nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: transform .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease);
+  }
+  .section-nav-dot:hover { border-color: var(--gold); }
+  .section-nav-item.active .section-nav-dot {
+    background: var(--gold);
+    border-color: var(--gold);
+    transform: scale(1.35);
+    box-shadow: 0 0 14px rgba(255, 207, 84, 0.6);
+  }
+  .section-nav-label {
+    position: absolute;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 6px 12px;
+    background: rgba(4, 8, 18, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .section-nav-item.active .section-nav-label {
+    animation: fadeOutRailLabel 2.6s var(--ease) forwards;
+  }
+  @keyframes fadeOutRailLabel {
+    0%   { opacity: 1; transform: translateY(-50%) translateX(0); }
+    70%  { opacity: 1; transform: translateY(-50%) translateX(0); }
+    100% { opacity: 0; transform: translateY(-50%) translateX(8px); }
+  }
+  /* Subtle guide line behind the rail */
+  .section-nav::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -12px;
+    bottom: -12px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(255, 207, 84, 0.20), transparent);
+    transform: translateX(-50%);
+    z-index: -1;
+  }
+  /* Hide the rail on narrow screens — the top nav + hamburger handles it */
+  @media (max-width: 900px) {
+    .section-nav { display: none; }
+  }
+
+  /* External-page nav links (Journey, Global) — visually distinct from
+     anchor links so readers know they leave the current page. */
+  .nav-link-page {
+    position: relative;
+    color: var(--gold) !important;
+  }
+  .nav-link-page::after {
+    content: "↗";
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 0.85em;
+    opacity: 0.75;
+    transition: transform .25s var(--ease), opacity .25s var(--ease);
+  }
+  .nav-link-page:hover::after {
+    transform: translate(2px, -2px);
+    opacity: 1;
+  }
+
+  /* When "The Model" nav link scrolls to #model-video, give the video
+     some breathing room from the fixed top nav bar. */
+  #model-video { scroll-margin-top: 80px; }
+
+  /* =====================================================
+     ========   HERO + MANIFESTO FROM GLOBAL.HTML  =======
+     The first 2 sections (#top hero + #rewritten manifesto)
+     are ported from global.html. A fixed earth globe travels
+     between them on scroll, then hides when scrolled past. */
+
+  /* Fixed globe — travels between hero and rewrite section */
+  .globe-stage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    pointer-events: none;
+    will-change: transform, opacity;
+    transform: translate3d(70vw, 50vh, 0) translate3d(-50%, -50%, 0) scale3d(1.65, 1.65, 1);
+    /* Transform is driven every scroll frame via JS lerp — no CSS
+       transition on transform (would fight the continuous updates).
+       Keep a short opacity transition so the fade-to-#model stays soft. */
+    transition: opacity 0.4s ease;
+  }
+  .globe-stage.is-hidden { opacity: 0; }
+
+  .globe-wrap {
+    position: relative;
+    width: 250px;
+    height: 250px;
+  }
+  .globe-earth {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background-image: url('globe.jpeg');
+    background-size: cover;
+    background-position: left;
+    animation: earthRotate 30s linear infinite;
+    box-shadow:
+      0 0 20px rgba(255, 255, 255, 0.2),
+      -5px 0 8px #c3f4ff inset,
+      15px 2px 25px #000 inset,
+      -24px -2px 34px #c3f4ff99 inset,
+      250px 0 44px #00000066 inset,
+      150px 0 38px #000000aa inset;
+  }
+  @keyframes earthRotate {
+    from { background-position: 0 0; }
+    to   { background-position: 400px 0; }
+  }
+  .globe-star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+  }
+  @keyframes twinkling      { 0%,100% { opacity: 0.15; } 50% { opacity: 1; } }
+  @keyframes twinkling-slow { 0%,100% { opacity: 0.15; } 50% { opacity: 1; } }
+  @keyframes twinkling-long { 0%,100% { opacity: 0.15; } 50% { opacity: 1; } }
+  @keyframes twinkling-fast { 0%,100% { opacity: 0.15; } 50% { opacity: 1; } }
+  @media (max-width: 1024px) { .globe-wrap { transform: scale(0.9); } }
+  @media (max-width: 740px)  {
+    .globe-wrap { transform: scale(0.7); }
+    .globe-stage { opacity: 0.7; }
+  }
+  @media (max-width: 480px)  {
+    .globe-stage {
+      transform: translate3d(50vw, 85vh, 0) translate3d(-50%, -50%, 0) !important;
+      opacity: 0.5;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .globe-earth { animation: none !important; background-position: 25% 50%; }
+    .globe-stage { transition: none !important; }
+    .globe-star  { animation: none !important; opacity: 0.5 !important; }
+  }
+
+  /* Global-section scaffold (prefix: .gs) */
+  .gs {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 28px 140px;
+    overflow: hidden;
+    z-index: 20;
+  }
+  .gs.align-left   { align-items: flex-start; text-align: left; }
+  .gs.align-center { align-items: center;     text-align: center; }
+  .gs-content {
+    width: 100%;
+    max-width: 960px;
+  }
+  .gs.align-center .gs-content { margin: 0 auto; }
+  .gs.align-left   .gs-content { margin-left: clamp(0px, 5vw, 72px); }
+
+  .gs-badge {
+    display: inline-block;
+    padding: 7px 16px;
+    border: 1px solid rgba(255, 207, 84, 0.3);
+    background: rgba(4, 8, 18, 0.35);
+    border-radius: 999px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .gs-title {
+    font-family: 'Space Grotesk', sans-serif;
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+    margin: 0 0 22px;
+    color: #fff;
+    text-shadow: 0 2px 24px rgba(6, 10, 20, 0.55);
+  }
+  .gs-title .title-main {
+    display: block;
+    font-size: clamp(42px, 6vw, 84px);
+  }
+  /* Rewrite (section 2) title a touch smaller */
+  #rewritten .gs-title .title-main {
+    font-size: clamp(34px, 5vw, 68px);
+  }
+  .gs-title .accent {
+    background: linear-gradient(135deg, var(--gold), var(--brand-orange));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .gs-desc {
+    font-size: clamp(16px, 1.4vw, 18px);
+    line-height: 1.65;
+    color: var(--ink-1);
+    max-width: 58ch;
+    margin: 0 0 32px;
+    text-shadow: 0 1px 14px rgba(6, 10, 20, 0.55);
+  }
+  .gs.align-center .gs-desc { margin: 0 auto 32px; }
+
+  .gs-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .gs.align-center .gs-actions { justify-content: center; }
+
+  /* Manifesto close paragraph + pull-quote (section 2) */
+  .gs-close {
+    max-width: 680px;
+    margin: 44px auto 28px;
+    font-size: clamp(16px, 1.4vw, 18px);
+    line-height: 1.65;
+    color: var(--ink-1);
+    text-align: center;
+    text-shadow: 0 1px 14px rgba(6, 10, 20, 0.55);
+  }
+  .gs-close strong {
+    color: #fff;
+    font-weight: 600;
+  }
+  .gs-quote {
+    max-width: 680px;
+    margin: 24px auto 0;
+    padding: 30px 34px 30px 60px;
+    border-left: 3px solid var(--gold);
+    background: rgba(4, 8, 18, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 0 12px 12px 0;
+    text-align: left;
+    position: relative;
+  }
+  .gs-quote::before {
+    content: "\201C";
+    position: absolute;
+    top: 12px;
+    left: 20px;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 48px;
+    color: var(--gold);
+    line-height: 1;
+    opacity: 0.7;
+  }
+  .gs-quote p {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.55;
+    color: var(--ink-1);
+    margin: 0;
+  }
+
+  @media (max-width: 740px) {
+    .gs { padding: 100px 20px 120px; }
+    .gs-actions { flex-direction: column; align-items: stretch; max-width: 320px; }
+    .gs.align-center .gs-actions { margin: 0 auto; }
+  }
+
+  /* =====================================================
+     ========   BLEND ENHANCEMENT — NEW SECTIONS   =======
+     All rules below reuse existing design tokens
+     (--brand-*, --gold, --radius, --line*, --ease, --ink-*)
+     and mirror the .how-card / .fails-card patterns so
+     the new sections are visually part of the existing
+     system, not a new design language.
+     ===================================================== */
+
+  /* ---- Hero dual-audience subtitle ---- */
+  .hero-subtitle {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(16px, 1.6vw, 19px);
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: .005em;
+    line-height: 1.5;
+    margin: 14px 0 22px;
+    max-width: 52ch;
+    text-shadow: 0 2px 18px rgba(6, 10, 20, 0.55);
+  }
+  .hero-subtitle span { display: block; }
+
+  /* ---- Who Is This For (two-audience cards) ---- */
+  /* ---- Build-trails canvas (audience section) ----
+     A cursor-following flow-field of glowing HSL ribbons painted behind
+     the two audience cards. Canvas is absolute-positioned inside #audience,
+     paused via IntersectionObserver when out of view. */
+  #who { position: relative; overflow: hidden; isolation: isolate; }
+  #who > .wrap { position: relative; z-index: 1; }
+  #build-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.55;
+    mix-blend-mode: screen;
+  }
+  @media (max-width: 700px) { #build-canvas { display: none; } }
+  @media (prefers-reduced-motion: reduce) { #build-canvas { display: none; } }
+
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 960px) {
+    .audience-grid { grid-template-columns: 1fr; }
+  }
+  .audience-card {
+    position: relative;
+    padding: 38px 34px 34px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line-strong);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
+  }
+  .audience-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.38);
+  }
+  .audience-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 34px;
+    width: 28px; height: 3px;
+    border-radius: 0 0 3px 3px;
+  }
+  .audience-card-org {
+    background:
+      linear-gradient(180deg, rgba(63, 168, 224, 0.10), rgba(4, 8, 18, 0.52) 60%),
+      linear-gradient(180deg, rgba(4, 8, 18, 0.68), rgba(4, 8, 18, 0.52));
+  }
+  .audience-card-org:hover {
+    background:
+      linear-gradient(180deg, rgba(63, 168, 224, 0.14), rgba(10, 16, 32, 0.62) 60%),
+      linear-gradient(180deg, rgba(10, 16, 32, 0.82), rgba(4, 8, 18, 0.6));
+  }
+  .audience-card-org::before {
+    background: var(--brand-blue);
+    box-shadow: 0 0 12px rgba(63, 168, 224, 0.6);
+  }
+  .audience-card-prac {
+    background:
+      linear-gradient(180deg, rgba(255, 110, 60, 0.10), rgba(4, 8, 18, 0.52) 60%),
+      linear-gradient(180deg, rgba(4, 8, 18, 0.68), rgba(4, 8, 18, 0.52));
+  }
+  .audience-card-prac:hover {
+    background:
+      linear-gradient(180deg, rgba(255, 110, 60, 0.14), rgba(10, 16, 32, 0.62) 60%),
+      linear-gradient(180deg, rgba(10, 16, 32, 0.82), rgba(4, 8, 18, 0.6));
+  }
+  .audience-card-prac::before {
+    background: var(--brand-orange);
+    box-shadow: 0 0 12px rgba(255, 110, 60, 0.6);
+  }
+  .audience-chip {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .audience-card-org .audience-chip { color: var(--brand-blue); }
+  .audience-card-prac .audience-chip { color: var(--brand-orange); }
+  .audience-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(22px, 2.2vw, 28px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -.01em;
+    color: #fff;
+    margin: 0 0 6px;
+  }
+  .audience-body {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .audience-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .audience-list li {
+    padding: 10px 14px 10px 30px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: rgba(4, 8, 18, 0.4);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14.5px;
+    color: var(--ink-1);
+    position: relative;
+  }
+  .audience-list li::before {
+    content: "\2192"; /* → */
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .audience-card-org .audience-list li::before { color: var(--brand-blue); }
+  .audience-card-prac .audience-list li::before { color: var(--brand-orange); }
+
+  /* ---- Lamp backdrop (practitioners section) ----
+     A single gold lamp "fixture" (horizontal line) casting two conic beams
+     downward, a pulsed glow pool, and the headline sitting in the light.
+     Uses mix-blend-mode: screen so it glows additively on the warm site
+     gradient without needing a dark stage. Triggered by the existing
+     .reveal/.show intersection-observer. */
+  #practitioners { position: relative; overflow: hidden; isolation: isolate; }
+  #practitioners > .wrap { position: relative; z-index: 1; }
+
+  /* =============== BUTTERFLY METAMORPHOSIS STAGE ==============
+     Fixed-overlay traveller — same pattern as .globe-stage. Position
+     and scale are lerped between section stops in JS every scroll
+     frame; wings flap continuously via CSS; body drifts via CSS
+     animation so it never sits perfectly still. mix-blend-mode:
+     screen so it glows additively over the warm site gradient
+     without blocking body copy. --morph CSS var is set by JS for
+     entry fade-in / wing unfurl. */
+  .butterfly-stage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    pointer-events: none;
+    will-change: transform, opacity;
+    opacity: 0;
+    transform: translate3d(82vw, 25vh, 0) translate3d(-50%, -50%, 0) scale3d(0.4, 0.4, 1);
+    transition: opacity 0.45s ease;
+    mix-blend-mode: screen;
+    --morph: 0;
+  }
+  .butterfly-stage.is-hidden { opacity: 0; }
+
+  .butterfly-orbit {
+    position: relative;
+    animation: bf-drift 7.5s ease-in-out infinite;
+  }
+  .butterfly {
+    width: 360px;
+    height: 320px;
+    transform-origin: center center;
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.38))
+            drop-shadow(0 0 26px rgba(255, 174, 54, 0.55));
+  }
+  .butterfly svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  /* Morph wrapper — wings emerge from a pupa-sized speck at body centre,
+     unfurl and saturate as --morph goes 0 → 1 the first time the butterfly
+     enters view inside #practitioners. */
+  .bf-morph {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    transform: scale(calc(0.1 + var(--morph, 1) * 0.9));
+    opacity: var(--morph, 1);
+    filter: saturate(calc(30% + var(--morph, 1) * 70%));
+    transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+                opacity   0.35s ease,
+                filter    0.5s  ease;
+  }
+
+  .bf-wings-l, .bf-wings-r {
+    transform-box: fill-box;
+    will-change: transform;
+  }
+  .bf-wings-l { transform-origin: 100% 50%; animation: bf-flap-l 0.55s ease-in-out infinite; }
+  .bf-wings-r { transform-origin: 0% 50%;  animation: bf-flap-r 0.55s ease-in-out infinite; }
+
+  .bf-antenna {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: bf-antenna 2.4s ease-in-out infinite;
+  }
+
+  @keyframes bf-flap-l {
+    0%, 100% { transform: scaleX(1)    rotate(-2deg); }
+    50%      { transform: scaleX(0.45) rotate( 2deg); }
+  }
+  @keyframes bf-flap-r {
+    0%, 100% { transform: scaleX(1)    rotate( 2deg); }
+    50%      { transform: scaleX(0.45) rotate(-2deg); }
+  }
+  @keyframes bf-drift {
+    0%, 100% { transform: translate(0, 0)       rotate(0deg); }
+    20%      { transform: translate(32px, -22px) rotate(4deg); }
+    45%      { transform: translate(-24px, -32px) rotate(-3deg); }
+    70%      { transform: translate(26px, -14px) rotate(3deg); }
+    88%      { transform: translate(-12px, -18px) rotate(-1.5deg); }
+  }
+  @keyframes bf-antenna {
+    0%, 100% { transform: rotate(0deg); }
+    50%      { transform: rotate(2deg); }
+  }
+
+  @media (max-width: 1024px) { .butterfly { width: 280px; height: 250px; } }
+  @media (max-width: 740px)  { .butterfly { width: 220px; height: 200px; } }
+  @media (max-width: 480px)  { .butterfly { width: 180px; height: 160px; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .butterfly-orbit,
+    .bf-wings-l,
+    .bf-wings-r,
+    .bf-antenna { animation: none !important; }
+    .butterfly-stage { transition: none !important; }
+  }
+
+  /* ---- For Practitioners ----
+     Extra vertical breathing room is deliberate — the fixed-overlay
+     butterfly flies across this section with multiple stops, and the
+     padding gives it a visible "flight corridor" between blocks. */
+  #practitioners .section-head {
+    margin-bottom: clamp(4rem, 8vw, 6.5rem);
+  }
+  #practitioners .practitioner-gives-title {
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+  .practitioner-quote {
+    max-width: 780px;
+    margin: 0 auto clamp(1.5rem, 3vw, 2.5rem);
+    padding: 28px 32px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--brand-orange);
+    background: rgba(4, 8, 18, 0.52);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .practitioner-quote p {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(17px, 1.6vw, 20px);
+    line-height: 1.5;
+    color: #fff;
+    margin: 0;
+  }
+  .practitioner-bridge {
+    max-width: 720px;
+    margin: 0 auto clamp(3rem, 6vw, 4.5rem);
+    text-align: center;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: clamp(17px, 1.6vw, 20px);
+    line-height: 1.5;
+    color: var(--ink-1);
+  }
+  .practitioner-bridge strong {
+    font-weight: 600;
+    background: linear-gradient(135deg, #FFD054, #FF8A4C);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .skills-gap-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: clamp(3rem, 6vw, 4.5rem);
+  }
+  @media (max-width: 960px) {
+    .skills-gap-grid { grid-template-columns: 1fr; }
+  }
+  .skills-card {
+    padding: 26px 26px 24px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: rgba(4, 8, 18, 0.62);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color .25s var(--ease), transform .25s var(--ease), background .25s var(--ease);
+  }
+  .skills-card:hover {
+    border-color: rgba(255, 207, 84, 0.3);
+    background: rgba(10, 16, 32, 0.72);
+    transform: translateY(-2px);
+  }
+  .skills-if {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+  }
+  .skills-if strong {
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .skills-know {
+    margin: 0;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-size: 15.5px;
+    line-height: 1.5;
+    color: #fff;
+  }
+  .skills-add {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--brand-orange);
+    padding-top: 12px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  }
+  .skills-addition {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .practitioner-gives-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 600;
+    letter-spacing: -.005em;
+    color: #fff;
+    text-align: center;
+    margin: 0 0 28px;
+  }
+  .practitioner-gives-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 960px) {
+    .practitioner-gives-grid { grid-template-columns: 1fr; }
+  }
+  .gives-card {
+    position: relative;
+    padding: 34px 30px 30px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line-strong);
+    background: linear-gradient(180deg, rgba(4, 8, 18, 0.68), rgba(4, 8, 18, 0.52));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
+  }
+  .gives-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.38);
+    background: linear-gradient(180deg, rgba(10, 16, 32, 0.82), rgba(4, 8, 18, 0.6));
+  }
+  .gives-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    background: linear-gradient(180deg, #ffe79a, #ffbf48);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -.02em;
+    line-height: 1;
+  }
+  .gives-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0;
+  }
+  .gives-card p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  /* ---- Dual CTA band ---- */
+  .dual-cta {
+    padding: clamp(4rem, 8vw, 6rem) 28px;
+    text-align: center;
+    background:
+      radial-gradient(ellipse 60% 80% at 20% 50%, rgba(63, 168, 224, 0.18), transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255, 110, 60, 0.20), transparent 60%),
+      linear-gradient(90deg, rgba(63, 168, 224, 0.10) 0%, rgba(58, 212, 137, 0.05) 35%, rgba(255, 190, 61, 0.06) 65%, rgba(255, 110, 60, 0.14) 100%);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .dual-cta-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .dual-cta-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 18px;
+    text-shadow: 0 2px 24px rgba(6, 10, 20, 0.55);
+  }
+  .dual-cta-lede {
+    font-size: clamp(15.5px, 1.4vw, 17.5px);
+    line-height: 1.6;
+    color: var(--ink-1);
+    max-width: 62ch;
+    margin: 0 auto 28px;
+    text-shadow: 0 1px 14px rgba(6, 10, 20, 0.55);
+  }
+  .dual-cta-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+  }
+
+  /* ---- Shared: mobile section padding (matches existing pattern) ---- */
+  @media (max-width: 740px) {
+    .audience-card { padding: 30px 24px 26px; }
+    .gives-card { padding: 28px 24px 24px; }
+    .practitioner-quote { padding: 22px 22px; }
+  }
+
 </style>
 </head>
 <body>
+
+<!-- Scroll progress bar -->
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<!-- Vertical section nav rail (right side) -->
+<nav class="section-nav" aria-label="Section navigation">
+  <div class="section-nav-item" data-target="#model">
+    <span class="section-nav-label">The Model</span>
+    <button class="section-nav-dot" aria-label="Jump to The Model"></button>
+  </div>
+  <div class="section-nav-item" data-target="#planets">
+    <span class="section-nav-label">The Disciplines</span>
+    <button class="section-nav-dot" aria-label="Jump to The Disciplines"></button>
+  </div>
+  <div class="section-nav-item" data-target="#fails">
+    <span class="section-nav-label">Why It Fails</span>
+    <button class="section-nav-dot" aria-label="Jump to Why It Fails"></button>
+  </div>
+  <div class="section-nav-item" data-target="#audience">
+    <span class="section-nav-label">Who It&rsquo;s For</span>
+    <button class="section-nav-dot" aria-label="Jump to Who It's For"></button>
+  </div>
+  <div class="section-nav-item" data-target="#practitioners">
+    <span class="section-nav-label">For Practitioners</span>
+    <button class="section-nav-dot" aria-label="Jump to For Practitioners"></button>
+  </div>
+  <div class="section-nav-item" data-target="#bring">
+    <span class="section-nav-label">Training</span>
+    <button class="section-nav-dot" aria-label="Jump to Training"></button>
+  </div>
+</nav>
 
 <div class="cosmos"></div>
 <div class="stars"></div>
@@ -2771,11 +4146,14 @@
       <span class="logo-sub">Global</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#model">The Model</a></li>
-      <li><a href="#planets">Nine Disciplines</a></li>
       <li><a href="#fails">Why It Fails</a></li>
+      <li><a href="#model">Model</a></li>
+      <li><a href="#planets">Disciplines</a></li>
       <li><a href="#who">Who We Are</a></li>
-      <li><a href="#bring">Bring the Change</a></li>
+      <li><a href="#audience">Who It's For</a></li>
+      <li><a href="#practitioners">For Practitioners</a></li>
+      <li><a href="#bring">Training</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
     <a href="#contact" class="nav-cta">Talk to Us →</a>
     <button class="menu-btn" aria-label="Open menu">
@@ -2785,162 +4163,205 @@
 </nav>
 
 <!-- =============== HERO =============== -->
-<header class="hero" id="top">
-  <div class="hero-grid"></div>
-  <div class="hero-aurora"></div>
-  <span class="hero-orb o1"></span>
-  <span class="hero-orb o2"></span>
-  <span class="hero-orb o3"></span>
+<!-- Fixed butterfly — travels across #audience → #practitioners → #bring, then fades -->
+<div class="butterfly-stage" id="butterflyStage" aria-hidden="true">
+  <div class="butterfly-orbit">
+    <div class="butterfly">
+      <svg viewBox="0 0 400 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bf-wul" x1="0%" y1="10%" x2="100%" y2="90%">
+            <stop offset="0%"   stop-color="#F5A820"/>
+            <stop offset="55%"  stop-color="#E07040"/>
+            <stop offset="100%" stop-color="#9590EA"/>
+          </linearGradient>
+          <linearGradient id="bf-wur" x1="100%" y1="10%" x2="0%" y2="90%">
+            <stop offset="0%"   stop-color="#5BA3E8"/>
+            <stop offset="55%"  stop-color="#9590EA"/>
+            <stop offset="100%" stop-color="#E07040"/>
+          </linearGradient>
+          <linearGradient id="bf-wll" x1="10%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#E07040"/>
+            <stop offset="55%"  stop-color="#F5A820"/>
+            <stop offset="100%" stop-color="#FFD666"/>
+          </linearGradient>
+          <linearGradient id="bf-wlr" x1="90%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%"   stop-color="#28B888"/>
+            <stop offset="55%"  stop-color="#5BA3E8"/>
+            <stop offset="100%" stop-color="#9590EA"/>
+          </linearGradient>
+          <radialGradient id="bf-body" cx="50%" cy="40%">
+            <stop offset="0%"   stop-color="#FFF3B8"/>
+            <stop offset="45%"  stop-color="#E07040"/>
+            <stop offset="100%" stop-color="#1a1522"/>
+          </radialGradient>
+        </defs>
 
-  <div class="hero-inner reveal">
-    <div class="hero-copy">
-      <span class="eyebrow"><span class="dot"></span> Operating model · Practitioner-led</span>
-      <h1 class="hero-title">
-        Your customers are ready for <span class="gold">Value</span>. Is your organization?
-      </h1>
-      <p class="hero-lede">
-        A global shift is underway. Healthcare patients, retail shoppers, banking clients, industrial buyers, students, travellers — whatever you sell, customers everywhere now measure you on one thing: the Value they realize. CSOM™ — the Customer Success Operating Model — is the body of knowledge being built for this new reality. Nine disciplines. One purpose. One operating model for every industry.
-      </p>
-      <div class="cta-row">
-        <a href="#planets" class="btn btn-primary">
-          Explore the 9 Disciplines
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-        <a href="#contact" class="btn btn-secondary">
-          Follow the build
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-      </div>
+        <g class="bf-morph">
+          <g class="bf-wings-l">
+            <path d="M200 125 C 118 44, 28 60, 36 132 C 44 192, 138 204, 200 182 Z"
+                  fill="url(#bf-wul)" stroke="#1a1522" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M200 192 C 148 202, 62 224, 80 286 C 92 324, 180 282, 200 238 Z"
+                  fill="url(#bf-wll)" stroke="#1a1522" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="96"  cy="112" r="13" fill="#FFF8D8" opacity="0.9"/>
+            <circle cx="96"  cy="112" r="6"  fill="#1a1522"/>
+            <circle cx="58"  cy="160" r="5"  fill="#1a1522" opacity="0.55"/>
+            <circle cx="140" cy="150" r="4"  fill="#FFF8D8" opacity="0.7"/>
+            <circle cx="130" cy="258" r="9"  fill="#FFF8D8" opacity="0.85"/>
+            <circle cx="130" cy="258" r="4"  fill="#1a1522"/>
+            <circle cx="92"  cy="236" r="3"  fill="#1a1522" opacity="0.5"/>
+          </g>
 
+          <g class="bf-wings-r">
+            <path d="M200 125 C 282 44, 372 60, 364 132 C 356 192, 262 204, 200 182 Z"
+                  fill="url(#bf-wur)" stroke="#1a1522" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M200 192 C 252 202, 338 224, 320 286 C 308 324, 220 282, 200 238 Z"
+                  fill="url(#bf-wlr)" stroke="#1a1522" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="304" cy="112" r="13" fill="#FFF8D8" opacity="0.9"/>
+            <circle cx="304" cy="112" r="6"  fill="#1a1522"/>
+            <circle cx="342" cy="160" r="5"  fill="#1a1522" opacity="0.55"/>
+            <circle cx="260" cy="150" r="4"  fill="#FFF8D8" opacity="0.7"/>
+            <circle cx="270" cy="258" r="9"  fill="#FFF8D8" opacity="0.85"/>
+            <circle cx="270" cy="258" r="4"  fill="#1a1522"/>
+            <circle cx="308" cy="236" r="3"  fill="#1a1522" opacity="0.5"/>
+          </g>
+        </g>
+
+        <ellipse cx="200" cy="182" rx="10" ry="78"
+                 fill="url(#bf-body)" stroke="#0d0a16" stroke-width="1.5"/>
+        <line x1="192" y1="150" x2="208" y2="150" stroke="#0d0a16" stroke-width="1" opacity="0.5"/>
+        <line x1="193" y1="180" x2="207" y2="180" stroke="#0d0a16" stroke-width="1" opacity="0.5"/>
+        <line x1="193" y1="210" x2="207" y2="210" stroke="#0d0a16" stroke-width="1" opacity="0.5"/>
+        <line x1="194" y1="240" x2="206" y2="240" stroke="#0d0a16" stroke-width="1" opacity="0.5"/>
+        <circle cx="200" cy="108" r="13" fill="#1a1522" stroke="#FFD666" stroke-width="1.5"/>
+        <g class="bf-antenna">
+          <path d="M196 100 C 186 82, 174 68, 164 60"
+                fill="none" stroke="#1a1522" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M204 100 C 214 82, 226 68, 236 60"
+                fill="none" stroke="#1a1522" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="164" cy="60" r="4" fill="#FFD666"/>
+          <circle cx="236" cy="60" r="4" fill="#FFD666"/>
+        </g>
+      </svg>
     </div>
-
-    <!-- Hero video bento removed per request -->
   </div>
+</div>
 
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <span class="line"></span>
+<!-- Fixed globe — travels between hero and rewrite section, hides when scrolled past -->
+<div class="globe-stage" id="globeStage" aria-hidden="true">
+  <div class="globe-wrap">
+    <span class="globe-star" style="left: -20px; top: 10px;  animation: twinkling 3s infinite;"></span>
+    <span class="globe-star" style="left: -40px; top: 60px;  animation: twinkling-slow 2s infinite;"></span>
+    <span class="globe-star" style="left: 280px; top: 90px;  animation: twinkling-long 4s infinite;"></span>
+    <span class="globe-star" style="left: 200px; top: 280px; animation: twinkling 3s infinite 0.6s;"></span>
+    <span class="globe-star" style="left: 50px;  top: 270px; animation: twinkling-fast 1.5s infinite;"></span>
+    <span class="globe-star" style="left: 180px; top: -30px; animation: twinkling-long 4s infinite 1s;"></span>
+    <span class="globe-star" style="left: 270px; top: 40px;  animation: twinkling-slow 2s infinite 0.3s;"></span>
+    <div class="globe-earth"></div>
+  </div>
+</div>
+
+<!-- =============== SECTION 1: THE SHIFT (hero) — ported from global.html =============== -->
+<header class="gs align-left" id="top">
+  <div class="gs-content reveal">
+    <span class="gs-badge">The Shift</span>
+    <h1 class="gs-title">
+      <span class="title-main">Your customers are ready for <span class="accent">Value</span>. Is your organization?</span>
+    </h1>
+    <p class="hero-subtitle">
+      <span>For organisations delivering value.</span>
+      <span>For practitioners building it.</span>
+    </p>
+    <p class="gs-desc">
+      <strong style="color:#fff;">Value</strong> isn&rsquo;t what you deliver &mdash;
+      it&rsquo;s what your customer actually realizes. The recovery, not the procedure.
+      The journey, not the flight. The outcome, not the product. Across every industry,
+      that&rsquo;s now the only thing customers reward.
+      CSOM<span class="tm">™</span> is the operating model &mdash; and the body of knowledge &mdash;
+      that helps organisations build for it, and practitioners lead it.
+    </p>
+    <div class="gs-actions">
+      <a href="#planets" class="btn btn-primary">
+        Explore the Disciplines
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#" class="btn btn-secondary" aria-disabled="true" onclick="event.preventDefault();" style="opacity:0.55; cursor:not-allowed;">
+        Begin the journey
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <p style="font-size: 0.92rem; margin-top: 1.4rem; opacity: 0.82; letter-spacing: 0.01em;">
+      <span style="color:#FFD054;">●</span>
+      Accredited SIAM training cohorts now enrolling &mdash;
+      <a href="#bring" style="color:#FFD054; border-bottom:1px solid rgba(255,208,84,0.4); text-decoration:none;">see training details →</a>
+    </p>
   </div>
 </header>
 
-<!-- =============== SECTION 2: THE REWRITTEN RULES — Manifesto =============== -->
-<section class="rewrite reveal" id="rewritten">
-  <div class="rewrite-wrap">
-    <div class="rewrite-head">
-      <span class="rewrite-eyebrow">A shift no one announced</span>
-      <h2 class="rewrite-title">The rules of business have quietly been rewritten.</h2>
-    </div>
+<!-- =============== SECTION 2: THE MANIFESTO — ported from global.html =============== -->
+<section class="gs align-center reveal" id="rewritten" aria-labelledby="rewriteTitle">
+  <div class="gs-content">
+    <span class="gs-badge">A shift no one announced</span>
+    <h2 class="gs-title" id="rewriteTitle">
+      <span class="title-main">The rules of business have quietly been rewritten.</span>
+    </h2>
+    <p class="gs-desc">
+      Organizations once competed on what they produced. That world is gone.
+      Customers &mdash; in every industry, on every continent &mdash; now reward only
+      one thing: the <strong style="color:#fff;">Value</strong> they realize.
+    </p>
 
-    <div class="rewrite-body">
-      <p class="rewrite-lede">
-        Organizations once competed on what they produced. That world is gone.
-        Customers — in every industry, on every continent — now reward only one
-        thing: the <strong style="color:#fff;">Value</strong> they realize.
-      </p>
-
-      <!-- Compact shift cards: 3-up on desktop, stacks on mobile -->
-      <div class="shift-grid">
-        <div class="shift-card">
-          <svg class="shift-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 21V8l8-4 8 4v13"/>
-            <path d="M4 21h16"/>
-            <path d="M12 11v6M9 14h6"/>
-          </svg>
-          <div class="shift-from">Hospital</div>
-          <div class="shift-to">Recovery.</div>
-          <div class="shift-note">Not the procedure.</div>
-        </div>
-
-        <div class="shift-card">
-          <svg class="shift-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 12l4.5-1.5L11 6.5 7 3l2-1 6 3 4-1.5c1.2-.4 2.4.8 2 2L20 9l-3.5 4L13 17.5 14.5 22l-2 1-3-4L5 21l-1-2 2-3.5L2 14l0-2z"/>
-          </svg>
-          <div class="shift-from">Airline</div>
-          <div class="shift-to">Journey.</div>
-          <div class="shift-note">Not the flight.</div>
-        </div>
-
-        <div class="shift-card">
-          <svg class="shift-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 10h18L12 3 3 10z"/>
-            <path d="M5 10v9M9 10v9M15 10v9M19 10v9"/>
-            <path d="M3 21h18"/>
-          </svg>
-          <div class="shift-from">Bank</div>
-          <div class="shift-to">Outcome.</div>
-          <div class="shift-note">Not the product.</div>
-        </div>
+    <div class="shift-grid">
+      <div class="shift-card">
+        <svg class="shift-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 21V8l8-4 8 4v13"/>
+          <path d="M4 21h16"/>
+          <path d="M12 11v6M9 14h6"/>
+        </svg>
+        <div class="shift-from">Hospital</div>
+        <div class="shift-to">Recovery.</div>
+        <div class="shift-note">Not the procedure.</div>
       </div>
-
-      <p class="rewrite-closer">
-        ITIL, SIAM, Customer Success — each glimpsed part of this truth. None brought
-        them together. <strong style="color:#fff;">CSOM<span class="tm" style="color:#FFD054;">™</span> doesn&rsquo;t replace them.</strong>
-        It helps the practitioners who live inside them deliver what they were always
-        meant to deliver: Value.
-      </p>
+      <div class="shift-card">
+        <svg class="shift-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M2 12l4.5-1.5L11 6.5 7 3l2-1 6 3 4-1.5c1.2-.4 2.4.8 2 2L20 9l-3.5 4L13 17.5 14.5 22l-2 1-3-4L5 21l-1-2 2-3.5L2 14l0-2z"/>
+        </svg>
+        <div class="shift-from">Airline</div>
+        <div class="shift-to">Journey.</div>
+        <div class="shift-note">Not the flight.</div>
+      </div>
+      <div class="shift-card">
+        <svg class="shift-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 10h18L12 3 3 10z"/>
+          <path d="M5 10v9M9 10v9M15 10v9M19 10v9"/>
+          <path d="M3 21h18"/>
+        </svg>
+        <div class="shift-from">Bank</div>
+        <div class="shift-to">Outcome.</div>
+        <div class="shift-note">Not the product.</div>
+      </div>
     </div>
 
-    <blockquote class="rewrite-quote">
+    <p class="gs-close">
+      ITIL, SIAM, Customer Success &mdash; each glimpsed part of this truth.
+      <strong>CSOM<span class="tm">™</span> doesn&rsquo;t replace them.</strong>
+      It helps the practitioners inside them finally deliver what they promised: Value.
+    </p>
+
+    <blockquote class="gs-quote">
       <p>
         Output is what you deliver. Value is what your customer realizes.
         CSOM<span class="tm">™</span> is the operating model that closes the gap
         between them.
       </p>
     </blockquote>
-
-    <p class="rewrite-declare">
-      That is why <span class="gold">CSOM<span class="tm">™</span></span> exists.
-    </p>
   </div>
 </section>
 
 <!-- Film section removed per request -->
 
-<!-- =============== SOLAR SYSTEM =============== -->
-<section class="solar" id="model">
-  <div class="wrap reveal">
-    <div class="section-head" style="margin: 0 auto 20px; text-align: center;">
-      <span class="section-eyebrow">The Model</span>
-      <h2 class="section-title">One sun. Nine planets. One living system.</h2>
-      <p class="section-lede" style="margin: 0 auto;">Value Realization sits at the centre. Nine disciplines orbit it — each distinct, each gravitationally tied to outcomes. Miss one, and the whole system drifts.</p>
-    </div>
-
-    <div class="orbit-stage" id="orbitStage">
-      <!-- orbit ring ellipses + planet orbiters injected by JS, sized to actual stage dimensions -->
-      <div class="sun">
-        <div class="sun-label">Value<strong>Realization</strong></div>
-      </div>
-    </div>
-
-    <p class="solar-note">Hover or tap any planet · Orbits are illustrative, not proportional</p>
-  </div>
-</section>
-
-<!-- =============== NINE PLANETS =============== -->
-<section id="planets">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="section-eyebrow">Nine Disciplines</span>
-      <h2 class="section-title">Nine disciplines. One sun. One operating model.</h2>
-      <p class="section-lede">
-        CSOM is built on nine interconnected disciplines — each one a planet orbiting
-        a single sun: <strong style="color:#fff;">Value &amp; Outcomes</strong>. Together,
-        they form the complete operating model for an organisation serious about delivering
-        what customers now demand.
-      </p>
-      <p class="section-lede-note">
-        The nine disciplines form the structure. The body of knowledge beneath them is
-        being authored, in the open, over time — chapter by chapter.
-      </p>
-    </div>
-
-    <div class="planets-grid" id="planetsGrid">
-      <!-- cards injected by JS -->
-    </div>
-  </div>
-</section>
-
-<!-- =============== WHY IT FAILS =============== -->
+<!-- =============== WHY IT FAILS (moved up — problem precedes solution) ===========
+     Previously sat after the model sections; readers now hit the ache
+     BEFORE the operating model is revealed, so the model earns its entry. -->
 <section id="fails">
   <div class="wrap">
     <div class="section-head reveal">
@@ -2968,29 +4389,117 @@
         <span class="fails-diag">Metrics measure what&rsquo;s easy — not what predicts Value.</span>
       </div>
       <div class="fails-card">
-        <span class="fails-signal">&ldquo;Every function doing its job, yet the outcome doesn&rsquo;t arrive.&rdquo;</span>
-        <span class="fails-diag">Disciplines in isolation cancel each other out.</span>
-      </div>
-      <div class="fails-card">
         <span class="fails-signal">&ldquo;We need more people&rdquo; — forever.</span>
         <span class="fails-diag">Scale problems are design problems. Headcount breaks faster.</span>
-      </div>
-      <div class="fails-card">
-        <span class="fails-signal">&ldquo;Executive sponsorship quietly evaporates.&rdquo;</span>
-        <span class="fails-diag">No line from daily activity to Value on one page.</span>
       </div>
     </div>
 
     <p class="fails-close reveal">
-      These are not six problems. They are <em>one problem wearing six disguises</em> —
+      These are not four problems. They are <em>one problem wearing four disguises</em> —
       and it has a name: the absence of an operating model built around
       <span class="fails-close-gold">Value</span>.
     </p>
   </div>
 </section>
 
-<!-- =============== WHO WE ARE =============== -->
+<!-- =============== A FIRST LOOK (cinematic intro — 60s video) ===================
+     Video acts as the emotional first glimpse of the operating model; the 3D
+     gallery below is the interactive walk-through. Pill labels removed so the
+     two sections don't preview the same nine names. id="model-video" kept
+     so the nav anchor continues to resolve. -->
+<section class="solar" id="model">
+  <div class="wrap reveal">
+    <div class="section-head" style="margin: 0 auto 20px; text-align: center;">
+      <span class="section-eyebrow">A first look</span>
+      <h2 class="section-title">The shape of the system.</h2>
+      <p class="section-lede" style="margin: 0 auto;">Sixty seconds to see the whole model. Scroll on to explore it discipline by discipline.</p>
+    </div>
+  </div>
+
+  <div class="model-stage reveal" id="model-video">
+    <div class="model-video-frame">
+      <video class="model-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+        <source src="guide-avatar.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- =============== 3D ORBIT GALLERY (replaces "The Disciplines" section) =======
+     Scroll-driven 3D circular gallery: 7 discipline cards orbit the
+     Value Realization sun. The outer wrapper is 500vh tall so page scroll
+     drives a full rotation; the inner stage is sticky so the scene stays
+     pinned in the viewport during that scroll. Idle auto-rotation + per-card
+     opacity-by-angle fade animate the ring. Classes use `.cg-*` prefix to
+     avoid collision with pre-existing `.orbit-card` / `.planets-*` styles. -->
+<section id="planets" class="cg-wrap">
+  <!-- Sticky viewport — stays pinned while 500vh of scroll rotates the ring -->
+  <div class="cg-sticky">
+    <!-- Starfield (80 twinkling dots injected by JS) -->
+    <div class="cg-stars" id="cgStars" aria-hidden="true"></div>
+
+    <!-- Darkening radial veil for depth -->
+    <div class="cg-veil" aria-hidden="true"></div>
+
+    <!-- Scroll progress rail (section-local; scales x on scroll) -->
+    <div class="cg-progress" id="cgProgress" aria-hidden="true"></div>
+
+    <!-- Header overlay -->
+    <div class="cg-header">
+      <span class="cg-eyebrow">The CSOM Universe</span>
+      <h2 class="cg-title">Seven disciplines.<br>Two orbits. One sun.</h2>
+      <p class="cg-lede">Value Realization at the centre. Scroll to orbit.</p>
+    </div>
+
+    <!-- Horizontal orbit pills — sit OUTSIDE the 3D ring so they don't rotate
+         with the cards. One above (Data), one below (Continual Improvement).
+         Content trimmed to eyebrow + name so the pill always fits on one line. -->
+    <div class="cg-orbit-strip cg-orbit-strip-top" style="--acc: var(--p8);">
+      <span class="cg-orbit-dot"></span>
+      <span class="cg-orbit-text">
+        <span class="cg-orbit-heading">
+          <span class="cg-orbit-eyebrow">Inner Orbit</span>
+          <span class="cg-orbit-name">Data &amp; Intelligence</span>
+        </span>
+        <span class="cg-orbit-sub">The sensing layer &mdash; telemetry, AI, and analytics surrounding every discipline, proving the Value Sun is shining.</span>
+      </span>
+    </div>
+    <div class="cg-orbit-strip cg-orbit-strip-bottom" style="--acc: var(--p9);">
+      <span class="cg-orbit-dot"></span>
+      <span class="cg-orbit-text">
+        <span class="cg-orbit-heading">
+          <span class="cg-orbit-eyebrow">Outer Orbit</span>
+          <span class="cg-orbit-name">Continual Improvement</span>
+        </span>
+        <span class="cg-orbit-sub">The force that never stops &mdash; feedback loops and maturity models that keep the whole system evolving with its customers.</span>
+      </span>
+    </div>
+
+    <!-- 3D stage: perspective wrapper → rotating ring → cards + sun
+         id="cgStage" = pointer-drag target for manual rotation. -->
+    <div class="cg-3d" id="cgStage">
+      <div class="cg-ring" id="cgRing">
+        <!-- The Sun — Value Realization -->
+        <div class="cg-sun" aria-hidden="true">
+          <div class="cg-sun-glow"></div>
+          <span>VALUE</span>
+          <span>REALIZATION</span>
+        </div>
+
+        <!-- 7 planet cards injected here by JS as .cg-card elements -->
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="cg-hint" aria-hidden="true">
+      SCROLL TO EXPLORE <span class="cg-hint-arrow">↓</span>
+    </div>
+  </div>
+</section>
+
+<!-- =============== THE MISSION (moved up — purpose sits between the reveal of the model and the question of who it's for) =============== -->
 <section id="who">
+  <canvas id="build-canvas" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="section-head reveal">
       <span class="section-eyebrow">The Mission</span>
@@ -3000,26 +4509,18 @@
     <div class="who-grid">
       <div class="who-text reveal">
         <p class="accent">
-          Across the world, hundreds of thousands of practitioners have built careers
-          inside ITIL, SIAM, and Customer Success. They are doing the work. But the
-          frameworks they were taught were designed in earlier eras — for outputs, for
-          contracts, for service levels. Not for the one thing customers now demand:
-          Value.
-        </p>
-        <p>
-          CSOM<span class="tm" style="color:#FFD054;">™</span> exists to close that gap.
-          Not by replacing what practitioners already know, but by giving them the
-          operating model that makes their craft deliver what it was always meant to
-          deliver.
+          Hundreds of thousands of practitioners have built careers inside ITIL, SIAM,
+          and Customer Success. Their frameworks were built for outputs, contracts,
+          service levels &mdash; not Value. CSOM<span class="tm" style="color:#FFD054;">™</span>
+          gives their craft the operating model it was always meant to have.
         </p>
       </div>
 
       <div class="how-cards reveal">
-        <div class="how-card">
+        <div class="how-card" data-glow data-glow-color="gold">
           <div class="how-card-head">
             <div class="how-step">01</div>
             <div class="how-icon">
-              <!-- Spark / idea -->
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
                 <circle cx="12" cy="12" r="3"/>
@@ -3031,11 +4532,10 @@
           <a href="#contact" class="how-cta">Follow the work <span class="how-cta-arrow">→</span></a>
         </div>
 
-        <div class="how-card">
+        <div class="how-card" data-glow data-glow-color="green">
           <div class="how-card-head">
             <div class="how-step">02</div>
             <div class="how-icon">
-              <!-- Ascending arrow / growth -->
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 17l6-6 4 4 8-8"/>
                 <path d="M14 7h7v7"/>
@@ -3047,11 +4547,10 @@
           <a href="#bring" class="how-cta">Begin with SIAM <span class="how-cta-arrow">→</span></a>
         </div>
 
-        <div class="how-card">
+        <div class="how-card" data-glow data-glow-color="purple">
           <div class="how-card-head">
             <div class="how-step">03</div>
             <div class="how-icon">
-              <!-- Puzzle piece fitted / embed -->
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19 12h-4V8a2 2 0 00-4 0v4H7a2 2 0 000 4h4v4a2 2 0 004 0v-4h4a2 2 0 000-4z"/>
               </svg>
@@ -3063,9 +4562,126 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-<!-- CTA band removed — replaced by the full #contact section below, before the footer -->
+<!-- =============== WHO IS THIS FOR — two audiences =============== -->
+<section id="audience">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Who it&rsquo;s for</span>
+      <h2 class="section-title">Two audiences. One framework.</h2>
+      <p class="section-lede">
+        CSOM<span class="tm">™</span> Global exists for the organisations that want to deliver value —
+        and the professionals who want to lead that change.
+      </p>
+    </div>
 
+    <div class="audience-grid">
+      <article class="audience-card audience-card-org reveal">
+        <span class="audience-chip">For organisations</span>
+        <h3 class="audience-title">Build the operating model your customers deserve.</h3>
+        <p class="audience-body">
+          Insurance, banking, healthcare, logistics, technology &mdash; your customers
+          now reward the outcome, not the product. CSOM<span class="tm">™</span> gives
+          you the operating model to deliver it at scale.
+        </p>
+        <ul class="audience-list">
+          <li>Close the promise-vs-value gap</li>
+          <li>Reduce churn</li>
+          <li>Build outcome structure</li>
+          <li>Works for any size</li>
+        </ul>
+      </article>
+      <article class="audience-card audience-card-prac reveal">
+        <span class="audience-chip">For practitioners</span>
+        <h3 class="audience-title">Become the professional who can build it.</h3>
+        <p class="audience-body">
+          If you run ITIL, SIAM, or Customer Success &mdash; this is the model
+          that turns your craft into a career-defining capability.
+        </p>
+        <ul class="audience-list">
+          <li>Go beyond certification</li>
+          <li>Career differentiator</li>
+          <li>Works in any industry</li>
+          <li>Taught by practitioners</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =============== FOR PRACTITIONERS — skills gap + what CSOM adds =============== -->
+<section id="practitioners">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">For ITIL · SIAM · Customer Success practitioners</span>
+      <h2 class="section-title">You know the frameworks. <span class="accent">Now build the model.</span></h2>
+      <p class="section-lede">
+        You&rsquo;ve spent years inside these frameworks. The hardest skill
+        isn&rsquo;t getting certified &mdash; it&rsquo;s connecting them into
+        a model your customer can feel.
+      </p>
+    </div>
+
+    <blockquote class="practitioner-quote reveal">
+      <p>
+        &ldquo;You can be certified in ITIL, accredited in SIAM, and trained in
+        Customer Success &mdash; and still not know how to build a model that proves
+        value to a customer.&rdquo;
+      </p>
+    </blockquote>
+
+    <p class="practitioner-bridge reveal">
+      That gap is real. And it is a career gap, not just an organisational one.
+      <strong>CSOM closes it.</strong>
+    </p>
+
+    <div class="skills-gap-grid">
+      <article class="skills-card reveal">
+        <div class="skills-if">If you know &rarr; <strong>ITIL</strong></div>
+        <p class="skills-know">Great at process. Service design. Incident and change management.</p>
+        <div class="skills-add">CSOM adds</div>
+        <p class="skills-addition">Customer journey mapping, value stream thinking, outcome measurement, and proving the customer is better off.</p>
+      </article>
+      <article class="skills-card reveal">
+        <div class="skills-if">If you know &rarr; <strong>SIAM</strong></div>
+        <p class="skills-know">Great at multi-vendor coordination. Governance. Integration models.</p>
+        <div class="skills-add">CSOM adds</div>
+        <p class="skills-addition">Customer Success principles, ecosystem value design, and unifying the customer experience across vendors.</p>
+      </article>
+      <article class="skills-card reveal">
+        <div class="skills-if">If you know &rarr; <strong>Customer Success</strong></div>
+        <p class="skills-know">Great at relationships. Adoption. Retention.</p>
+        <div class="skills-add">CSOM adds</div>
+        <p class="skills-addition">Service management rigour, data analytics, organisational design, and the structural backbone.</p>
+      </article>
+      <article class="skills-card reveal">
+        <div class="skills-if">If you know &rarr; <strong>All three</strong></div>
+        <p class="skills-know">Rare depth across process, integration, and customer experience.</p>
+        <div class="skills-add">CSOM adds</div>
+        <p class="skills-addition">Leadership influence, change management, program delivery, and organisational design to build the whole value model.</p>
+      </article>
+    </div>
+
+    <h3 class="practitioner-gives-title reveal">What CSOM<span class="tm">™</span> gives you as a practitioner</h3>
+    <div class="practitioner-gives-grid">
+      <article class="gives-card reveal">
+        <span class="gives-num">01</span>
+        <h4 class="gives-name">The missing connection</h4>
+        <p>ITIL, SIAM, and CS are powerful alone. Together &mdash; structured around Value Realization &mdash; they become an operating model.</p>
+      </article>
+      <article class="gives-card reveal">
+        <span class="gives-num">02</span>
+        <h4 class="gives-name">A framework you can take anywhere</h4>
+        <p>CSOM gives you an operating model you can carry into any industry, at any scale.</p>
+      </article>
+      <article class="gives-card reveal">
+        <span class="gives-num">03</span>
+        <h4 class="gives-name">A career differentiator</h4>
+        <p>The market is crowded with certified practitioners. CSOM makes you the one who can build the whole model, not just contribute to it.</p>
+      </article>
+    </div>
   </div>
 </section>
 
@@ -3076,7 +4692,7 @@
       <span class="section-eyebrow">Bringing the Change</span>
       <h2 class="section-title">Ready to adopt. Ready to change.</h2>
       <p class="section-lede">
-        Rolling out a plan is the easy part. Making the change stick — across vendors, services, and the people behind them — is where most programmes quietly lose. We run SIAM as part of the full CSOM™ operating model, so the framework arrives with the context to actually use it. For SIAM, ITIL, and Customer Success professionals, this is where your existing skills become Value-era skills.
+        Rolling out a plan is easy. Making the change stick — across vendors, services, and the people behind them — is where programmes quietly lose. We teach SIAM inside the full CSOM™ operating model, so the framework arrives with the context to actually use it.
       </p>
       <p class="bring-bridge">
         Two cohorts. Both accredited. Both taught as part of CSOM<span class="tm" style="color:#FFD054;">™</span> — not instead of it.
@@ -3101,7 +4717,7 @@
           </div>
           <div class="course-row">
             <span class="course-row-label">You leave with</span>
-            <p class="course-row-text">A working map of your own service integration model against the CSOM™ nine disciplines. Not a certificate sitting on a server — a plan you can open Monday morning.</p>
+            <p class="course-row-text">A working map of your own service integration model against the CSOM™ seven disciplines and two orbits. Not a certificate sitting on a server — a plan you can open Monday morning.</p>
           </div>
         </div>
         <a class="course-cta-link" href="#contact">
@@ -3127,7 +4743,7 @@
           </div>
           <div class="course-row">
             <span class="course-row-label">You leave with</span>
-            <p class="course-row-text">A tailored operating-model baseline for your own organisation, mapped to the CSOM™ nine disciplines and reviewed by a practitioner who has built one before. And the pattern book for the next twelve months of governance decisions.</p>
+            <p class="course-row-text">A tailored operating-model baseline for your own organisation, mapped to the CSOM™ seven disciplines and two orbits, reviewed by a practitioner who has built one before. And the pattern book for the next twelve months of governance decisions.</p>
           </div>
         </div>
         <a class="course-cta-link" href="#contact">
@@ -3146,7 +4762,7 @@
       <div class="practitioner-item reveal">
         <span class="num">02 · CSOM™, not just SIAM</span>
         <h4>Taught in context.</h4>
-        <p>SIAM doesn't live in a vacuum. You learn where it sits inside the wider nine-discipline operating model — so your implementation survives the first governance review, the first renewal, and the first reorg.</p>
+        <p>SIAM doesn't live in a vacuum. You learn where it sits inside the wider CSOM operating model — so your implementation survives the first governance review, the first renewal, and the first reorg.</p>
       </div>
       <div class="practitioner-item reveal">
         <span class="num">03 · Case-led, not slide-led</span>
@@ -3158,7 +4774,7 @@
     <div class="cohort-cta reveal">
       <div>
         <h3>Ready for the next cohort?</h3>
-        <p>Open enrolment quarterly — London, Dubai, and virtual. In-house runs for teams of eight or more, tailored to your operating context and delivered at your site.</p>
+        <p>Open enrolment quarterly — virtual. In-house runs for teams of 10+. Share your interest — we&rsquo;ll reach out when the next cohort opens.</p>
       </div>
       <a href="#contact" class="btn btn-primary">
         Talk to the training team
@@ -3169,51 +4785,6 @@
 </section>
 
 <!-- Three Missions section removed per consolidated revision -->
-
-<!-- =============== SIGNALS FROM THE FIELD =============== -->
-<section id="signals">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="section-eyebrow">Signals from the field</span>
-      <h2 class="section-title">Built in public. Here&rsquo;s the work.</h2>
-      <p class="section-lede">
-        A body of knowledge takes shape in essays, conversations, cohorts, and rooms.
-        These are the places CSOM<span class="tm" style="color:#FFD054;">™</span> is
-        being thought out loud.
-      </p>
-    </div>
-
-    <!-- Signals grid: 2×1 on desktop, stacks on mobile. Adding a 3rd or 4th tile later
-         just means dropping in another <a class="signal-tile"> here — the auto-fit layout
-         handles it without CSS changes. -->
-    <div class="signals-grid">
-      <!-- Tile 01 · Upcoming cohort -->
-      <a class="signal-tile reveal" href="#" style="--acc: #5AE68C;">
-        <div class="signal-top">
-          <span class="signal-type"><span class="signal-dot"></span>Upcoming</span>
-        </div>
-        <h3 class="signal-title">Next SIAM Foundation cohort.</h3>
-        <div class="signal-meta">Dates to be announced</div>
-        <div class="signal-cta">Register interest <span class="signal-arrow">→</span></div>
-      </a>
-
-      <!-- Tile 02 · Social feed -->
-      <a class="signal-tile reveal" href="#" style="--acc: #4DB8FF;">
-        <div class="signal-top">
-          <span class="signal-type"><span class="signal-dot"></span>In the feed</span>
-        </div>
-        <h3 class="signal-title">Follow the build on LinkedIn.</h3>
-        <div class="signal-meta">New posts weekly</div>
-        <div class="signal-cta">Follow <span class="signal-arrow">→</span></div>
-      </a>
-    </div>
-
-    <p class="signals-tail reveal">
-      More signals arrive often.
-      <span class="signals-tail-gold">Follow along — or step into one.</span>
-    </p>
-  </div>
-</section>
 
 <!-- =============== CONTACT & REACH OUT =============== -->
 <section id="contact" class="contact-section">
@@ -3351,6 +4922,8 @@
       <a href="#model">Model</a>
       <a href="#planets">Disciplines</a>
       <a href="#fails">Why It Fails</a>
+      <a href="#audience">Who It&rsquo;s For</a>
+      <a href="#practitioners">For Practitioners</a>
       <a href="#who">Who We Are</a>
       <a href="#bring">Training</a>
       <a href="#contact">Contact</a>
@@ -3382,180 +4955,187 @@
 <script>
   /* =============== PLANET DATA =============== */
   const planets = [
+    /* === Order B: structure-first flow — Leadership sets direction,
+       Org Design is the container it acts through, then execution,
+       adoption, delivery, partners, customer outcome. === */
     { emoji: '🟣', name: 'Leadership',              epithet: 'The compass of the system',    color: 'var(--p1)', size: 28, desc: 'Sets direction, owns accountability, and sponsors the operating model across Services and Products. Without committed leadership, every other planet drifts out of orbit.' },
+    { emoji: '🌸', name: 'Organisation Design',     epithet: 'The human architecture',         color: 'var(--p7)', size: 24, desc: 'Roles, capabilities, and structures built around the customer — not the org chart. Because how you\'re organised tells the customer what you actually value.' },
     { emoji: '🔵', name: 'Program Management',      epithet: 'The engine room',                color: 'var(--p2)', size: 30, desc: 'Executes, coordinates, and tracks delivery against outcomes — not just milestones. Keeps the system on course when complexity increases.' },
     { emoji: '🟠', name: 'Change Management',       epithet: 'The adoption force',             color: 'var(--p3)', size: 26, desc: 'Drives adoption across people, process, and culture. Not a one-time event — an ongoing discipline that works on the invisible forces shaping every organisation: behavior, belief, and habit.' },
     { emoji: '🟢', name: 'Service Management',      epithet: 'The delivery backbone',          color: 'var(--p4)', size: 32, desc: 'How services are designed, delivered, and supported at scale. Rooted in ITIL principles, adapted for the customer outcome — not just the service catalogue.' },
-    { emoji: '🟡', name: 'Customer Success',        epithet: 'The human layer',                color: 'var(--p5)', size: 26, desc: 'Onboarding, adoption, retention, and expansion. The practice that turns a transaction into a relationship and a product into a result.' },
     { emoji: '🌿', name: 'Ecosystem Integration',   epithet: 'The orchestration layer',        color: 'var(--p6)', size: 28, desc: 'Multi-vendor, partners, and platforms working as one coherent system. Grounded in SIAM principles — no more silos dressed up as integrations.' },
-    { emoji: '🌸', name: 'Organisation Design',     epithet: 'The human architecture',         color: 'var(--p7)', size: 24, desc: 'Roles, capabilities, and structures built around the customer — not the org chart. Because how you\'re organised tells the customer what you actually value.' },
+    { emoji: '🟡', name: 'Customer Success',        epithet: 'The human layer',                color: 'var(--p5)', size: 26, desc: 'Onboarding, adoption, retention, and expansion. The practice that turns a transaction into a relationship and a product into a result.' },
     { emoji: '🔷', name: 'Data & Intelligence',     epithet: 'The sensing layer',              color: 'var(--p8)', size: 30, desc: 'Telemetry, AI, and analytics that surround the entire system — proving the Value Sun is shining. Like the Oort Cloud around a solar system, it senses everything at the edge. You cannot realise value if you cannot measure it.' },
-    { emoji: '🩵', name: 'Continual Improvement',   epithet: 'The force that never stops',     color: 'var(--p9)', size: 22, desc: 'Feedback loops, maturity models, and learning systems. The discipline that ensures the model evolves as fast as the environment around it.' },
+    { emoji: '💠', name: 'Continual Improvement',   epithet: 'The force that never stops',     color: 'var(--p9)', size: 22, desc: 'Feedback loops, maturity models, and learning systems. The discipline that ensures the model evolves as fast as the environment around it.' },
   ];
 
-  /* =============== BUILD CARD GRID =============== */
-  const grid = document.getElementById('planetsGrid');
-  planets.forEach((p, i) => {
-    const el = document.createElement('article');
-    el.className = 'p-card reveal';
-    el.id = 'discipline-' + i;  /* scroll target for planet clicks */
-    el.style.setProperty('--acc', p.color);
-    el.innerHTML = `
-      <div class="p-head">
-        <span class="p-swatch" style="--acc:${p.color}"></span>
-        <h3 class="p-name"><span class="emoji" aria-hidden="true">${p.emoji}</span>${p.name}</h3>
-        <span class="p-num">0${i + 1}</span>
-      </div>
-      <p class="p-epithet">${p.epithet}</p>
-      <p class="p-desc">${p.desc}</p>
-      <span class="arrow" aria-hidden="true">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </span>
-    `;
-    grid.appendChild(el);
-  });
+  /* =============== 3D CIRCULAR GALLERY ===============
+     Builds an 80-dot starfield, 7 planet cards in 3D orbit, and wires up
+     scroll → ring rotation + idle auto-rotation + per-card opacity fade.
+     Reuses the `planets` array above (first 7 entries = disciplines). */
+  (function(){
+    const wrap     = document.querySelector('.cg-wrap');
+    const ring     = document.getElementById('cgRing');
+    const stage    = document.getElementById('cgStage');
+    const progress = document.getElementById('cgProgress');
+    const starsEl  = document.getElementById('cgStars');
+    if (!wrap || !ring) return;
 
-  /* =============== BUILD SOLAR SYSTEM (original CSS/DOM version) ===============
-     Elliptical orbits, sized to the actual stage. Each planet has its own
-     duration, direction, and starting angle. Keyframes are generated per
-     planet so motion traces a smooth ellipse. Rebuilds on resize. */
-  const stage = document.getElementById('orbitStage');
+    /* Respect user preference — skip all motion, just render the static scene */
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Planet display sizes — scaled up for presence on the bigger stage.
-  const planetSizes = [56, 64, 50, 72, 54, 62, 46, 68, 44];
-  planets.forEach((p, i) => { p.size = planetSizes[i]; });
-
-  const orbitProps = [
-    { dur: 30, dir:  1, start:   0 },
-    { dur: 38, dir: -1, start:  40 },
-    { dur: 46, dir:  1, start:  80 },
-    { dur: 54, dir: -1, start: 120 },
-    { dur: 62, dir:  1, start: 160 },
-    { dur: 70, dir: -1, start: 200 },
-    { dur: 78, dir:  1, start: 240 },
-    { dur: 86, dir: -1, start: 280 },
-    { dur: 94, dir:  1, start: 320 },
-  ];
-
-  // Dedicated stylesheet that we rewrite on each layout pass.
-  const orbitStyle = document.createElement('style');
-  document.head.appendChild(orbitStyle);
-
-  function layoutSolar() {
-    // Clear previous orbiters and ring SVG
-    stage.querySelectorAll('.planet-orbiter, .orbit-rings-svg').forEach(el => el.remove());
-
-    const rect = stage.getBoundingClientRect();
-    if (rect.width < 10 || rect.height < 10) return;
-
-    const halfW = rect.width / 2;
-    const halfH = rect.height / 2;
-
-    // Clearance: sun half-size + padding. Leave extra room at the bottom
-    // so the planet-name label chip never gets clipped.
-    const sunClearance   = 140 + 24;  // 280/2 sun radius + breathing room
-    const edgeClearance  = 36;
-    const tagAllowance   = 34;        // planet-tag sits below; reserve vertical space
-    const biggestPlanet  = Math.max(...planetSizes);
-
-    const minRX = sunClearance;
-    const maxRX = Math.max(minRX + 60, halfW - edgeClearance - biggestPlanet / 2);
-    const aspect = halfH / halfW;
-    const minRY = Math.max(50, minRX * aspect * 0.82);
-    const maxRY = Math.max(minRY + 24, halfH - edgeClearance - biggestPlanet / 2 - tagAllowance);
-
-    // Build SVG ring backdrop (elliptical guides, subtle)
-    const svgNS = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(svgNS, 'svg');
-    svg.setAttribute('class', 'orbit-rings-svg');
-    svg.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
-    svg.setAttribute('preserveAspectRatio', 'none');
-
-    let kfCSS = '';
-
-    planets.forEach((p, i) => {
-      const o = orbitProps[i];
-      const t = i / (planets.length - 1);          // 0 .. 1
-      const rX = minRX + t * (maxRX - minRX);
-      const rY = minRY + t * (maxRY - minRY);
-
-      // Decorative ellipse for this orbit
-      const ring = document.createElementNS(svgNS, 'ellipse');
-      ring.setAttribute('cx', halfW);
-      ring.setAttribute('cy', halfH);
-      ring.setAttribute('rx', rX);
-      ring.setAttribute('ry', rY);
-      svg.appendChild(ring);
-
-      // Generate elliptical keyframes (smooth sampled points)
-      const kfName = `orbitPl${i}`;
-      const steps = 64;
-      let body = '';
-      for (let s = 0; s <= steps; s++) {
-        const frac = s / steps;
-        const angle = (o.start + frac * 360 * o.dir) * Math.PI / 180;
-        const x = rX * Math.cos(angle);
-        const y = rY * Math.sin(angle);
-        body += `${(frac * 100).toFixed(3)}%{transform:translate(${x.toFixed(2)}px,${y.toFixed(2)}px)}`;
+    /* ---- STARFIELD (80 twinkles) ---- */
+    if (starsEl) {
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < 80; i++) {
+        const s = document.createElement('span');
+        s.className = 'cg-star';
+        const size = (Math.random() * 1.6 + 0.6).toFixed(2);
+        s.style.left   = (Math.random() * 100).toFixed(2) + '%';
+        s.style.top    = (Math.random() * 100).toFixed(2) + '%';
+        s.style.width  = size + 'px';
+        s.style.height = size + 'px';
+        s.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+        frag.appendChild(s);
       }
-      kfCSS += `@keyframes ${kfName}{${body}}`;
+      starsEl.appendChild(frag);
+    }
 
-      // Orbiter: zero-size anchor that moves along the ellipse
-      const orbiter = document.createElement('div');
-      orbiter.className = 'planet-orbiter';
-      orbiter.style.animation = `${kfName} ${o.dur}s linear infinite`;
+    /* ---- BUILD 7 PLANET CARDS IN 3D ORBIT ----
+       Each card is transformed rotateY(angle) translateZ(RADIUS).
+       Its parent .cg-ring has transform-style: preserve-3d so it inherits
+       the ring's rotation — scrolling the page rotates the whole orbit. */
+    const RADIUS    = 420;
+    const seven     = planets.slice(0, 7);
+    const angleStep = 360 / seven.length;
+    const cardEls   = [];
 
-      // Planet body — centered on the orbiter anchor via negative margins
-      const planet = document.createElement('div');
-      planet.className = 'planet';
-      planet.dataset.index = i;
-      planet.setAttribute('role', 'button');
-      planet.setAttribute('tabindex', '0');
-      planet.setAttribute('aria-label', 'Jump to ' + p.name + ' discipline');
-      planet.title = 'View ' + p.name;
-      planet.style.setProperty('--glow', p.color);
-      planet.style.width = p.size + 'px';
-      planet.style.height = p.size + 'px';
-      planet.style.marginLeft = (-p.size / 2) + 'px';
-      planet.style.marginTop  = (-p.size / 2) + 'px';
-      planet.style.background = `radial-gradient(circle at 32% 32%, #ffffff 0%, ${p.color} 45%, rgba(0,0,0,.45) 100%)`;
-      planet.style.boxShadow  = `0 0 18px ${p.color}, 0 0 4px rgba(255,255,255,.6) inset`;
-
-      const jumpToCard = () => {
-        const target = document.getElementById('discipline-' + i);
-        if (!target) return;
-        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        // Pulse highlight
-        document.querySelectorAll('.p-card.is-spotlight').forEach(c => c.classList.remove('is-spotlight'));
-        target.classList.add('is-spotlight');
-        setTimeout(() => target.classList.remove('is-spotlight'), 2400);
-      };
-      planet.addEventListener('click', jumpToCard);
-      planet.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jumpToCard(); }
-      });
-
-      const tag = document.createElement('span');
-      tag.className = 'planet-tag';
-      tag.textContent = p.name;
-      planet.appendChild(tag);
-
-      orbiter.appendChild(planet);
-      stage.appendChild(orbiter);
+    seven.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'cg-card';
+      card.style.transform = 'rotateY(' + (i * angleStep) + 'deg) translateZ(' + RADIUS + 'px)';
+      /* color-mix gives the orb a subtle light-to-dark gradient + matching glow.
+         Supported in all evergreen browsers (Chrome 111+, Firefox 113+, Safari 16.4+). */
+      card.innerHTML =
+        '<div class="cg-card-bg"></div>' +
+        '<div class="cg-card-pill">Planet 0' + (i + 1) + '</div>' +
+        '<div class="cg-card-body">' +
+          '<div class="cg-card-top">' +
+            '<div class="cg-card-orb" style="background: radial-gradient(circle at 30% 30%, color-mix(in srgb, ' + p.color + ' 82%, #fff), ' + p.color + '); box-shadow: 0 0 24px color-mix(in srgb, ' + p.color + ' 55%, transparent);">' +
+              '<div class="cg-card-orb-sheen"></div>' +
+            '</div>' +
+            '<div class="cg-card-num">0' + (i + 1) + '</div>' +
+          '</div>' +
+          '<div class="cg-card-name">' + p.name + '</div>' +
+          '<div class="cg-card-subtitle" style="color: ' + p.color + ';">' + p.epithet + '</div>' +
+          '<div class="cg-card-divider"></div>' +
+          '<div class="cg-card-desc">' + p.desc + '</div>' +
+        '</div>';
+      ring.appendChild(card);
+      cardEls.push(card);
     });
 
-    orbitStyle.textContent = kfCSS;
-    stage.insertBefore(svg, stage.firstChild);
-  }
+    /* ---- SCROLL → ROTATION + PROGRESS BAR ----
+       The section is 500vh tall; as it scrolls through the viewport,
+       progress goes 0 → 1 and maps linearly to 0 → 360° ring rotation. */
+    let scrollRotation = 0;
+    let autoOffset     = 0;
+    let dragOffset     = 0;   /* deg added by pointer drag (persists after release) */
+    let isScrolling    = false;
+    let isDragging     = false;
+    let scrollTimeout  = 0;
+    const AUTO_SPEED   = 0.25;  /* deg/frame when idle — ~15°/s, one full rotation ≈ 24s */
+    const DRAG_SENS    = 0.45;  /* px → deg sensitivity for manual drag */
 
-  // Initial layout + responsive rebuild
-  layoutSolar();
-  let _orbitResizeT;
-  window.addEventListener('resize', () => {
-    clearTimeout(_orbitResizeT);
-    _orbitResizeT = setTimeout(layoutSolar, 160);
-  });
+    function onScroll() {
+      isScrolling = true;
+      clearTimeout(scrollTimeout);
 
+      const rect = wrap.getBoundingClientRect();
+      const viewportH = window.innerHeight;
+      const totalScroll = Math.max(1, rect.height - viewportH);
+      const scrolled    = Math.max(0, -rect.top);
+      const progressVal = Math.max(0, Math.min(1, scrolled / totalScroll));
+
+      scrollRotation = progressVal * 360;
+      if (progress) progress.style.transform = 'scaleX(' + progressVal + ')';
+
+      scrollTimeout = window.setTimeout(function(){ isScrolling = false; }, 180);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    /* ---- POINTER DRAG → MANUAL ROTATION ----
+       Horizontal drag on the 3D stage rotates the ring. Uses Pointer Events
+       so mouse + touch + pen all work through the same handler. Drag offset
+       is additive with scroll + auto, so all three compose naturally. */
+    if (stage) {
+      let startX = 0;
+      let startDrag = 0;
+      let activePointerId = -1;
+
+      stage.addEventListener('pointerdown', function(e){
+        /* Only primary button for mouse; touch/pen always pass */
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        isDragging = true;
+        activePointerId = e.pointerId;
+        startX = e.clientX;
+        startDrag = dragOffset;
+        stage.classList.add('cg-dragging');
+        stage.setPointerCapture(e.pointerId);
+        e.preventDefault();
+      });
+
+      stage.addEventListener('pointermove', function(e){
+        if (!isDragging || e.pointerId !== activePointerId) return;
+        const dx = e.clientX - startX;
+        dragOffset = startDrag + dx * DRAG_SENS;
+      });
+
+      function endDrag(e){
+        if (!isDragging || (e && e.pointerId !== activePointerId)) return;
+        isDragging = false;
+        activePointerId = -1;
+        stage.classList.remove('cg-dragging');
+        if (e && stage.hasPointerCapture && stage.hasPointerCapture(e.pointerId)) {
+          stage.releasePointerCapture(e.pointerId);
+        }
+      }
+      stage.addEventListener('pointerup', endDrag);
+      stage.addEventListener('pointercancel', endDrag);
+      stage.addEventListener('pointerleave', endDrag);
+    }
+
+    /* ---- RAF LOOP: auto-rotate + per-card opacity by angle ----
+       A card directly behind the sun (180° relative) fades to 28% opacity;
+       a card facing the camera (0° / 360°) stays at 100%. Auto-rotate pauses
+       while the user is actively scrolling OR dragging. */
+    function tick() {
+      if (!isScrolling && !isDragging && !prefersReduced) autoOffset += AUTO_SPEED;
+      const total = scrollRotation + autoOffset + dragOffset;
+      ring.style.transform = 'rotateY(' + total + 'deg)';
+
+      for (let i = 0; i < cardEls.length; i++) {
+        const a    = i * angleStep;
+        const rel  = ((a + total) % 360 + 360) % 360;
+        const norm = rel > 180 ? 360 - rel : rel;
+        /* Front-facing: full. Past ~85° the card's front starts turning
+           away from the camera and backface-visibility hides it — so
+           fade opacity in lockstep to avoid a flicker right at the cut. */
+        let opacity;
+        if (norm <= 60) {
+          opacity = 1;
+        } else if (norm <= 85) {
+          opacity = 1 - (norm - 60) / 25 * 0.75;   // 1 → 0.25
+        } else {
+          opacity = 0;
+        }
+        cardEls[i].style.opacity = opacity.toFixed(2);
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
 
   /* =============== SCROLL REVEAL =============== */
   const observer = new IntersectionObserver((entries) => {
@@ -3576,19 +5156,6 @@
   }
   window.addEventListener('scroll', updateNavScrollState, { passive: true });
   updateNavScrollState();
-
-  /* =============== SUBTLE HERO PARALLAX =============== */
-  const orbs = document.querySelectorAll('.hero-orb');
-  window.addEventListener('mousemove', (e) => {
-    const cx = window.innerWidth / 2;
-    const cy = window.innerHeight / 2;
-    const dx = (e.clientX - cx) / cx;
-    const dy = (e.clientY - cy) / cy;
-    orbs.forEach((orb, i) => {
-      const depth = (i + 1) * 8;
-      orb.style.translate = `${dx * depth}px ${dy * depth}px`;
-    });
-  });
 
   /* =============== CONTACT FORM ===============
      Opens the user's mail client with fields pre-filled.
@@ -3683,6 +5250,441 @@
       `;
     });
   }
+
+  /* =============== SCROLL PROGRESS BAR ============== */
+  const progressBar = document.querySelector('.scroll-progress');
+  if (progressBar) {
+    const updateProgress = () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0;
+      progressBar.style.width = pct.toFixed(2) + '%';
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    updateProgress();
+  }
+
+  /* =============== SECTION NAV RAIL — active dot + click-to-scroll ============== */
+  const railItems = document.querySelectorAll('.section-nav-item');
+  if (railItems.length) {
+    const tracked = Array.from(railItems)
+      .map((item) => ({ item, section: document.querySelector(item.dataset.target) }))
+      .filter((entry) => entry.section);
+
+    /* Active-section detection: the section whose midpoint is closest to the
+       viewport centre wins. Runs on every scroll via rAF throttling. */
+    let railTicking = false;
+    function updateActiveRailItem() {
+      const viewportCentre = window.innerHeight / 2;
+      let bestIndex = 0;
+      let bestDist = Infinity;
+      tracked.forEach((entry, i) => {
+        const rect = entry.section.getBoundingClientRect();
+        const centre = rect.top + rect.height / 2;
+        const dist = Math.abs(centre - viewportCentre);
+        if (dist < bestDist) { bestDist = dist; bestIndex = i; }
+      });
+      tracked.forEach((entry, i) => entry.item.classList.toggle('active', i === bestIndex));
+    }
+    function onRailScroll() {
+      if (railTicking) return;
+      railTicking = true;
+      requestAnimationFrame(() => { updateActiveRailItem(); railTicking = false; });
+    }
+    window.addEventListener('scroll', onRailScroll, { passive: true });
+    window.addEventListener('resize', onRailScroll);
+    updateActiveRailItem();
+
+    /* Click-to-scroll on dots */
+    railItems.forEach((item) => {
+      const dot = item.querySelector('.section-nav-dot');
+      if (!dot) return;
+      dot.addEventListener('click', () => {
+        const target = document.querySelector(item.dataset.target);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  /* =============== SPOTLIGHT POINTER TRACKING ==============
+     Updates global --x/--y/--xp on :root so [data-glow] cards can paint
+     cursor-tracked radial gradients via background-attachment: fixed. */
+  (function () {
+    const root = document.documentElement;
+    window.addEventListener('pointermove', (e) => {
+      root.style.setProperty('--x',  e.clientX.toFixed(1));
+      root.style.setProperty('--y',  e.clientY.toFixed(1));
+      root.style.setProperty('--xp', (e.clientX / window.innerWidth).toFixed(3));
+      root.style.setProperty('--yp', (e.clientY / window.innerHeight).toFixed(3));
+    }, { passive: true });
+  })();
+
+  /* =============== BUTTERFLY SCROLL TRAVEL ==============
+     Fly-across pattern (same idea as the globe, with two upgrades):
+     1) A --morph CSS var drives an emergence "pupa → wings unfurl"
+        on first appearance at the top-right of #practitioners.
+     2) A continuous rAF loop tweens the displayed position toward
+        the scroll-derived target every frame (not just on scroll
+        events) — so the butterfly floats smoothly between stops
+        instead of jumping, and keeps bobbing as you read.
+     The butterfly is tilted toward its horizontal velocity so the
+     direction of flight reads naturally. */
+  (function () {
+    const bfStage = document.getElementById('butterflyStage');
+    if (!bfStage) return;
+    const practitionerSec = document.getElementById('practitioners');
+    const bringSec        = document.getElementById('bring');
+    const contactSec      = document.getElementById('contact');
+    if (!practitionerSec || !bringSec) return;
+
+    const pHead   = practitionerSec.querySelector('.section-head');
+    const pQuote  = practitionerSec.querySelector('.practitioner-quote');
+    const pSkills = practitionerSec.querySelector('.skills-gap-grid');
+    const pGives  = practitionerSec.querySelector('.practitioner-gives-grid');
+    const bHead   = bringSec.querySelector('.section-head') || bringSec;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      bfStage.style.setProperty('--morph', '1');
+      bfStage.style.opacity = '1';
+      bfStage.style.transform =
+        'translate3d(50vw, 40vh, 0) translate3d(-50%, -50%, 0) scale3d(0.9, 0.9, 1)';
+      return;
+    }
+
+    const bfStops = [
+      { el: pHead,    top: 48, left: 86, scale: 0.35 },  // enter top-right, emerging
+      { el: pQuote,   top: 52, left: 18, scale: 1.10 },  // full bloom, left of quote
+      { el: pSkills,  top: 58, left: 86, scale: 0.65 },  // smaller, mid-right
+      { el: pGives,   top: 40, left: 16, scale: 1.00 },  // big again, upper-left
+      { el: bHead,    top: 30, left: 84, scale: 0.50 },  // flying away, smaller, top-right
+      { el: bringSec, top: 22, left: 90, scale: 0.30 },  // near-exit, tiny
+    ].filter(s => s.el);
+
+    function bfLerp(a, b, t) { return a + (b - a) * t; }
+    function bfSmooth(t)     { return t * t * (3 - 2 * t); }
+    function bfClamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+
+    /* Target values (scroll-derived) vs. current displayed values.
+       Each frame we lerp displayed → target at a fixed rate so motion
+       is smooth regardless of scroll cadence. */
+    let curLeft = bfStops[0].left, curTop = bfStops[0].top, curScale = bfStops[0].scale;
+    let curRot  = 0;
+    let prevLeft = curLeft;
+    const SMOOTH = 0.09;        // higher = snappier; lower = floatier
+
+    function computeTargets() {
+      const vh       = window.innerHeight;
+      const vhCentre = vh / 2;
+
+      /* Morph (emergence): 0 while #practitioners is still below viewport;
+         ramps to 1 as the headline scrolls past 55% of viewport height. */
+      const pRect = practitionerSec.getBoundingClientRect();
+      const mStart = vh * 0.90;
+      const mEnd   = vh * 0.45;
+      let morph = (mStart - pRect.top) / (mStart - mEnd);
+      morph = bfClamp(morph, 0, 1);
+      morph = bfSmooth(morph);
+
+      /* Stage opacity: fade in with morph, fade out as #contact approaches. */
+      let opacity = morph;
+      if (contactSec) {
+        const cRect = contactSec.getBoundingClientRect();
+        const outStart = vh;
+        const outEnd   = vh * 0.35;
+        if (cRect.top <= outStart) {
+          let t = (outStart - cRect.top) / (outStart - outEnd);
+          t = bfClamp(t, 0, 1);
+          opacity *= (1 - t);
+        }
+      }
+
+      /* Measure stops and lerp between the two endpoints the viewport
+         centre currently sits between. */
+      const measured = bfStops.map(s => {
+        const r = s.el.getBoundingClientRect();
+        return { top: s.top, left: s.left, scale: s.scale, y: r.top + r.height / 2 };
+      });
+      let tgtTop, tgtLeft, tgtScale;
+      if (vhCentre <= measured[0].y) {
+        tgtTop = measured[0].top; tgtLeft = measured[0].left; tgtScale = measured[0].scale;
+      } else if (vhCentre >= measured[measured.length - 1].y) {
+        const last = measured[measured.length - 1];
+        tgtTop = last.top; tgtLeft = last.left; tgtScale = last.scale;
+      } else {
+        for (let i = 0; i < measured.length - 1; i++) {
+          const a = measured[i], b = measured[i + 1];
+          if (vhCentre >= a.y && vhCentre <= b.y) {
+            const t = bfSmooth((vhCentre - a.y) / (b.y - a.y));
+            tgtTop   = bfLerp(a.top,   b.top,   t);
+            tgtLeft  = bfLerp(a.left,  b.left,  t);
+            tgtScale = bfLerp(a.scale, b.scale, t);
+            break;
+          }
+        }
+      }
+
+      return { tgtTop: tgtTop, tgtLeft: tgtLeft, tgtScale: tgtScale, morph: morph, opacity: opacity };
+    }
+
+    function tick() {
+      const T = computeTargets();
+
+      /* Ease displayed values toward targets. */
+      curLeft  += (T.tgtLeft  - curLeft)  * SMOOTH;
+      curTop   += (T.tgtTop   - curTop)   * SMOOTH;
+      curScale += (T.tgtScale - curScale) * SMOOTH;
+
+      /* Tilt toward horizontal velocity so the body leads the motion. */
+      const dx = curLeft - prevLeft;
+      prevLeft = curLeft;
+      const targetRot = bfClamp(dx * -4, -14, 14);   // sign inverted so right-ward motion tilts right
+      curRot += (targetRot - curRot) * 0.12;
+
+      bfStage.style.setProperty('--morph', T.morph.toFixed(3));
+      bfStage.style.opacity = T.opacity.toFixed(3);
+
+      if (T.opacity <= 0.01) {
+        bfStage.classList.add('is-hidden');
+      } else {
+        bfStage.classList.remove('is-hidden');
+        bfStage.style.transform =
+          'translate3d(' + curLeft.toFixed(2) + 'vw, ' + curTop.toFixed(2) + 'vh, 0) ' +
+          'translate3d(-50%, -50%, 0) ' +
+          'rotate(' + curRot.toFixed(2) + 'deg) ' +
+          'scale3d(' + curScale.toFixed(3) + ', ' + curScale.toFixed(3) + ', 1)';
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  })();
+
+  /* =============== BUILD-TRAILS CANVAS (#audience) ==============
+     Cursor-following HSL flow-field trails. Spring-chained nodes
+     accumulate with 'lighter' composite to form ribbon-like trails
+     in viewport-local coordinates. Paused when the section is off
+     screen or the user prefers reduced motion. */
+  (function () {
+    const canvas  = document.getElementById('build-canvas');
+    if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const section = canvas.parentElement;
+    const ctx     = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const TRAILS    = 80;
+    const SIZE      = 50;
+    const FRICTION  = 0.5;
+    const DAMPENING = 0.025;
+    const TENSION   = 0.99;
+
+    const pos = { x: 0, y: 0 };
+    let phase = Math.random() * Math.PI * 2;
+    let running = false;
+    let rafId = null;
+
+    function Node() { this.x = 0; this.y = 0; this.vx = 0; this.vy = 0; }
+
+    function Line(hue) {
+      this.hue   = hue;
+      this.nodes = [];
+      for (let i = 0; i < SIZE; i++) {
+        const n = new Node();
+        n.x = pos.x; n.y = pos.y;
+        this.nodes.push(n);
+      }
+    }
+    Line.prototype.update = function () {
+      let spring = 0.45;
+      const n0 = this.nodes[0];
+      n0.vx += (pos.x - n0.x) * spring;
+      n0.vy += (pos.y - n0.y) * spring;
+      for (let i = 0, len = this.nodes.length; i < len; i++) {
+        const n = this.nodes[i];
+        if (i > 0) {
+          const prev = this.nodes[i - 1];
+          n.vx += (prev.x - n.x) * spring;
+          n.vy += (prev.y - n.y) * spring;
+          n.vx += prev.vx * DAMPENING;
+          n.vy += prev.vy * DAMPENING;
+        }
+        n.vx *= FRICTION;
+        n.vy *= FRICTION;
+        n.x  += n.vx;
+        n.y  += n.vy;
+        spring *= TENSION;
+      }
+    };
+    Line.prototype.draw = function () {
+      let x = this.nodes[0].x, y = this.nodes[0].y;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      for (let i = 1, len = this.nodes.length - 2; i < len; i++) {
+        const a = this.nodes[i];
+        const b = this.nodes[i + 1];
+        x = (a.x + b.x) * 0.5;
+        y = (a.y + b.y) * 0.5;
+        ctx.quadraticCurveTo(a.x, a.y, x, y);
+      }
+      const last = this.nodes[this.nodes.length - 2];
+      const end  = this.nodes[this.nodes.length - 1];
+      ctx.quadraticCurveTo(last.x, last.y, end.x, end.y);
+      ctx.stroke();
+      ctx.closePath();
+    };
+
+    const lines = [];
+    for (let i = 0; i < TRAILS; i++) lines.push(new Line(i));
+
+    function resize() {
+      canvas.width  = section.offsetWidth;
+      canvas.height = section.offsetHeight;
+      const rect = section.getBoundingClientRect();
+      pos.x = rect.width / 2;
+      pos.y = rect.height / 2;
+    }
+
+    function onPointer(e) {
+      const rect = canvas.getBoundingClientRect();
+      pos.x = e.clientX - rect.left;
+      pos.y = e.clientY - rect.top;
+    }
+
+    function render() {
+      if (!running) return;
+      phase += 0.0015;
+      const hue = Math.round(285 + Math.sin(phase) * 85);
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = 'rgba(4, 8, 18, 0.08)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.strokeStyle = 'hsla(' + hue + ', 100%, 50%, 0.025)';
+      ctx.lineWidth = 10;
+      for (let i = 0; i < lines.length; i++) {
+        lines[i].update();
+        lines[i].draw();
+      }
+      rafId = requestAnimationFrame(render);
+    }
+
+    function start() {
+      if (running) return;
+      running = true;
+      rafId = requestAnimationFrame(render);
+    }
+    function stop() {
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+    section.addEventListener('pointermove', onPointer, { passive: true });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) start();
+        else stop();
+      });
+    }, { threshold: 0 });
+    io.observe(section);
+  })();
+
+  /* =============== GLOBE SCROLL TRACKING ==============
+     The fixed earth globe travels between the hero (#top) and the
+     manifesto (#rewritten). When the manifesto has fully scrolled
+     past the viewport centre, the globe fades out so it doesn't
+     overlay the rest of the page (Solar, Disciplines, etc.). */
+  const globeStageEl = document.getElementById('globeStage');
+  const heroSection  = document.getElementById('top');
+  const rewriteSection = document.getElementById('rewritten');
+  const failsSection   = document.getElementById('fails');
+  const modelSection   = document.getElementById('model');
+
+  if (globeStageEl && heroSection && rewriteSection) {
+    /* Ordered stops. The globe's position lerps continuously between
+       adjacent stops based on how far the viewport centre sits between
+       each section's centre — so scroll maps 1:1 to motion instead of
+       snapping to the nearest stop. */
+    const stops = [
+      { el: heroSection,    top: 50, left: 70, scale: 1.65 },  // hero
+      { el: rewriteSection, top: 28, left: 50, scale: 0.95 },  // manifesto
+    ];
+    if (failsSection) stops.push({ el: failsSection, top: 50, left: 80, scale: 1.70 });
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function smooth(t)     { return t * t * (3 - 2 * t); }   // smoothstep
+
+    function updateGlobe() {
+      const vh       = window.innerHeight;
+      const vhCentre = vh / 2;
+
+      /* Measure each stop's current vertical centre in viewport coords. */
+      const measured = stops.map(s => {
+        const r = s.el.getBoundingClientRect();
+        return { top: s.top, left: s.left, scale: s.scale, y: r.top + r.height / 2 };
+      });
+
+      /* Fade out as #model approaches. */
+      let opacity = 1;
+      if (modelSection) {
+        const r = modelSection.getBoundingClientRect();
+        const fadeStart = vh;
+        const fadeEnd   = vh * 0.35;
+        if (r.top <= fadeStart) {
+          let t = (fadeStart - r.top) / (fadeStart - fadeEnd);
+          if (t < 0) t = 0;
+          if (t > 1) t = 1;
+          opacity = 1 - t;
+        }
+      }
+      globeStageEl.style.opacity = opacity.toFixed(3);
+      if (opacity <= 0.01) {
+        globeStageEl.classList.add('is-hidden');
+        return;
+      }
+      globeStageEl.classList.remove('is-hidden');
+
+      /* Continuous lerp: find the segment the viewport centre sits in,
+         then interpolate top/left/scale between the two endpoints. */
+      let topVal, leftVal, scaleVal;
+      if (vhCentre <= measured[0].y) {
+        topVal = measured[0].top; leftVal = measured[0].left; scaleVal = measured[0].scale;
+      } else if (vhCentre >= measured[measured.length - 1].y) {
+        const last = measured[measured.length - 1];
+        topVal = last.top; leftVal = last.left; scaleVal = last.scale;
+      } else {
+        for (let i = 0; i < measured.length - 1; i++) {
+          const a = measured[i], b = measured[i + 1];
+          if (vhCentre >= a.y && vhCentre <= b.y) {
+            const t = smooth((vhCentre - a.y) / (b.y - a.y));
+            topVal   = lerp(a.top,   b.top,   t);
+            leftVal  = lerp(a.left,  b.left,  t);
+            scaleVal = lerp(a.scale, b.scale, t);
+            break;
+          }
+        }
+      }
+
+      globeStageEl.style.transform =
+        'translate3d(' + leftVal.toFixed(2) + 'vw, ' + topVal.toFixed(2) + 'vh, 0) ' +
+        'translate3d(-50%, -50%, 0) ' +
+        'scale3d(' + scaleVal.toFixed(3) + ', ' + scaleVal.toFixed(3) + ', 1)';
+    }
+
+    let globeTicking = false;
+    window.addEventListener('scroll', () => {
+      if (globeTicking) return;
+      globeTicking = true;
+      requestAnimationFrame(() => { updateGlobe(); globeTicking = false; });
+    }, { passive: true });
+    window.addEventListener('resize', updateGlobe);
+    updateGlobe();
+  }
+
 </script>
 
 </body>
