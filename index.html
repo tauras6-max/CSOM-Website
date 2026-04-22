@@ -5,6 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0" />
 <meta name="theme-color" content="#0b1230" />
 <title>CSOM™ Global — Customer Success Operating Model</title>
+<meta name="description" content="CSOM™ — the Customer Success Operating Model. Seven disciplines and two orbits that turn ITIL, SIAM and Customer Success frameworks into one operating model that proves value to the customer." />
+<link rel="canonical" href="https://csom.global/" />
+
+<!-- Open Graph / LinkedIn / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="CSOM Global" />
+<meta property="og:url" content="https://csom.global/" />
+<meta property="og:title" content="CSOM™ Global — The Customer Success Operating Model" />
+<meta property="og:description" content="Seven disciplines. Two orbits. One operating model that turns ITIL, SIAM and Customer Success into something a customer can actually feel." />
+<meta property="og:image" content="https://csom.global/globe.jpeg" />
+<meta property="og:image:alt" content="CSOM Global — Customer Success Operating Model" />
+<meta property="og:locale" content="en_GB" />
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="CSOM™ Global — The Customer Success Operating Model" />
+<meta name="twitter:description" content="Seven disciplines. Two orbits. One operating model that proves value to the customer." />
+<meta name="twitter:image" content="https://csom.global/globe.jpeg" />
+
+<!-- JSON-LD structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CSOM Global",
+  "alternateName": "Customer Success Operating Model",
+  "url": "https://csom.global/",
+  "logo": "https://csom.global/globe.jpeg",
+  "description": "CSOM™ is the Customer Success Operating Model — seven disciplines and two orbits that unify ITIL, SIAM and Customer Success into a single operating model.",
+  "sameAs": []
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -77,6 +110,41 @@
     overscroll-behavior-y: contain;
   }
   a, button, .btn, .nav-cta, .menu-btn { touch-action: manipulation; }
+
+  /* Skip-to-content — visible only on keyboard focus. */
+  .skip-link {
+    position: fixed;
+    top: -60px;
+    left: 12px;
+    z-index: 100;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: #fff;
+    color: #0b1230;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: top .2s var(--ease);
+  }
+  .skip-link:focus {
+    top: 12px;
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  /* Consistent keyboard focus ring across all interactive elements.
+     Browsers default to either nothing (older) or too-subtle outlines
+     on custom-styled links/buttons. */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
   body {
     /* Pure brand gradient backdrop — no dark scrim. Text containers
        (cards, panels, nav, fails table, narration, etc.) carry their
@@ -4173,6 +4241,10 @@
 </head>
 <body>
 
+<!-- Skip-to-content link for keyboard / screen-reader users.
+     Visually hidden until focused, then appears at the top left. -->
+<a class="skip-link" href="#model">Skip to main content</a>
+
 <!-- Scroll progress bar -->
 <div class="scroll-progress" aria-hidden="true"></div>
 
@@ -4487,8 +4559,12 @@
 
   <div class="model-stage reveal" id="model-video">
     <div class="model-video-frame">
-      <video class="model-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
-        <source src="guide-avatar.mp4" type="video/mp4">
+      <!-- Video is 6.5 MB so we defer loading until the user is
+           scrolling near it (IntersectionObserver in the JS below
+           swaps data-src -> src). Saves the download for visitors
+           who never reach this section. -->
+      <video class="model-video" muted loop playsinline preload="none" aria-hidden="true" data-lazy-video>
+        <source data-src="guide-avatar.mp4" type="video/mp4">
       </video>
     </div>
   </div>
@@ -5216,6 +5292,42 @@
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
   document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+  /* =============== LAZY VIDEO LOADER ===============
+     Defers loading the 6.5 MB guide video until the user scrolls
+     near it. When within ~400px of the viewport, swap data-src to
+     src on every <source>, call load(), then play(). */
+  (function () {
+    const videos = document.querySelectorAll('video[data-lazy-video]');
+    if (!videos.length) return;
+    if (!('IntersectionObserver' in window)) {
+      // Fallback: just load everything immediately.
+      videos.forEach(loadVideo);
+      return;
+    }
+    function loadVideo(v) {
+      if (v.dataset.loaded) return;
+      v.dataset.loaded = '1';
+      v.querySelectorAll('source[data-src]').forEach(src => {
+        src.src = src.dataset.src;
+        src.removeAttribute('data-src');
+      });
+      v.load();
+      const playAttempt = v.play();
+      if (playAttempt && typeof playAttempt.catch === 'function') {
+        playAttempt.catch(() => { /* autoplay blocked — browser will let the user tap to play */ });
+      }
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          loadVideo(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '400px 0px' });
+    videos.forEach(v => io.observe(v));
+  })();
 
   /* =============== NAV SCROLL STATE =============== */
   const nav = document.querySelector('.nav');
