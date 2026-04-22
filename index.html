@@ -3843,11 +3843,13 @@
      Uses mix-blend-mode: screen so it glows additively on the warm site
      gradient without needing a dark stage. Triggered by the existing
      .reveal/.show intersection-observer. */
-  /* No `isolation: isolate` here — it would trap the cards inside a
-     private stacking context, which makes their z-index useless for
-     layering above the fixed butterfly-stage. */
+  /* No `isolation: isolate` here and no z-index on the .wrap — both
+     would trap the cards inside a private stacking context, which
+     makes the cards' own z-index useless for layering them above
+     the fixed butterfly-stage. Cards sit at z-index:5 in the root
+     stacking context so they paint over the butterfly at z-index:3. */
   #practitioners { position: relative; overflow: hidden; }
-  #practitioners > .wrap { position: relative; z-index: 1; }
+  #practitioners > .wrap { position: relative; }
 
   /* =============== BUTTERFLY METAMORPHOSIS STAGE ==============
      Fixed-overlay traveller — same pattern as .globe-stage. Position
