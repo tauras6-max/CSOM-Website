@@ -3843,7 +3843,10 @@
      Uses mix-blend-mode: screen so it glows additively on the warm site
      gradient without needing a dark stage. Triggered by the existing
      .reveal/.show intersection-observer. */
-  #practitioners { position: relative; overflow: hidden; isolation: isolate; }
+  /* No `isolation: isolate` here — it would trap the cards inside a
+     private stacking context, which makes their z-index useless for
+     layering above the fixed butterfly-stage. */
+  #practitioners { position: relative; overflow: hidden; }
   #practitioners > .wrap { position: relative; z-index: 1; }
 
   /* =============== BUTTERFLY METAMORPHOSIS STAGE ==============
@@ -3864,7 +3867,10 @@
     opacity: 0;
     transform: translate3d(82vw, 25vh, 0) translate3d(-50%, -50%, 0) scale3d(0.4, 0.4, 1);
     transition: opacity 0.45s ease;
-    mix-blend-mode: screen;
+    /* No mix-blend-mode — it was brightening the butterfly additively
+       and bleeding its colors through the semi-transparent card
+       backgrounds, making it read as 'in front' even when layered
+       behind. Plain compositing keeps it subdued when below cards. */
     --morph: 0;
   }
   .butterfly-stage.is-hidden { opacity: 0; }
@@ -5437,12 +5443,19 @@
        Slide 2 — skills-gap-grid: go behind the cards, larger
        Slide 3 — SIAM courses: move between the 2 course boxes, grow
        Slide 4 — practitioner-grid / cohort CTA: behind 4 boxes, largest */
+    /* Stops 2 and 5 centre the butterfly directly behind each card
+       group with a wide scale so wing tips extend past the left/
+       right edges of the grid. Cards have position:relative;
+       z-index:5 while butterfly-stage is z-index:3 and its section
+       has no `isolation: isolate`, so the cards paint over the
+       butterfly body — only the parts outside the card footprint
+       are visible. `op` keeps it subdued. */
     const bfStops = [
-      { el: practitionerHead || practitionerSec, top: 38, left: 78, scale: 1.45 },
-      { el: skillsGrid,                          top: 55, left: 50, scale: 2.70 },
-      { el: bringHead || bringSec,               top: 42, left: 80, scale: 1.55 },
-      { el: coursesGrid,                         top: 40, left: 52, scale: 1.55 },
-      { el: cohortCta || practitionerGrid,       top: 58, left: 50, scale: 2.95 },
+      { el: practitionerHead || practitionerSec, top: 38, left: 78, scale: 1.45, op: 1.00 },
+      { el: skillsGrid,                          top: 55, left: 50, scale: 2.70, op: 0.70 },
+      { el: bringHead || bringSec,               top: 42, left: 80, scale: 1.55, op: 1.00 },
+      { el: coursesGrid,                         top: 50, left: 52, scale: 2.40, op: 0.70 },
+      { el: cohortCta || practitionerGrid,       top: 58, left: 50, scale: 2.95, op: 0.70 },
     ];
 
     function bfLerp(a, b, t) { return a + (b - a) * t; }
@@ -5484,18 +5497,21 @@
       bfStage.classList.remove('is-hidden');
 
       /* Measure each stop's viewport-centre Y, then continuously
-         lerp top/left/scale between the two endpoints. Identical
-         to updateGlobe. */
+         lerp top/left/scale/op between the two endpoints. `op` lets
+         the butterfly dim at the 'behind the boxes' stops so it
+         reads as a subtle accent rather than an overlay. */
       const measured = bfStops.map(s => {
         const r = s.el.getBoundingClientRect();
-        return { top: s.top, left: s.left, scale: s.scale, y: r.top + r.height / 2 };
+        return { top: s.top, left: s.left, scale: s.scale, op: s.op, y: r.top + r.height / 2 };
       });
-      let topVal, leftVal, scaleVal;
+      let topVal, leftVal, scaleVal, opVal;
       if (vhCentre <= measured[0].y) {
-        topVal = measured[0].top; leftVal = measured[0].left; scaleVal = measured[0].scale;
+        topVal = measured[0].top; leftVal = measured[0].left;
+        scaleVal = measured[0].scale; opVal = measured[0].op;
       } else if (vhCentre >= measured[measured.length - 1].y) {
         const last = measured[measured.length - 1];
-        topVal = last.top; leftVal = last.left; scaleVal = last.scale;
+        topVal = last.top; leftVal = last.left;
+        scaleVal = last.scale; opVal = last.op;
       } else {
         for (let i = 0; i < measured.length - 1; i++) {
           const a = measured[i], b = measured[i + 1];
@@ -5504,11 +5520,13 @@
             topVal   = bfLerp(a.top,   b.top,   t);
             leftVal  = bfLerp(a.left,  b.left,  t);
             scaleVal = bfLerp(a.scale, b.scale, t);
+            opVal    = bfLerp(a.op,    b.op,    t);
             break;
           }
         }
       }
 
+      bfStage.style.opacity = (opacity * opVal).toFixed(3);
       bfStage.style.transform =
         'translate3d(' + leftVal.toFixed(2) + 'vw, ' + topVal.toFixed(2) + 'vh, 0) ' +
         'translate3d(-50%, -50%, 0) ' +
