@@ -5549,13 +5549,93 @@
     }, { passive: true });
   })();
 
+  /* =============== SHARED SCROLL-STAGE HELPER ==============
+     Drives a position: fixed overlay (butterfly, globe) along a set of
+     section-anchored stops. Viewport centre vs each stop's section centre
+     decides which segment the overlay sits in; top/left/scale (and
+     optional `op`) continuously lerp between segment endpoints with a
+     smoothstep ease. `fadeIn` / `fadeOut` take a sentinel section and a
+     start/end threshold (as fractions of viewport height) measured
+     against that section's rect.top — so the stage can ramp in as one
+     section approaches and ramp out as another does. Scroll listener
+     is rAF-gated; no continuous animation loop. */
+  function createScrollStage(stageEl, config) {
+    const stops   = config.stops;
+    const fadeIn  = config.fadeIn  || null;
+    const fadeOut = config.fadeOut || null;
+    const format  = config.format;
+
+    const lerp    = (a, b, t) => a + (b - a) * t;
+    const smooth  = t => t * t * (3 - 2 * t);
+    const clamp01 = t => t < 0 ? 0 : (t > 1 ? 1 : t);
+
+    function fadeFactor(f) {
+      if (!f) return null;
+      const vh = window.innerHeight;
+      const r  = f.el.getBoundingClientRect();
+      const s  = f.startVh * vh;
+      const e  = f.endVh   * vh;
+      if (r.top > s) return null;
+      return clamp01((s - r.top) / (s - e));
+    }
+
+    function update() {
+      const vhCentre = window.innerHeight / 2;
+
+      let opacity = fadeIn ? 0 : 1;
+      const fi = fadeFactor(fadeIn);
+      if (fi !== null) opacity = fi;
+      const fo = fadeFactor(fadeOut);
+      if (fo !== null) opacity *= (1 - fo);
+
+      stageEl.style.opacity = opacity.toFixed(3);
+      if (opacity <= 0.01) { stageEl.classList.add('is-hidden'); return; }
+      stageEl.classList.remove('is-hidden');
+
+      const measured = stops.map(s => {
+        const r = s.el.getBoundingClientRect();
+        return Object.assign({}, s, { y: r.top + r.height / 2 });
+      });
+
+      let v;
+      if (vhCentre <= measured[0].y) v = measured[0];
+      else if (vhCentre >= measured[measured.length - 1].y) v = measured[measured.length - 1];
+      else {
+        for (let i = 0; i < measured.length - 1; i++) {
+          const a = measured[i], b = measured[i + 1];
+          if (vhCentre >= a.y && vhCentre <= b.y) {
+            const t = smooth((vhCentre - a.y) / (b.y - a.y));
+            v = {};
+            for (const k of Object.keys(a)) {
+              if (k === 'el' || k === 'y') continue;
+              v[k] = lerp(a[k], b[k], t);
+            }
+            break;
+          }
+        }
+      }
+
+      if (v.op !== undefined) stageEl.style.opacity = (opacity * v.op).toFixed(3);
+      stageEl.style.transform = format(v);
+    }
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { update(); ticking = false; });
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  const stageTransform = v =>
+    `translate3d(${v.left.toFixed(2)}vw, ${v.top.toFixed(2)}vh, 0) ` +
+    `translate3d(-50%, -50%, 0) ` +
+    `scale3d(${v.scale.toFixed(3)}, ${v.scale.toFixed(3)}, 1)`;
+
   /* =============== BUTTERFLY SCROLL TRAVEL ==============
-     Direct port of the globe's scroll-tracking pattern (see
-     updateGlobe above): three fixed section stops with varying
-     top/left/scale values; position lerps continuously between
-     adjacent stops using viewport-centre-vs-section-centre; scroll
-     + resize listeners only — no continuous rAF loop. Fades in as
-     #practitioners approaches and fades out as <footer> approaches.
+     Five fixed section stops mapped to Butterfly Transition.pptx.
      Wing flap and body drift remain independent CSS animations. */
   (function () {
     const bfStage = document.getElementById('butterflyStage');
@@ -5578,109 +5658,25 @@
       return;
     }
 
-    /* Four stops mapped from Butterfly Transition.pptx:
-       Slide 1 — practitioners hero: remain as-is on the right, grow
-       Slide 2 — skills-gap-grid: go behind the cards, larger
-       Slide 3 — SIAM courses: move between the 2 course boxes, grow
-       Slide 4 — practitioner-grid / cohort CTA: behind 4 boxes, largest */
-    /* Stops 2 and 5 centre the butterfly directly behind each card
-       group with a wide scale so wing tips extend past the left/
-       right edges of the grid. Cards have position:relative;
-       z-index:5 while butterfly-stage is z-index:3 and its section
-       has no `isolation: isolate`, so the cards paint over the
-       butterfly body — only the parts outside the card footprint
-       are visible. `op` keeps it subdued. */
-    const bfStops = [
-      { el: practitionerHead || practitionerSec, top: 38, left: 78, scale: 1.45, op: 1.00 },
-      { el: skillsGrid,                          top: 55, left: 50, scale: 2.70, op: 0.70 },
-      { el: bringHead || bringSec,               top: 42, left: 80, scale: 1.55, op: 1.00 },
-      { el: coursesGrid,                         top: 50, left: 52, scale: 2.40, op: 0.70 },
-      { el: cohortCta || practitionerGrid,       top: 58, left: 50, scale: 2.95, op: 0.70 },
-    ];
-
-    function bfLerp(a, b, t) { return a + (b - a) * t; }
-    function bfSmooth(t)     { return t * t * (3 - 2 * t); }
-
-    function updateButterfly() {
-      const vh       = window.innerHeight;
-      const vhCentre = vh / 2;
-
-      /* Fade in as #practitioners approaches the viewport. */
-      let opacity = 0;
-      const pRect = practitionerSec.getBoundingClientRect();
-      const inStart = vh;
-      const inEnd   = vh * 0.55;
-      if (pRect.top <= inStart) {
-        let t = (inStart - pRect.top) / (inStart - inEnd);
-        if (t < 0) t = 0;
-        if (t > 1) t = 1;
-        opacity = t;
-      }
-      /* Fade out as #contact approaches — slide 4 is the last PPTX
-         stop, so butterfly exits before the contact section. */
-      if (contactSec) {
-        const cRect = contactSec.getBoundingClientRect();
-        const outStart = vh * 0.95;
-        const outEnd   = vh * 0.35;
-        if (cRect.top <= outStart) {
-          let t = (outStart - cRect.top) / (outStart - outEnd);
-          if (t < 0) t = 0;
-          if (t > 1) t = 1;
-          opacity *= (1 - t);
-        }
-      }
-      bfStage.style.opacity = opacity.toFixed(3);
-      if (opacity <= 0.01) {
-        bfStage.classList.add('is-hidden');
-        return;
-      }
-      bfStage.classList.remove('is-hidden');
-
-      /* Measure each stop's viewport-centre Y, then continuously
-         lerp top/left/scale/op between the two endpoints. `op` lets
-         the butterfly dim at the 'behind the boxes' stops so it
-         reads as a subtle accent rather than an overlay. */
-      const measured = bfStops.map(s => {
-        const r = s.el.getBoundingClientRect();
-        return { top: s.top, left: s.left, scale: s.scale, op: s.op, y: r.top + r.height / 2 };
-      });
-      let topVal, leftVal, scaleVal, opVal;
-      if (vhCentre <= measured[0].y) {
-        topVal = measured[0].top; leftVal = measured[0].left;
-        scaleVal = measured[0].scale; opVal = measured[0].op;
-      } else if (vhCentre >= measured[measured.length - 1].y) {
-        const last = measured[measured.length - 1];
-        topVal = last.top; leftVal = last.left;
-        scaleVal = last.scale; opVal = last.op;
-      } else {
-        for (let i = 0; i < measured.length - 1; i++) {
-          const a = measured[i], b = measured[i + 1];
-          if (vhCentre >= a.y && vhCentre <= b.y) {
-            const t = bfSmooth((vhCentre - a.y) / (b.y - a.y));
-            topVal   = bfLerp(a.top,   b.top,   t);
-            leftVal  = bfLerp(a.left,  b.left,  t);
-            scaleVal = bfLerp(a.scale, b.scale, t);
-            opVal    = bfLerp(a.op,    b.op,    t);
-            break;
-          }
-        }
-      }
-
-      bfStage.style.opacity = (opacity * opVal).toFixed(3);
-      bfStage.style.transform =
-        'translate3d(' + leftVal.toFixed(2) + 'vw, ' + topVal.toFixed(2) + 'vh, 0) ' +
-        'translate3d(-50%, -50%, 0) ' +
-        'scale3d(' + scaleVal.toFixed(3) + ', ' + scaleVal.toFixed(3) + ', 1)';
-    }
-
-    let bfTicking = false;
-    window.addEventListener('scroll', () => {
-      if (bfTicking) return;
-      bfTicking = true;
-      requestAnimationFrame(() => { updateButterfly(); bfTicking = false; });
-    }, { passive: true });
-    window.addEventListener('resize', updateButterfly);
-    updateButterfly();
+    /* Five stops mapped from Butterfly Transition.pptx:
+       #practitioners head → skills-gap-grid → #bring head → courses-grid → cohort CTA.
+       Stops 2/4/5 centre the butterfly behind card grids with a wide scale so wing
+       tips extend past the grid edges; `op` dims it at those stops so it reads as a
+       subtle accent. Cards are z-index:5 over the z-index:3 butterfly-stage and the
+       section has no isolated stacking context, so cards paint over the body and
+       only the parts outside the card footprint remain visible. */
+    createScrollStage(bfStage, {
+      stops: [
+        { el: practitionerHead || practitionerSec, top: 38, left: 78, scale: 1.45, op: 1.00 },
+        { el: skillsGrid,                          top: 55, left: 50, scale: 2.70, op: 0.70 },
+        { el: bringHead || bringSec,               top: 42, left: 80, scale: 1.55, op: 1.00 },
+        { el: coursesGrid,                         top: 50, left: 52, scale: 2.40, op: 0.70 },
+        { el: cohortCta || practitionerGrid,       top: 58, left: 50, scale: 2.95, op: 0.70 },
+      ],
+      fadeIn:  { el: practitionerSec, startVh: 1.00, endVh: 0.55 },
+      fadeOut: contactSec ? { el: contactSec, startVh: 0.95, endVh: 0.35 } : null,
+      format:  stageTransform,
+    });
   })();
 
   /* =============== BUILD-TRAILS CANVAS (#audience) ==============
@@ -5827,84 +5823,17 @@
   const modelSection   = document.getElementById('model');
 
   if (globeStageEl && heroSection && rewriteSection) {
-    /* Ordered stops. The globe's position lerps continuously between
-       adjacent stops based on how far the viewport centre sits between
-       each section's centre — so scroll maps 1:1 to motion instead of
-       snapping to the nearest stop. */
-    const stops = [
-      { el: heroSection,    top: 50, left: 70, scale: 1.65 },  // hero
-      { el: rewriteSection, top: 28, left: 50, scale: 0.95 },  // manifesto
+    const globeStops = [
+      { el: heroSection,    top: 50, left: 70, scale: 1.65 },
+      { el: rewriteSection, top: 28, left: 50, scale: 0.95 },
     ];
-    if (failsSection) stops.push({ el: failsSection, top: 50, left: 80, scale: 1.70 });
+    if (failsSection) globeStops.push({ el: failsSection, top: 50, left: 80, scale: 1.70 });
 
-    function lerp(a, b, t) { return a + (b - a) * t; }
-    function smooth(t)     { return t * t * (3 - 2 * t); }   // smoothstep
-
-    function updateGlobe() {
-      const vh       = window.innerHeight;
-      const vhCentre = vh / 2;
-
-      /* Measure each stop's current vertical centre in viewport coords. */
-      const measured = stops.map(s => {
-        const r = s.el.getBoundingClientRect();
-        return { top: s.top, left: s.left, scale: s.scale, y: r.top + r.height / 2 };
-      });
-
-      /* Fade out as #model approaches. */
-      let opacity = 1;
-      if (modelSection) {
-        const r = modelSection.getBoundingClientRect();
-        const fadeStart = vh;
-        const fadeEnd   = vh * 0.35;
-        if (r.top <= fadeStart) {
-          let t = (fadeStart - r.top) / (fadeStart - fadeEnd);
-          if (t < 0) t = 0;
-          if (t > 1) t = 1;
-          opacity = 1 - t;
-        }
-      }
-      globeStageEl.style.opacity = opacity.toFixed(3);
-      if (opacity <= 0.01) {
-        globeStageEl.classList.add('is-hidden');
-        return;
-      }
-      globeStageEl.classList.remove('is-hidden');
-
-      /* Continuous lerp: find the segment the viewport centre sits in,
-         then interpolate top/left/scale between the two endpoints. */
-      let topVal, leftVal, scaleVal;
-      if (vhCentre <= measured[0].y) {
-        topVal = measured[0].top; leftVal = measured[0].left; scaleVal = measured[0].scale;
-      } else if (vhCentre >= measured[measured.length - 1].y) {
-        const last = measured[measured.length - 1];
-        topVal = last.top; leftVal = last.left; scaleVal = last.scale;
-      } else {
-        for (let i = 0; i < measured.length - 1; i++) {
-          const a = measured[i], b = measured[i + 1];
-          if (vhCentre >= a.y && vhCentre <= b.y) {
-            const t = smooth((vhCentre - a.y) / (b.y - a.y));
-            topVal   = lerp(a.top,   b.top,   t);
-            leftVal  = lerp(a.left,  b.left,  t);
-            scaleVal = lerp(a.scale, b.scale, t);
-            break;
-          }
-        }
-      }
-
-      globeStageEl.style.transform =
-        'translate3d(' + leftVal.toFixed(2) + 'vw, ' + topVal.toFixed(2) + 'vh, 0) ' +
-        'translate3d(-50%, -50%, 0) ' +
-        'scale3d(' + scaleVal.toFixed(3) + ', ' + scaleVal.toFixed(3) + ', 1)';
-    }
-
-    let globeTicking = false;
-    window.addEventListener('scroll', () => {
-      if (globeTicking) return;
-      globeTicking = true;
-      requestAnimationFrame(() => { updateGlobe(); globeTicking = false; });
-    }, { passive: true });
-    window.addEventListener('resize', updateGlobe);
-    updateGlobe();
+    createScrollStage(globeStageEl, {
+      stops:   globeStops,
+      fadeOut: modelSection ? { el: modelSection, startVh: 1.00, endVh: 0.35 } : null,
+      format:  stageTransform,
+    });
   }
 
 </script>
