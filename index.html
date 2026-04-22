@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0" />
+<meta name="theme-color" content="#0b1230" />
 <title>CSOM™ Global — Customer Success Operating Model</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,7 +57,13 @@
     -webkit-font-smoothing: antialiased;
     font-feature-settings: "ss01", "cv11";
     overflow-x: hidden;
+    /* Mobile-friendly: suppress the blue tap-highlight flash on
+       anchors/buttons, stop the rubber-band bounce past page edges,
+       and kill the 300ms double-tap zoom delay on interactive controls. */
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
   }
+  a, button, .btn, .nav-cta, .menu-btn { touch-action: manipulation; }
   body {
     /* Pure brand gradient backdrop — no dark scrim. Text containers
        (cards, panels, nav, fails table, narration, etc.) carry their
@@ -5321,15 +5328,16 @@
   })();
 
   /* =============== BUTTERFLY SCROLL TRAVEL ==============
-     Fly-across pattern (same idea as the globe, with two upgrades):
+     Fly-across pattern (same idea as the globe, with three upgrades):
      1) A --morph CSS var drives an emergence "pupa → wings unfurl"
         on first appearance at the top-right of #practitioners.
      2) A continuous rAF loop tweens the displayed position toward
-        the scroll-derived target every frame (not just on scroll
-        events) — so the butterfly floats smoothly between stops
-        instead of jumping, and keeps bobbing as you read.
-     The butterfly is tilted toward its horizontal velocity so the
-     direction of flight reads naturally. */
+        the scroll-derived target — so flight floats smoothly rather
+        than snapping to scroll events.
+     3) Responsive: stops + scale pulled toward centre on narrow
+        viewports; rAF is paused via IntersectionObserver when the
+        active sections are far from the viewport; resize re-reads
+        stops so zoom and orientation changes adjust automatically. */
   (function () {
     const bfStage = document.getElementById('butterflyStage');
     if (!bfStage) return;
@@ -5352,33 +5360,81 @@
       return;
     }
 
-    const bfStops = [
-      { el: pHead,    top: 48, left: 86, scale: 0.35 },  // enter top-right, emerging
-      { el: pQuote,   top: 52, left: 18, scale: 1.10 },  // full bloom, left of quote
-      { el: pSkills,  top: 58, left: 86, scale: 0.65 },  // smaller, mid-right
-      { el: pGives,   top: 40, left: 16, scale: 1.00 },  // big again, upper-left
-      { el: bHead,    top: 30, left: 84, scale: 0.50 },  // flying away, smaller, top-right
-      { el: bringSec, top: 22, left: 90, scale: 0.30 },  // near-exit, tiny
-    ].filter(s => s.el);
-
-    function bfLerp(a, b, t) { return a + (b - a) * t; }
-    function bfSmooth(t)     { return t * t * (3 - 2 * t); }
+    function bfLerp(a, b, t)    { return a + (b - a) * t; }
+    function bfSmooth(t)        { return t * t * (3 - 2 * t); }
     function bfClamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
 
-    /* Target values (scroll-derived) vs. current displayed values.
-       Each frame we lerp displayed → target at a fixed rate so motion
-       is smooth regardless of scroll cadence. */
+    /* Stops adapt to viewport width. On phones we:
+         — pull `left` positions closer to centre (30/70 instead of 16/86)
+         — cap the biggest scale at 0.8 so the butterfly fits in frame
+         — drop the 6-stop path to 4 so each transition is clearer.
+       On tablets a middle tier scales in between. */
+    let bfStops = [];
+    function buildStops() {
+      const w = window.innerWidth;
+      if (w < 520) {
+        bfStops = [
+          { el: pHead,    top: 46, left: 78, scale: 0.32 },
+          { el: pQuote,   top: 52, left: 50, scale: 0.80 },
+          { el: pGives,   top: 44, left: 50, scale: 0.72 },
+          { el: bringSec, top: 24, left: 78, scale: 0.28 },
+        ].filter(s => s.el);
+      } else if (w < 900) {
+        bfStops = [
+          { el: pHead,    top: 46, left: 80, scale: 0.34 },
+          { el: pQuote,   top: 52, left: 28, scale: 0.95 },
+          { el: pSkills,  top: 58, left: 80, scale: 0.55 },
+          { el: pGives,   top: 42, left: 26, scale: 0.85 },
+          { el: bHead,    top: 30, left: 80, scale: 0.45 },
+          { el: bringSec, top: 24, left: 86, scale: 0.28 },
+        ].filter(s => s.el);
+      } else {
+        bfStops = [
+          { el: pHead,    top: 48, left: 86, scale: 0.35 },
+          { el: pQuote,   top: 52, left: 18, scale: 1.10 },
+          { el: pSkills,  top: 58, left: 86, scale: 0.65 },
+          { el: pGives,   top: 40, left: 16, scale: 1.00 },
+          { el: bHead,    top: 30, left: 84, scale: 0.50 },
+          { el: bringSec, top: 22, left: 90, scale: 0.30 },
+        ].filter(s => s.el);
+      }
+    }
+    buildStops();
+
+    /* Current (displayed) vs target (scroll-derived) values; each
+       frame we lerp current → target for smooth floating motion. */
     let curLeft = bfStops[0].left, curTop = bfStops[0].top, curScale = bfStops[0].scale;
     let curRot  = 0;
     let prevLeft = curLeft;
-    const SMOOTH = 0.09;        // higher = snappier; lower = floatier
+    const SMOOTH = 0.10;
+
+    /* rAF gating: only animate when the flight zone is within
+       ~1 viewport of being visible. Saves CPU on the rest of the
+       page — especially on mobile where idle rAF drains battery. */
+    let rafActive = false;
+    let rafId     = 0;
+
+    const activationIO = new IntersectionObserver((entries) => {
+      let anyActive = false;
+      entries.forEach((e) => { if (e.isIntersecting) anyActive = true; });
+      if (anyActive && !rafActive) {
+        rafActive = true;
+        rafId = requestAnimationFrame(tick);
+      } else if (!anyActive && rafActive) {
+        rafActive = false;
+        cancelAnimationFrame(rafId);
+        bfStage.style.opacity = '0';
+        bfStage.classList.add('is-hidden');
+      }
+    }, { rootMargin: '100% 0px 100% 0px' });
+    activationIO.observe(practitionerSec);
+    activationIO.observe(bringSec);
+    if (contactSec) activationIO.observe(contactSec);
 
     function computeTargets() {
       const vh       = window.innerHeight;
       const vhCentre = vh / 2;
 
-      /* Morph (emergence): 0 while #practitioners is still below viewport;
-         ramps to 1 as the headline scrolls past 55% of viewport height. */
       const pRect = practitionerSec.getBoundingClientRect();
       const mStart = vh * 0.90;
       const mEnd   = vh * 0.45;
@@ -5386,7 +5442,6 @@
       morph = bfClamp(morph, 0, 1);
       morph = bfSmooth(morph);
 
-      /* Stage opacity: fade in with morph, fade out as #contact approaches. */
       let opacity = morph;
       if (contactSec) {
         const cRect = contactSec.getBoundingClientRect();
@@ -5399,8 +5454,6 @@
         }
       }
 
-      /* Measure stops and lerp between the two endpoints the viewport
-         centre currently sits between. */
       const measured = bfStops.map(s => {
         const r = s.el.getBoundingClientRect();
         return { top: s.top, left: s.left, scale: s.scale, y: r.top + r.height / 2 };
@@ -5428,17 +5481,16 @@
     }
 
     function tick() {
+      if (!rafActive) return;
       const T = computeTargets();
 
-      /* Ease displayed values toward targets. */
       curLeft  += (T.tgtLeft  - curLeft)  * SMOOTH;
       curTop   += (T.tgtTop   - curTop)   * SMOOTH;
       curScale += (T.tgtScale - curScale) * SMOOTH;
 
-      /* Tilt toward horizontal velocity so the body leads the motion. */
       const dx = curLeft - prevLeft;
       prevLeft = curLeft;
-      const targetRot = bfClamp(dx * -4, -14, 14);   // sign inverted so right-ward motion tilts right
+      const targetRot = bfClamp(dx * -4, -14, 14);
       curRot += (targetRot - curRot) * 0.12;
 
       bfStage.style.setProperty('--morph', T.morph.toFixed(3));
@@ -5455,10 +5507,16 @@
           'scale3d(' + curScale.toFixed(3) + ', ' + curScale.toFixed(3) + ', 1)';
       }
 
-      requestAnimationFrame(tick);
+      rafId = requestAnimationFrame(tick);
     }
 
-    requestAnimationFrame(tick);
+    /* Rebuild stops on resize (covers zoom, orientation change,
+       devtools dock toggling, address-bar show/hide on mobile). */
+    let resizeTimer = 0;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(buildStops, 120);
+    });
   })();
 
   /* =============== BUILD-TRAILS CANVAS (#audience) ==============
