@@ -2084,6 +2084,116 @@
   .contact-panel-form   { --panel-glow: rgba(255, 207, 84, 0.24); }
   .contact-panel-direct { --panel-glow: rgba(90, 169, 255, 0.28); }
 
+  /* Single consolidated contact panel: centered, constrained width */
+  .contact-panel-single {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .contact-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 720px) {
+    .contact-form-row { grid-template-columns: 1fr; }
+  }
+
+  /* Styled select — matches .field-input visual, with custom chevron */
+  .field-select-wrap { position: relative; }
+  .field-select {
+    width: 100%;
+    padding: 14px 44px 14px 18px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(0, 0, 0, 0.42);
+    color: #fff;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.45;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: border-color .2s var(--ease), background .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .field-select:focus {
+    border-color: #ffd166;
+    background: rgba(0, 0, 0, 0.58);
+    box-shadow: 0 0 0 3px rgba(255, 207, 84, 0.16), 0 0 24px rgba(255, 207, 84, 0.12);
+  }
+  .field-select option {
+    background: #0a1024;
+    color: #fff;
+  }
+  .field-select:invalid { color: rgba(255, 255, 255, 0.45); }
+  .field-select-chevron {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.55);
+    pointer-events: none;
+  }
+
+  /* Direct-lines row below the form */
+  .contact-direct { margin-top: 30px; }
+  .contact-direct-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+    color: var(--ink-3);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .contact-direct-divider::before,
+  .contact-direct-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  }
+  .contact-direct-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 22px;
+  }
+  .contact-direct-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffd166;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14.5px;
+    text-decoration: none;
+    padding: 10px 4px;
+    transition: color .2s var(--ease), gap .25s var(--ease);
+  }
+  .contact-direct-email:hover { color: #ffe28c; gap: 14px; }
+  .contact-direct-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #ffd166;
+    box-shadow: 0 0 10px #ffd166;
+  }
+  .contact-direct-arrow {
+    transition: transform .25s var(--ease);
+  }
+  .contact-direct-email:hover .contact-direct-arrow { transform: translateX(3px); }
+  .contact-direct-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    padding: 10px 18px;
+  }
+
   .panel-eyebrow {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 11px;
@@ -4311,7 +4421,6 @@
       <li><a href="#audience">Who It's For</a></li>
       <li><a href="#practitioners">For Practitioners</a></li>
       <li><a href="#bring">Training</a></li>
-      <li><a href="#contact">Contact</a></li>
     </ul>
     <a href="#contact" class="nav-cta">Talk to Us →</a>
     <button class="menu-btn" aria-label="Open menu">
@@ -4959,15 +5068,13 @@
       </p>
     </div>
 
-    <div class="contact-grid">
+    <div class="contact-panel contact-panel-single contact-panel-form reveal">
+      <span class="panel-eyebrow">Send a Signal</span>
+      <h3 class="panel-title">Send a note</h3>
+      <p class="panel-lede">Four fields, no gatekeeping. Tell us what you&rsquo;re wrestling with — we&rsquo;ll reply within two working days.</p>
 
-      <!-- Form panel -->
-      <div class="contact-panel contact-panel-form reveal">
-        <span class="panel-eyebrow">Send a Signal</span>
-        <h3 class="panel-title">Send a note</h3>
-        <p class="panel-lede">Four fields, no gatekeeping. Tell us what you&rsquo;re wrestling with — we&rsquo;ll reply within two working days.</p>
-
-        <form class="contact-form" id="contactFormMain" novalidate>
+      <form class="contact-form" id="contactFormMain" novalidate>
+        <div class="contact-form-row">
           <label class="field" data-field="name">
             <span class="field-label">Your name</span>
             <input class="field-input" type="text" name="name" required autocomplete="name" placeholder="What should we call you?" />
@@ -4978,97 +5085,50 @@
             <input class="field-input" type="email" name="email" required autocomplete="email" placeholder="you@company.com" inputmode="email" />
             <span class="field-error">Please enter a valid email address (e.g. you@company.com).</span>
           </label>
-          <div class="field">
-            <span class="field-label">What brings you here?</span>
-            <div class="field-radio-group" role="radiogroup" aria-label="What brings you here?">
-              <label class="field-radio">
-                <input type="radio" name="reason" value="cohort" />
-                <span>I want to join a SIAM cohort</span>
-              </label>
-              <label class="field-radio">
-                <input type="radio" name="reason" value="conversation" />
-                <span>I&rsquo;d like to have a conversation about CSOM</span>
-              </label>
-              <label class="field-radio">
-                <input type="radio" name="reason" value="uplift" />
-                <span>I&rsquo;m an ITIL/SIAM/CS practitioner looking to uplift my skills</span>
-              </label>
-              <label class="field-radio">
-                <input type="radio" name="reason" value="follow" />
-                <span>I want to follow the CSOM journey</span>
-              </label>
-              <label class="field-radio">
-                <input type="radio" name="reason" value="other" />
-                <span>Something else</span>
-              </label>
-            </div>
+        </div>
+        <label class="field" data-field="reason">
+          <span class="field-label">What brings you here?</span>
+          <div class="field-select-wrap">
+            <select class="field-select" name="reason">
+              <option value="" disabled selected>Choose one…</option>
+              <option value="cohort">I want to join a SIAM cohort</option>
+              <option value="conversation">I&rsquo;d like to have a conversation about CSOM</option>
+              <option value="uplift">I&rsquo;m an ITIL/SIAM/CS practitioner looking to uplift my skills</option>
+              <option value="follow">I want to follow the CSOM journey</option>
+              <option value="other">Something else</option>
+            </select>
+            <svg class="field-select-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
           </div>
-          <label class="field" data-field="message">
-            <span class="field-label">What&rsquo;s on your mind?</span>
-            <textarea class="field-textarea" name="message" rows="4" required placeholder="A sentence or two is enough. We&rsquo;ll follow up with the right questions."></textarea>
-            <span class="field-error">A sentence or two helps us reply meaningfully.</span>
-          </label>
-          <button type="submit" class="btn btn-primary contact-submit">
-            Send a signal
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </button>
-        </form>
-      </div>
+        </label>
+        <label class="field" data-field="message">
+          <span class="field-label">What&rsquo;s on your mind?</span>
+          <textarea class="field-textarea" name="message" rows="3" required placeholder="A sentence or two is enough. We&rsquo;ll follow up with the right questions."></textarea>
+          <span class="field-error">A sentence or two helps us reply meaningfully.</span>
+        </label>
+        <button type="submit" class="btn btn-primary contact-submit">
+          Send a signal
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </form>
 
-      <!-- Direct reach-out panel -->
-      <div class="contact-panel contact-panel-direct reveal">
-        <span class="panel-eyebrow">Direct Lines</span>
-        <h3 class="panel-title">Skip the form.</h3>
-        <p class="panel-lede">If the context is already in your head, these land just as well.</p>
-
-        <div class="reach-list">
-          <div class="reach-option">
-            <div class="reach-head">
-              <div class="reach-orbit" aria-hidden="true" style="--reach-color: #ffd166;">
-                <div class="reach-planet"></div>
-              </div>
-              <h4 class="reach-name">Direct email</h4>
-            </div>
-            <p class="reach-desc">
-              Faster if you already know what you want to ask. Goes straight to a practitioner — not a shared inbox.
-            </p>
-            <a class="reach-link" href="mailto:contact@csom.global" style="--reach-color: #ffd166;">
-              contact@csom.global →
-            </a>
-          </div>
-
-          <blockquote class="reach-pullquote">
-            <p>
-              Bring the question you keep circling — not the polished version of it.
-              The real one your slide deck doesn&rsquo;t quite capture.
-              We&rsquo;d rather wrestle with what&rsquo;s unresolved than rehearse what&rsquo;s already known.
-            </p>
-            <cite>What we mean by &ldquo;reach out.&rdquo;</cite>
-          </blockquote>
-
-          <div class="reach-option">
-            <div class="reach-head">
-              <div class="reach-orbit" aria-hidden="true" style="--reach-color: #5aa9ff;">
-                <div class="reach-planet"></div>
-              </div>
-              <h4 class="reach-name">Book a practitioner call</h4>
-            </div>
-            <p class="reach-desc">
-              Thirty minutes on the calendar. Bring one real question — we&rsquo;ll skip the pitch and work on it together.
-            </p>
-            <a class="btn btn-primary reach-btn"
-               href="https://calendar.app.google/thqqvcQyunDvD3pD7"
-               target="_blank" rel="noopener">
-              Book a practitioner call
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </a>
-            <span class="reach-fineprint">
-              Your timezone. Your language, if we share one. No pitch, no script — just honest thinking, out loud.
-            </span>
-          </div>
+      <div class="contact-direct">
+        <div class="contact-direct-divider"><span>Or reach out directly</span></div>
+        <div class="contact-direct-actions">
+          <a class="contact-direct-email" href="mailto:contact@csom.global">
+            <span class="contact-direct-dot" aria-hidden="true"></span>
+            contact@csom.global
+            <span class="contact-direct-arrow">→</span>
+          </a>
+          <a class="btn btn-ghost contact-direct-btn"
+             href="https://calendar.app.google/thqqvcQyunDvD3pD7"
+             target="_blank" rel="noopener">
+            Book a 30-min practitioner call
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -5429,7 +5489,17 @@
       const fd = new FormData(contactFormMain);
       const name    = (fd.get('name')    || '').toString().trim();
       const email   = (fd.get('email')   || '').toString().trim();
+      const reason  = (fd.get('reason')  || '').toString().trim();
       const message = (fd.get('message') || '').toString().trim();
+
+      const reasonLabels = {
+        cohort:       'Join a SIAM cohort',
+        conversation: 'Have a conversation about CSOM',
+        uplift:       'Uplift ITIL / SIAM / CS practitioner skills',
+        follow:       'Follow the CSOM journey',
+        other:        'Something else',
+      };
+      const reasonLabel = reasonLabels[reason] || '';
 
       // Reset prior errors
       ['name', 'email', 'message'].forEach((n) => setInvalid(n, false));
@@ -5465,8 +5535,10 @@
       }
 
       // All good — compose mail
-      const subject = `CSOM\u2122 \u00b7 Signal from ${name}`;
-      const body = `From: ${name} <${email}>\n\n${message}\n\n\u2014 Sent from csom.global`;
+      const subjectSuffix = reasonLabel ? ` \u00b7 ${reasonLabel}` : '';
+      const subject = `CSOM\u2122 \u00b7 Signal from ${name}${subjectSuffix}`;
+      const reasonLine = reasonLabel ? `Reason: ${reasonLabel}\n\n` : '';
+      const body = `From: ${name} <${email}>\n\n${reasonLine}${message}\n\n\u2014 Sent from csom.global`;
       const href = `mailto:contact@csom.global?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = href;
 
