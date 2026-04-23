@@ -3428,6 +3428,64 @@
     gap: clamp(16px, 1.8vw, 22px);
     width: 100%;
   }
+  /* Two orbits — same card styling as disciplines, but held in their
+     own band with a soft "The two orbits" eyebrow + hairline rule so
+     the 7 + 2 split reads visually. 2-col desktop, 1-col under 720px. */
+  .orbit-band {
+    max-width: 1440px;
+    margin: clamp(28px, 3.6vw, 44px) auto 0;
+    padding: 0 28px;
+  }
+  .orbit-band-head {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: clamp(14px, 1.6vw, 20px);
+  }
+  .orbit-band-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--brand-orange-lt);
+    flex: 0 0 auto;
+  }
+  .orbit-band-rule {
+    flex: 1 1 auto;
+    height: 1px;
+    background: linear-gradient(90deg,
+      color-mix(in srgb, var(--ink-body) 18%, transparent) 0%,
+      color-mix(in srgb, var(--ink-body) 4%, transparent) 100%);
+  }
+  .orbit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 1.8vw, 22px);
+    width: 100%;
+  }
+  @media (max-width: 720px) {
+    .orbit-grid { grid-template-columns: 1fr; }
+  }
+  /* Orbit-card visual differentiator: slightly tinted background +
+     left accent stripe so orbits read as "binding layer" rather than
+     another discipline. .dc-num carries "Inner" / "Outer" text here
+     instead of a zero-padded number. */
+  .orbit-card {
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--acc) 5%, #ffffff) 0%,
+      #ffffff 100%);
+    border-left: 3px solid var(--acc);
+  }
+  .orbit-card .dc-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--acc);
+    padding-top: 8px;
+  }
   .discipline-card {
     position: relative;
     background: #ffffff;
@@ -7941,6 +7999,50 @@
             <li>Onboarding &amp; adoption</li>
             <li>Retention &amp; expansion</li>
             <li>Transaction &rarr; relationship</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <!-- Two orbits — the pair that binds the seven disciplines.
+         Same card vocabulary as .discipline-card for visual continuity,
+         wrapped in their own band with a small "The two orbits" label
+         so the "7 + 2" conceptual distinction reads clearly. -->
+    <div class="orbit-band reveal">
+      <div class="orbit-band-head">
+        <span class="orbit-band-eyebrow">The two orbits</span>
+        <span class="orbit-band-rule" aria-hidden="true"></span>
+      </div>
+      <div class="orbit-grid">
+        <article class="discipline-card orbit-card" style="--acc: var(--p8);">
+          <div class="dc-head">
+            <div class="dc-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7" opacity="0.55"/><circle cx="12" cy="12" r="10.5" opacity="0.3"/></svg>
+            </div>
+            <span class="dc-num">Inner</span>
+          </div>
+          <h3 class="dc-title">Data &amp; Intelligence</h3>
+          <p class="dc-desc">The sensing layer. Telemetry, AI, and analytics that surround the system &mdash; proving the Value Sun is shining.</p>
+          <ul class="dc-bullets">
+            <li>Telemetry &amp; signal</li>
+            <li>Models &amp; attribution</li>
+            <li>Decisions across the stack</li>
+          </ul>
+        </article>
+
+        <article class="discipline-card orbit-card" style="--acc: var(--p9);">
+          <div class="dc-head">
+            <div class="dc-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3.2-6.9"/><polyline points="21 4 21 10 15 10"/></svg>
+            </div>
+            <span class="dc-num">Outer</span>
+          </div>
+          <h3 class="dc-title">Continual Improvement</h3>
+          <p class="dc-desc">The compounding layer. Feedback loops, maturity models, and learning systems that evolve the model as fast as the world around it.</p>
+          <ul class="dc-bullets">
+            <li>Retro &amp; review rhythm</li>
+            <li>Maturity &amp; measurement loops</li>
+            <li>Compounding gains</li>
           </ul>
         </article>
       </div>
