@@ -6705,30 +6705,40 @@
       transparent 100%
     );
   }
-  .diagnosis-part2-head {
+  /* Part 2 header — mirrors the "shape of the system" pattern:
+     eyebrow + Space-Grotesk title + calm lede. Scoped overrides keep
+     Part 2 visually subordinate to Part 1's hero title (smaller,
+     centered, no text-shadow on the light surface). */
+  #diagnosis.light-surface .diagnosis-part2-head {
     max-width: 1280px;
     margin: clamp(1.6rem, 3vw, 2.2rem) auto 0;
     padding: 0 clamp(24px, 4vw, 40px);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
   }
-  .diagnosis-part2-title {
+  #diagnosis.light-surface .diagnosis-part2-head .section-eyebrow {
+    margin-bottom: 0;
+  }
+  #diagnosis.light-surface .diagnosis-part2-title {
+    /* Smaller than Part 1's hero title so the hierarchy reads as
+       "same section, second beat" -- not a new section. */
+    font-size: clamp(24px, 2.6vw, 36px);
+    line-height: 1.12;
+    letter-spacing: -0.018em;
     margin: 0;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: clamp(22px, 2.4vw, 32px);
-    line-height: 1.18;
-    letter-spacing: -0.015em;
-    color: var(--ink-dark);
+    max-width: 22ch;
+    text-shadow: none;
   }
-  .diagnosis-part2-lede {
-    margin: clamp(14px, 1.6vw, 20px) auto 0;
-    max-width: 640px;
-    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
-    font-style: italic;
-    font-weight: 500;
-    font-size: clamp(16px, 1.4vw, 20px);
-    line-height: 1.4;
+  #diagnosis.light-surface .diagnosis-part2-lede {
+    margin: 0 auto;
+    max-width: 52ch;
+    font-size: clamp(15px, 1.15vw, 17px);
+    line-height: 1.55;
     color: var(--ink-body);
+    text-shadow: none;
   }
   /* Legacy anchors: keep external deep-links to #fails and #rewritten landing on merged section */
   .anchor-legacy {
@@ -7361,12 +7371,13 @@
   <!-- ═══════════ PART 1 → PART 2 transition ═══════════ -->
   <div class="diagnosis-divider reveal" role="presentation"></div>
   <header class="diagnosis-part2-head reveal">
-    <h3 class="diagnosis-part2-title">
+    <span class="section-eyebrow">Look closer.</span>
+    <h3 class="section-title diagnosis-part2-title">
       Most organisations aren&rsquo;t failing at strategy.<br/>
-      They&rsquo;re failing at the operating model&nbsp;underneath&nbsp;it.
+      They&rsquo;re failing at the operating&nbsp;model underneath&nbsp;it.
     </h3>
-    <p class="diagnosis-part2-lede">
-      Here&rsquo;s how it shows up in your organisation:
+    <p class="section-lede diagnosis-part2-lede">
+      Here&rsquo;s how it shows up in your organisation.
     </p>
   </header>
 
