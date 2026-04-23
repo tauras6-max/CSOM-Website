@@ -5507,6 +5507,186 @@
     .training-row { grid-template-columns: 1fr; gap: 4px; }
   }
 
+  /* ---- Practitioners section (light-surface overrides) ---- */
+  .light-surface .practitioner-quote {
+    position: relative;
+    max-width: none;
+    margin: 0 0 20px;
+    padding: 20px 24px;
+    border-radius: 14px;
+    border: 1px solid var(--light-line);
+    border-left: 3px solid var(--brand-orange);
+    background: var(--light-bg-soft);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .light-surface .practitioner-quote p {
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(15px, 1.35vw, 17px);
+    line-height: 1.55;
+    color: var(--ink-dark);
+    margin: 0;
+  }
+  .light-surface .practitioner-bridge {
+    position: relative;
+    max-width: none;
+    margin: 0 0 8px;
+    text-align: left;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-style: normal;
+    font-size: clamp(15px, 1.2vw, 17px);
+    line-height: 1.6;
+    color: var(--ink-body);
+  }
+  .light-surface .practitioner-bridge strong {
+    font-weight: 700;
+    color: var(--ink-dark);
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+
+  /* Skills-gap table on white canvas */
+  .skills-gap-wrap {
+    max-width: 1240px;
+    margin: clamp(36px, 5vw, 60px) auto 0;
+    padding: 0 28px;
+  }
+  .light-surface .skills-gap-table {
+    position: relative;
+    border-radius: 16px;
+    border: 1px solid var(--light-line);
+    background: var(--light-bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    overflow: hidden;
+    margin-bottom: 0;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+  }
+  .light-surface .sgt-row {
+    border-bottom: 1px solid var(--light-line);
+  }
+  .light-surface .sgt-row:not(.sgt-head):hover { background: var(--light-bg-soft); }
+  .light-surface .sgt-cell {
+    color: var(--ink-body);
+    padding: 18px 22px;
+    font-size: 14.5px;
+  }
+  .light-surface .sgt-cell + .sgt-cell {
+    border-left: 1px solid var(--light-line);
+  }
+  .light-surface .sgt-head {
+    background: var(--light-bg-soft);
+  }
+  .light-surface .sgt-head .sgt-cell {
+    color: var(--ink-muted);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .light-surface .sgt-head .sgt-adds { color: var(--brand-orange); }
+  .light-surface .sgt-bg strong {
+    color: var(--ink-dark);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    letter-spacing: .02em;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .light-surface .sgt-bg strong::before {
+    content: "";
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--brand-green);
+    flex-shrink: 0;
+  }
+  .light-surface .sgt-row:nth-of-type(3) .sgt-bg strong::before { background: var(--brand-green); }
+  .light-surface .sgt-row:nth-of-type(4) .sgt-bg strong::before { background: var(--brand-yellow); }
+  .light-surface .sgt-row:nth-of-type(5) .sgt-bg strong::before { background: var(--brand-orange); }
+  .light-surface .sgt-strong {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-style: normal;
+    color: var(--ink-body);
+  }
+  @media (max-width: 820px) {
+    .light-surface .sgt-cell + .sgt-cell {
+      border-left: 0;
+      border-top: 1px dashed var(--light-line);
+    }
+    .light-surface .sgt-strong::before,
+    .light-surface .sgt-adds::before { color: var(--ink-muted); }
+    .light-surface .sgt-adds::before { color: var(--brand-orange); }
+  }
+
+  /* Gives hairline cards ("What CSOM gives you as a practitioner") */
+  .gives-wrap {
+    max-width: 1240px;
+    margin: clamp(40px, 6vw, 64px) auto 0;
+    padding: 0 28px;
+  }
+  .gives-wrap-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    color: var(--ink-dark);
+    margin: 0 0 24px;
+  }
+  .gives-wrap-title .tm { font-size: 0.55em; vertical-align: super; font-weight: 600; opacity: 0.7; }
+  .gives-band {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+  }
+  .gives-card {
+    position: relative;
+    padding: 20px 4px 4px;
+    border-top: 2px solid var(--brand-orange);
+    background: transparent;
+  }
+  .gives-card:nth-child(1) { border-top-color: var(--brand-blue); }
+  .gives-card:nth-child(2) { border-top-color: var(--brand-green); }
+  .gives-card:nth-child(3) { border-top-color: var(--brand-orange); }
+  .gives-card:nth-child(4) { border-top-color: var(--brand-yellow); }
+  .gives-card .g-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--ink-muted);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .gives-card:nth-child(1) .g-num { color: var(--brand-blue); }
+  .gives-card:nth-child(2) .g-num { color: var(--brand-green); }
+  .gives-card:nth-child(3) .g-num { color: var(--brand-orange); }
+  .gives-card:nth-child(4) .g-num { color: var(--brand-yellow); }
+  .gives-card h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink-dark);
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+  .gives-card p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-body);
+    margin: 0;
+  }
+  @media (max-width: 1100px) {
+    .gives-band { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  }
+  @media (max-width: 620px) {
+    .gives-band { grid-template-columns: 1fr; gap: 14px; }
+  }
+
   /* ---- Slide-3 pillar card grid ---- */
   .pillar-grid-wrap {
     max-width: 1240px;
@@ -6715,34 +6895,40 @@
   </div>
 </section>
 
-<!-- =============== FOR PRACTITIONERS — skills gap + what CSOM adds =============== -->
-<section id="practitioners">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="section-eyebrow">For ITIL · SIAM · Customer Success practitioners</span>
-      <h2 class="section-title">You know the frameworks. <span class="accent">Now build the model.</span></h2>
-      <p class="section-lede">
+<!-- =============== FOR PRACTITIONERS — split-intro + hairline cards =============== -->
+<section class="light-surface" id="practitioners" aria-labelledby="practitionersTitle">
+  <div class="split-intro reveal">
+    <div class="split-intro-left">
+      <span class="section-eyebrow">For ITIL &middot; SIAM &middot; Customer Success practitioners</span>
+      <h2 class="section-title" id="practitionersTitle">
+        You know the frameworks.<br/>Now build the model.
+      </h2>
+      <span class="serif-gradient">The career&nbsp;gap, closed.</span>
+    </div>
+    <div class="split-intro-right section-body">
+      <p>
         You&rsquo;ve spent years inside these frameworks. The hardest skill
         isn&rsquo;t getting certified &mdash; it&rsquo;s connecting them into
         a model your customer can feel.
       </p>
-    </div>
 
-    <blockquote class="practitioner-quote reveal">
-      <p>
-        &ldquo;You can be certified in ITIL, accredited in SIAM, and trained in
-        Customer Success &mdash; and still not know how to build a model that proves
-        value to a customer.&rdquo;
+      <blockquote class="practitioner-quote">
+        <p>
+          &ldquo;You can be certified in ITIL, accredited in SIAM, and trained in
+          Customer Success &mdash; and still not know how to build a model that
+          proves value to a customer.&rdquo;
+        </p>
+      </blockquote>
+
+      <p class="practitioner-bridge">
+        That gap is real. And it is a career gap, not just an organisational one.
+        <strong>CSOM<span class="tm">&trade;</span> closes it.</strong>
       </p>
-    </blockquote>
+    </div>
+  </div>
 
-    <p class="practitioner-bridge reveal">
-      That gap is real. And it is a career gap, not just an organisational one.
-      <strong>CSOM closes it.</strong>
-    </p>
-
-    <div class="practitioner-split">
-    <div class="skills-gap-table reveal" role="table" aria-label="What CSOM adds to each practitioner background">
+  <div class="skills-gap-wrap reveal">
+    <div class="skills-gap-table" role="table" aria-label="What CSOM adds to each practitioner background">
       <div class="sgt-row sgt-head" role="row">
         <div class="sgt-cell sgt-bg" role="columnheader">If you know&hellip;</div>
         <div class="sgt-cell sgt-strong" role="columnheader">You&rsquo;re strong at</div>
@@ -6769,40 +6955,31 @@
         <div class="sgt-cell sgt-adds" role="cell">Leadership influence, change management, programme delivery, whole-model design.</div>
       </div>
     </div>
+  </div>
 
-    <aside class="practitioner-gives reveal">
-      <h3 class="practitioner-gives-title">What CSOM<span class="tm">™</span> gives you<br><span class="pg-sub">as a practitioner</span></h3>
-      <ol class="practitioner-gives-list">
-        <li class="gives-item">
-          <span class="gives-num">01</span>
-          <div>
-            <h4 class="gives-name">The missing connection</h4>
-            <p>ITIL, SIAM, and CS are powerful alone. Together &mdash; structured around Value Realization &mdash; they become an operating model.</p>
-          </div>
-        </li>
-        <li class="gives-item">
-          <span class="gives-num">02</span>
-          <div>
-            <h4 class="gives-name">A framework you can take anywhere</h4>
-            <p>An operating model you can carry into any industry, at any scale.</p>
-          </div>
-        </li>
-        <li class="gives-item">
-          <span class="gives-num">03</span>
-          <div>
-            <h4 class="gives-name">A career differentiator</h4>
-            <p>The market is crowded with certified practitioners. CSOM makes you the one who can build the whole model.</p>
-          </div>
-        </li>
-        <li class="gives-item">
-          <span class="gives-num">04</span>
-          <div>
-            <h4 class="gives-name">A bridge to product</h4>
-            <p>CSOM<span class="tm">&trade;</span> gives ITIL and SIAM practitioners a credible path into Customer Success and Value Engineering roles at product companies &mdash; without abandoning the discipline they&rsquo;ve spent a career building.</p>
-          </div>
-        </li>
-      </ol>
-    </aside>
+  <div class="gives-wrap reveal">
+    <h3 class="gives-wrap-title">What CSOM<span class="tm">&trade;</span> gives you as a practitioner</h3>
+    <div class="gives-band">
+      <article class="gives-card">
+        <span class="g-num">01</span>
+        <h4>The missing connection</h4>
+        <p>ITIL, SIAM, and CS are powerful alone. Together &mdash; structured around Value Realization &mdash; they become an operating model.</p>
+      </article>
+      <article class="gives-card">
+        <span class="g-num">02</span>
+        <h4>A framework you can take anywhere</h4>
+        <p>An operating model you can carry into any industry, at any scale.</p>
+      </article>
+      <article class="gives-card">
+        <span class="g-num">03</span>
+        <h4>A career differentiator</h4>
+        <p>The market is crowded with certified practitioners. CSOM makes you the one who can build the whole model.</p>
+      </article>
+      <article class="gives-card">
+        <span class="g-num">04</span>
+        <h4>A bridge to product</h4>
+        <p>CSOM<span class="tm">&trade;</span> gives ITIL and SIAM practitioners a credible path into Customer Success and Value Engineering roles at product companies &mdash; without abandoning the discipline they&rsquo;ve spent a career building.</p>
+      </article>
     </div>
   </div>
 </section>
