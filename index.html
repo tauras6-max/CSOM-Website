@@ -3168,17 +3168,11 @@
      kicks in when user stops scrolling. Cards fade by angle.
      Prefix `.cg-` (csom gallery) avoids clashing with the
      pre-existing `.orbit-card` / `.planets-*` styles above. */
-  /* Outer shell frames the universe as an inset panel on white canvas */
-  .universe-shell {
-    background: var(--light-bg);
-    padding: clamp(40px, 5vw, 72px) clamp(16px, 3vw, 32px);
-  }
-  .universe-shell .cg-wrap {
-    border-radius: clamp(20px, 2.4vw, 28px);
-    box-shadow: 0 32px 80px -24px rgba(14, 14, 20, 0.35), 0 8px 24px -8px rgba(14, 14, 20, 0.18);
-    max-width: 1440px;
-    margin: 0 auto;
-  }
+  /* Universe section goes full-bleed — no rounded-corner framing
+     because overflow:hidden on a rounded ancestor fights position:sticky
+     and causes scroll judder. We get the "belonging to the brand"
+     feeling from the recoloured planets + brand sunset gradient alone. */
+  .universe-shell { background: transparent; padding: 0; }
   .cg-wrap {
     position: relative;
     width: 100%;
@@ -3190,9 +3184,6 @@
     overflow: hidden;
     font-family: 'Space Grotesk', 'Inter', sans-serif;
   }
-  /* Keep position:sticky behaviour untouched — modern browsers clip sticky
-     descendants against a rounded + overflow:hidden ancestor correctly. */
-  .universe-shell .cg-sticky { border-radius: inherit; }
   .cg-sticky {
     position: sticky;
     top: 0;
