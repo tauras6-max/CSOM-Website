@@ -1239,6 +1239,11 @@
     padding: clamp(80px, 12vw, 140px) clamp(20px, 4vw, 28px);
     overflow: hidden;
   }
+  /* #model: clean white section background -- the left column is its
+     own dark card, so the surrounding section reads as a calm canvas. */
+  #model {
+    background: #ffffff;
+  }
   .solar .wrap {
     text-align: center;
   }
@@ -3060,7 +3065,15 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    max-width: 460px;
+    max-width: 520px;
+    /* Dark card treatment: section bg is white, the text + list column
+       becomes a near-black card with white text, mirroring the
+       "content boxed in, canvas clean" pattern. */
+    background: #0E0E14;
+    color: #ffffff;
+    border-radius: 20px;
+    padding: clamp(28px, 3.2vw, 40px);
+    box-shadow: 0 24px 60px -24px rgba(6, 10, 20, 0.28);
   }
   .model-info .section-eyebrow,
   .model-info .section-title,
@@ -3069,8 +3082,6 @@
     margin: 0;
     max-width: none;
   }
-  /* Match the practitioners section palette: orange-lt eyebrow, dark-ink
-     title, body-ink lede — instead of the global dark-theme white. */
   .model-info .section-eyebrow {
     color: var(--brand-orange-lt);
     font-family: 'Space Grotesk', sans-serif;
@@ -3080,19 +3091,22 @@
     font-weight: 700;
     display: block;
     margin-bottom: 4px;
+    text-shadow: none;
   }
   .model-info .section-title {
-    color: var(--ink-dark);
+    color: #ffffff;
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
     line-height: 1.06;
     letter-spacing: -0.025em;
     font-size: clamp(30px, 3.2vw, 44px);
+    text-shadow: none;
   }
   .model-info .section-lede {
-    color: var(--ink-body);
+    color: rgba(255, 255, 255, 0.78);
     font-size: clamp(14px, 1.1vw, 16px);
     line-height: 1.65;
+    text-shadow: none;
   }
   /* Practitioners-style third tier: Fraunces italic with brand gradient.
      Mirrors .light-surface .serif-gradient but scaled to the model-info
@@ -3113,40 +3127,39 @@
     color: transparent;
   }
 
-  /* Light-surface variant of the glass disciplines list + orbit legend
-     (styled dark by default for use inside the sunset-gradient
-     universe section). Scoped to #model so we don't disturb the dark
-     original. */
+  /* Dark-card variant of the disciplines list + orbit legend.
+     #model's .model-info is a near-black card, so the list reads as
+     translucent white rows inside it; hairline borders stay white-alpha. */
   #model .cg-universe-list {
-    border: 1px solid var(--line, rgba(0, 0, 0, 0.10));
-    background: rgba(255, 255, 255, 0.58);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px rgba(12, 16, 26, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
   }
   #model .cg-ul-head {
-    background: rgba(240, 90, 30, 0.08);
-    border-bottom: 1px solid rgba(12, 16, 26, 0.08);
-    color: var(--brand-orange);
+    background: rgba(240, 90, 30, 0.14);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    color: var(--brand-orange-lt);
   }
   #model .cg-ul-row {
-    border-bottom: 1px solid rgba(12, 16, 26, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
-  #model .cg-ul-row:hover { background: rgba(12, 16, 26, 0.04); }
-  #model .cg-ul-num  { color: rgba(12, 16, 26, 0.38); }
-  #model .cg-ul-name { color: #121109; }
-  #model .cg-ul-epithet { color: rgba(12, 16, 26, 0.55); }
+  #model .cg-ul-row:hover { background: rgba(255, 255, 255, 0.04); }
+  #model .cg-ul-num  { color: rgba(255, 255, 255, 0.45); }
+  #model .cg-ul-name { color: #ffffff; }
+  #model .cg-ul-epithet { color: rgba(255, 255, 255, 0.65); }
 
   #model .cg-orbit-legend {
     margin-top: 6px;
   }
   #model .cg-ol-row {
-    background: rgba(255, 255, 255, 0.62);
-    border: 1px solid var(--acc, rgba(12, 16, 26, 0.12));
-    box-shadow: 0 0 12px color-mix(in srgb, var(--acc, #000) 18%, transparent);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--acc, rgba(255, 255, 255, 0.18));
+    box-shadow: 0 0 12px color-mix(in srgb, var(--acc, #000) 22%, transparent);
   }
-  #model .cg-ol-eyebrow { color: var(--acc, var(--brand-orange)); }
-  #model .cg-ol-name    { color: #121109; }
+  #model .cg-ol-eyebrow { color: var(--acc, var(--brand-orange-lt)); }
+  #model .cg-ol-name    { color: #ffffff; }
 
   /* Stage wrapper — contains the video frame + floating label pills
      (7 disciplines overlaid on the video, 2 orbits outside the frame).
