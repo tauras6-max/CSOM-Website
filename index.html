@@ -1239,10 +1239,10 @@
     padding: clamp(80px, 12vw, 140px) clamp(20px, 4vw, 28px);
     overflow: hidden;
   }
-  /* #model: clean white section background -- the left column is its
-     own dark card, so the surrounding section reads as a calm canvas. */
+  /* #model: warm sunset gradient matches the CSOM Universe planet-card
+     palette; the left column sits on this as a translucent dark glass card. */
   #model {
-    background: #ffffff;
+    background: var(--brand-sunset);
   }
   .solar .wrap {
     text-align: center;
@@ -3066,14 +3066,18 @@
     flex-direction: column;
     gap: 16px;
     max-width: 520px;
-    /* Dark card treatment: section bg is white, the text + list column
-       becomes a near-black card with white text, mirroring the
-       "content boxed in, canvas clean" pattern. */
-    background: #0E0E14;
+    /* Glass-translucent dark card -- same visual family as the
+       CSOM Universe planet cards (.p-card): dark translucent fill,
+       hairline white border, backdrop blur, deep drop shadow. Sits on
+       the warm sunset gradient section background. */
+    background: linear-gradient(180deg, rgba(4, 8, 18, 0.68) 0%, rgba(4, 8, 18, 0.54) 100%);
     color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 20px;
     padding: clamp(28px, 3.2vw, 40px);
-    box-shadow: 0 24px 60px -24px rgba(6, 10, 20, 0.28);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
   }
   .model-info .section-eyebrow,
   .model-info .section-title,
