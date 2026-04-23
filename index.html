@@ -5901,6 +5901,71 @@
     .mission-band { grid-template-columns: 1fr; gap: 18px; }
   }
 
+  /* ---- Fence NOT/IS pairs on white canvas ---- */
+  .fence-wrap {
+    max-width: 1240px;
+    margin: clamp(40px, 6vw, 64px) auto 0;
+    padding: 0 28px;
+  }
+  .light-surface .fence-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--light-line);
+  }
+  .light-surface .fence-pair {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: clamp(24px, 4vw, 48px);
+    padding: 22px 4px;
+    border-bottom: 1px solid var(--light-line);
+    background: transparent;
+    transition: background .2s var(--ease);
+  }
+  .light-surface .fence-pair:hover { background: var(--light-bg-soft); }
+  .light-surface .fence-not,
+  .light-surface .fence-is {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 15px;
+    line-height: 1.55;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--ink-body);
+  }
+  .light-surface .fence-is { color: var(--ink-dark); font-weight: 500; }
+  .light-surface .fence-tag {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 24px;
+    padding: 0 10px;
+    border-radius: 999px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .light-surface .fence-not .fence-tag {
+    color: var(--ink-muted);
+    background: transparent;
+    border: 1px solid var(--light-line-strong);
+  }
+  .light-surface .fence-is .fence-tag {
+    color: #fff;
+    background: var(--brand-orange);
+    border: 1px solid var(--brand-orange);
+  }
+  @media (max-width: 820px) {
+    .light-surface .fence-pair { grid-template-columns: 1fr; gap: 10px; padding: 18px 4px; }
+  }
+
   /* ---- Slide-3 pillar card grid ---- */
   .pillar-grid-wrap {
     max-width: 1240px;
@@ -6517,14 +6582,31 @@
   </div>
 </section>
 
-<!-- =============== THE FENCE — what CSOM is, and what it isn't =============== -->
-<section class="fence has-pillar-grid" id="fence" aria-labelledby="fenceTitle">
-  <div class="wrap">
-    <div class="section-head reveal">
+<!-- =============== THE FENCE — split-intro + NOT/IS pair list =============== -->
+<section class="light-surface fence has-pillar-grid" id="fence" aria-labelledby="fenceTitle">
+  <div class="split-intro reveal">
+    <div class="split-intro-left">
       <span class="section-eyebrow">Before we go further</span>
-      <h2 class="section-title" id="fenceTitle">CSOM<span class="tm" style="color:#FFD054;">™</span> is <span class="accent">not</span> another thing to add. It&rsquo;s the model underneath the things you already have.</h2>
+      <h2 class="section-title" id="fenceTitle">
+        Not another thing<br/>to add.
+      </h2>
+      <span class="serif-gradient">The model underneath what you&nbsp;already have.</span>
     </div>
-    <ul class="fence-list reveal" role="list">
+    <div class="split-intro-right section-body">
+      <p>
+        CSOM<span class="tm">&trade;</span> isn&rsquo;t a replacement for the
+        frameworks you already run &mdash; it&rsquo;s the operating model that
+        lets them finally deliver Value.
+      </p>
+      <p>
+        Six things it&rsquo;s routinely mistaken for, and what it actually is
+        instead.
+      </p>
+    </div>
+  </div>
+
+  <div class="fence-wrap reveal">
+    <ul class="fence-list" role="list">
       <li class="fence-pair">
         <div class="fence-not"><span class="fence-tag">Not</span> a model only for services or outsourcing.</div>
         <div class="fence-is"><span class="fence-tag">Is</span> the operating model that lets SIAM, ITIL, and Customer Success work in both services <em>and</em> product companies.</div>
@@ -6550,79 +6632,8 @@
         <div class="fence-is"><span class="fence-tag">Is</span> a system organised around what the customer actually realizes.</div>
       </li>
     </ul>
-
-    <!-- Pillars diagram — shows CSOM as the connective layer above ITIL / SIAM / CS,
-         and names the 7 disciplines + 2 orbits on the homepage. -->
-    <figure class="pillars-figure reveal" aria-labelledby="pillarsCap">
-      <figcaption id="pillarsCap" class="pillars-cap">
-        CSOM&trade; sits <em>on top</em> of what you already know, not beside it.
-      </figcaption>
-
-      <div class="pillars-diagram" role="img" aria-label="CSOM is the connective layer above ITIL, SIAM, and Customer Success, serving Value Realization">
-        <!-- Top beam: CSOM layer -->
-        <div class="pd-beam">
-          <div class="pd-beam-title">
-            <span class="pd-beam-eyebrow">The connective layer</span>
-            <span class="pd-beam-name">CSOM<span class="tm">&trade;</span> Operating Model</span>
-          </div>
-          <div class="pd-beam-body">
-            <div class="pd-disciplines">
-              <span class="pd-group-label">Seven disciplines</span>
-              <ol class="pd-list">
-                <li>Leadership</li>
-                <li>Organisation Design</li>
-                <li>Program Management</li>
-                <li>Change Management</li>
-                <li>Service Management</li>
-                <li>Ecosystem Integration</li>
-                <li>Customer Success</li>
-              </ol>
-            </div>
-            <div class="pd-orbits">
-              <span class="pd-group-label">Two orbits</span>
-              <ul class="pd-list pd-list-orbits">
-                <li>Data &amp; Intelligence <span class="pd-orbit-role">&middot; inner</span></li>
-                <li>Continual Improvement <span class="pd-orbit-role">&middot; outer</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Drop connectors -->
-        <div class="pd-connectors" aria-hidden="true">
-          <span></span><span></span><span></span>
-        </div>
-
-        <!-- Three pillars -->
-        <div class="pd-pillars">
-          <div class="pd-pillar">
-            <div class="pd-pillar-cap">ITIL</div>
-            <div class="pd-pillar-body">
-              <p>Process. Service design.<br/>Incident &amp; change.</p>
-            </div>
-          </div>
-          <div class="pd-pillar">
-            <div class="pd-pillar-cap">SIAM</div>
-            <div class="pd-pillar-body">
-              <p>Multi-vendor coordination.<br/>Governance. Integration.</p>
-            </div>
-          </div>
-          <div class="pd-pillar">
-            <div class="pd-pillar-cap">Customer Success</div>
-            <div class="pd-pillar-body">
-              <p>Relationships. Adoption.<br/>Retention.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Value sun at the base -->
-        <div class="pd-base">
-          <span class="pd-base-dot" aria-hidden="true"></span>
-          <span class="pd-base-label">All serving &mdash; <strong>Value Realized</strong></span>
-        </div>
-      </div>
-    </figure>
   </div>
+
 </section>
 
 <!-- =============== THE MODEL — slide-2 split intro + slide-3 pillar grid =============== -->
