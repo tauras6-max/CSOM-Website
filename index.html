@@ -7468,7 +7468,7 @@
 </nav>
 
 <!-- =============== HERO =============== -->
-<!-- Fixed butterfly — travels across #audience → #practitioners → #bring, then fades -->
+<!-- Fixed butterfly — fades in with #practitioners, drifts between the split-intro and skills-gap table, fades out at #bring. See BUTTERFLY SCROLL TRAVEL in the JS block. -->
 <div class="butterfly-stage" id="butterflyStage" aria-hidden="true">
   <div class="butterfly-orbit">
     <div class="butterfly">
@@ -8995,20 +8995,23 @@
     `scale3d(${v.scale.toFixed(3)}, ${v.scale.toFixed(3)}, 1)`;
 
   /* =============== BUTTERFLY SCROLL TRAVEL ==============
-     Five fixed section stops mapped to Butterfly Transition.pptx.
-     Wing flap and body drift remain independent CSS animations. */
+     Scoped to #practitioners: the butterfly is the metamorphosis metaphor
+     for the ITIL/SIAM/CS practitioner stepping into the CSOM operating
+     model. Two stops inside #practitioners — upper-right next to the
+     split-intro, then drifting behind the skills-gap table at a wider
+     scale. Fades in as the section approaches; fades out as #bring
+     approaches. Wing flap + body drift remain independent CSS animations.
+     Previous 5-stop travel across #audience → #bring → #contact was
+     retired when those sections were restructured. */
   (function () {
     const bfStage = document.getElementById('butterflyStage');
     if (!bfStage) return;
-    const practitionerSec = document.getElementById('practitioners');
-    const practitionerHead = practitionerSec && practitionerSec.querySelector('.section-head');
-    const skillsGrid       = document.querySelector('#practitioners .skills-gap-table');
+    const practitionerSec  = document.getElementById('practitioners');
+    if (!practitionerSec) return;
+    const splitIntro       = practitionerSec.querySelector('.split-intro');
+    const skillsTable      = practitionerSec.querySelector('.skills-gap-table');
     const bringSec         = document.getElementById('bring');
-    const bringHead        = document.querySelector('#bring .section-head');
-    const coursesGrid      = document.querySelector('#bring .courses-grid');
-    const bringFoot        = document.querySelector('#bring .bring-footnote');
-    const contactSec       = document.getElementById('contact');
-    if (!practitionerSec || !bringSec || !skillsGrid || !coursesGrid) return;
+    if (!splitIntro || !skillsTable) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       bfStage.style.opacity = '1';
@@ -9017,23 +9020,21 @@
       return;
     }
 
-    /* Five stops mapped from Butterfly Transition.pptx:
-       #practitioners head → skills-gap-grid → #bring head → courses-grid → cohort CTA.
-       Stops 2/4/5 centre the butterfly behind card grids with a wide scale so wing
-       tips extend past the grid edges; `op` dims it at those stops so it reads as a
-       subtle accent. Cards are z-index:5 over the z-index:3 butterfly-stage and the
-       section has no isolated stacking context, so cards paint over the body and
-       only the parts outside the card footprint remain visible. */
+    /* Two stops within #practitioners:
+       1. Split-intro: butterfly sits upper-right, scale 1.45, full opacity —
+          reads as an accent alongside the "You've mastered the frameworks" copy.
+       2. Skills-gap-table: butterfly drifts to centre at scale 2.7, dimmed to
+          op: 0.55 so wing tips frame the table without fighting the text.
+       The .practitioner-quote / .practitioner-bridge / skills-gap cells are at
+       z-index:5 so they paint over the z-index:3 butterfly-stage; only the
+       parts of the butterfly outside their footprint remain visible. */
     createScrollStage(bfStage, {
       stops: [
-        { el: practitionerHead || practitionerSec, top: 38, left: 78, scale: 1.45, op: 1.00 },
-        { el: skillsGrid,                          top: 55, left: 50, scale: 2.70, op: 0.70 },
-        { el: bringHead || bringSec,               top: 42, left: 80, scale: 1.55, op: 1.00 },
-        { el: coursesGrid,                         top: 50, left: 52, scale: 2.40, op: 0.70 },
-        { el: bringFoot || coursesGrid,            top: 58, left: 50, scale: 2.75, op: 0.60 },
+        { el: splitIntro,  top: 40, left: 80, scale: 1.45, op: 1.00 },
+        { el: skillsTable, top: 55, left: 50, scale: 2.70, op: 0.55 },
       ],
       fadeIn:  { el: practitionerSec, startVh: 1.00, endVh: 0.55 },
-      fadeOut: contactSec ? { el: contactSec, startVh: 0.95, endVh: 0.35 } : null,
+      fadeOut: bringSec ? { el: bringSec, startVh: 0.85, endVh: 0.35 } : null,
       format:  stageTransform,
     });
   })();
