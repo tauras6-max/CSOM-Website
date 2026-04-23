@@ -5022,6 +5022,13 @@
   #practitioners .split-intro-left,
   #practitioners .split-intro-right { position: relative; z-index: 5; }
   #practitioners .practitioner-gives { position: relative; z-index: 5; }
+  /* Lift the "What CSOM gives you" 4-card grid above the butterfly
+     (the final scroll stop centres the wings behind this grid).
+     Title gets z-index too so it never gets covered by wing tips. */
+  #practitioners .gives-wrap,
+  #practitioners .gives-wrap-title,
+  #practitioners .gives-band,
+  #practitioners .gives-card { position: relative; z-index: 5; }
   .practitioner-quote {
     position: relative;
     z-index: 5;
@@ -9027,6 +9034,7 @@
     if (!practitionerSec) return;
     const splitIntro       = practitionerSec.querySelector('.split-intro');
     const skillsTable      = practitionerSec.querySelector('.skills-gap-table');
+    const givesBand        = practitionerSec.querySelector('.gives-band');
     const bringSec         = document.getElementById('bring');
     if (!splitIntro || !skillsTable) return;
 
@@ -9037,19 +9045,29 @@
       return;
     }
 
-    /* Two stops within #practitioners:
-       1. Split-intro: butterfly sits upper-right, scale 1.45, full opacity —
-          reads as an accent alongside the "You've mastered the frameworks" copy.
-       2. Skills-gap-table: butterfly drifts to centre at scale 2.7, dimmed to
-          op: 0.55 so wing tips frame the table without fighting the text.
-       The .practitioner-quote / .practitioner-bridge / skills-gap cells are at
-       z-index:5 so they paint over the z-index:3 butterfly-stage; only the
-       parts of the butterfly outside their footprint remain visible. */
+    /* Three stops within #practitioners — the butterfly's flight path:
+       1. Split-intro: butterfly sits upper-right next to the quote at
+          scale 1.45, full opacity — the entry pose from the annotated
+          picture 1 reference.
+       2. Skills-gap-table: mid-travel, drifts toward centre at scale
+          2.40, dimmed to op: 0.55 so wing tips frame the table without
+          fighting the cells.
+       3. Gives-band: lands centred behind the 4-card "What CSOM gives
+          you as a practitioner" grid at scale 3.0, op: 0.60 — the
+          emergence pose from the annotated picture 2 reference.
+       All section copy (practitioner-quote, practitioner-bridge,
+       skills-gap cells, gives-wrap / gives-card) carries z-index:5 so
+       it paints over the z-index:3 butterfly-stage; only the parts of
+       the butterfly outside those footprints remain visible. */
+    const stops = [
+      { el: splitIntro,  top: 40, left: 80, scale: 1.45, op: 1.00 },
+      { el: skillsTable, top: 55, left: 55, scale: 2.40, op: 0.55 },
+    ];
+    if (givesBand) {
+      stops.push({ el: givesBand, top: 55, left: 50, scale: 3.00, op: 0.60 });
+    }
     createScrollStage(bfStage, {
-      stops: [
-        { el: splitIntro,  top: 40, left: 80, scale: 1.45, op: 1.00 },
-        { el: skillsTable, top: 55, left: 50, scale: 2.70, op: 0.55 },
-      ],
+      stops: stops,
       fadeIn:  { el: practitionerSec, startVh: 1.00, endVh: 0.55 },
       fadeOut: bringSec ? { el: bringSec, startVh: 0.85, endVh: 0.35 } : null,
       format:  stageTransform,
