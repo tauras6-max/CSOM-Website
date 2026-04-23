@@ -1809,7 +1809,13 @@
   footer {
     padding: 60px 28px 40px;
     border-top: 1px solid var(--line);
-    background: rgba(0, 0, 0, .3);
+    /* Footer keeps the dark-theme text tokens (--ink-3 etc.) that were
+       set for the original dark body. After the PPTX theme pass
+       flipped body to pure white (--light-bg: #fff), the old
+       rgba(0,0,0,0.3) background resolved to medium grey — leaving
+       white-at-60% text unreadable against it. Lock the footer to a
+       solid near-black so the existing text colours pop. */
+    background: var(--ink-dark);
   }
   .foot {
     max-width: var(--max);
