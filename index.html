@@ -3998,7 +3998,19 @@
      → F67E43 → FD9442). Scoped to #top only; the manifesto below
      keeps its dark glass so the transition between the hero and the
      failures section stays crisp. */
+  /* Hero: make the section transparent + drop its stacking context so the
+     fixed-position globe (root z-index: 1) can sit between the gradient
+     (::before at z-index: 0) and the hero content (gs-content at z-index: 10). */
   #top.gs {
+    background: transparent;
+    color: #fff;
+    z-index: auto;
+  }
+  #top.gs::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
     background:
       radial-gradient(ellipse 60% 80% at 78% 30%, rgba(255, 255, 255, 0.10), transparent 60%),
       linear-gradient(95deg,
@@ -4008,7 +4020,11 @@
         #7CA161 62%,
         #F05A1E 82%,
         #F5A623 100%);
-    color: #fff;
+    pointer-events: none;
+  }
+  #top .gs-content {
+    position: relative;
+    z-index: 10;
   }
   /* Kill any inherited aurora/grid inside the hero */
   #top .hero-aurora,
