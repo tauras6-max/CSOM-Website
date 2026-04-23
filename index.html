@@ -5360,11 +5360,15 @@
   }
 
   /* ---- Training cohort cards (step-card pattern, richer content) ---- */
+  .training-wrap {
+    max-width: 1240px;
+    margin: clamp(40px, 6vw, 64px) auto 0;
+    padding: 0 28px;
+  }
   .training-band {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-    margin-top: 32px;
+    gap: clamp(24px, 3vw, 40px);
   }
   .training-card {
     position: relative;
@@ -5449,10 +5453,10 @@
   }
   .training-row {
     display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 14px;
+    grid-template-columns: 130px 1fr;
+    gap: 20px;
     align-items: start;
-    padding-top: 12px;
+    padding-top: 14px;
     border-top: 1px solid var(--light-line);
   }
   .training-row-label {
@@ -7005,66 +7009,68 @@
         Two cohorts. Both accredited. Both taught as part of
         CSOM<span class="tm">&trade;</span> &mdash; not instead of it.
       </p>
+    </div>
+  </div>
 
-      <div class="training-band">
-        <article class="training-card tc-green">
-          <span class="training-step">Cohort 01</span>
-          <div class="training-meta">
-            <span class="training-chip duration">2 Days</span>
-            <span class="training-chip">Foundation</span>
-            <span class="training-chip">Accredited</span>
+  <div class="training-wrap reveal">
+    <div class="training-band">
+      <article class="training-card tc-green">
+        <span class="training-step">Cohort 01</span>
+        <div class="training-meta">
+          <span class="training-chip duration">2 Days</span>
+          <span class="training-chip">Foundation</span>
+          <span class="training-chip">Accredited</span>
+        </div>
+        <h3 class="training-name">SIAM Foundation</h3>
+        <p class="training-lede">
+          The starting point. Two days on why multi-vendor environments fail,
+          what SIAM actually is (and isn&rsquo;t), and the operating-model
+          decisions you can&rsquo;t duck once the first vendor contract is signed.
+        </p>
+        <div class="training-rows">
+          <div class="training-row">
+            <span class="training-row-label">Who it&rsquo;s for</span>
+            <p class="training-row-text">Service managers, ITIL practitioners, and architects stepping into their first SIAM environment &mdash; and the leaders who need to hold their SIAM team to account.</p>
           </div>
-          <h3 class="training-name">SIAM Foundation</h3>
-          <p class="training-lede">
-            The starting point. Two days on why multi-vendor environments fail,
-            what SIAM actually is (and isn&rsquo;t), and the operating-model
-            decisions you can&rsquo;t duck once the first vendor contract is signed.
-          </p>
-          <div class="training-rows">
-            <div class="training-row">
-              <span class="training-row-label">Who it&rsquo;s for</span>
-              <p class="training-row-text">Service managers, ITIL practitioners, and architects stepping into their first SIAM environment &mdash; and the leaders who need to hold their SIAM team to account.</p>
-            </div>
-            <div class="training-row">
-              <span class="training-row-label">You leave with</span>
-              <p class="training-row-text">A working map of your own service integration model against the CSOM<span class="tm">&trade;</span> seven disciplines and two orbits. Not a certificate sitting on a server &mdash; a plan you can open Monday morning.</p>
-            </div>
+          <div class="training-row">
+            <span class="training-row-label">You leave with</span>
+            <p class="training-row-text">A working map of your own service integration model against the CSOM<span class="tm">&trade;</span> seven disciplines and two orbits. Not a certificate sitting on a server &mdash; a plan you can open Monday morning.</p>
           </div>
-          <a class="training-cta" href="#contact">
-            Apply to the next cohort
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-        </article>
+        </div>
+        <a class="training-cta" href="#contact">
+          Apply to the next cohort
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </article>
 
-        <article class="training-card tc-orange">
-          <span class="training-step">Cohort 02</span>
-          <div class="training-meta">
-            <span class="training-chip duration">3 Days</span>
-            <span class="training-chip">Professional</span>
-            <span class="training-chip">Accredited</span>
+      <article class="training-card tc-orange">
+        <span class="training-step">Cohort 02</span>
+        <div class="training-meta">
+          <span class="training-chip duration">3 Days</span>
+          <span class="training-chip">Professional</span>
+          <span class="training-chip">Accredited</span>
+        </div>
+        <h3 class="training-name">SIAM Professional</h3>
+        <p class="training-lede">
+          The working level. Three days on implementation patterns, governance
+          layers, measurement, and the messy reality of integrators, providers
+          and customers all pulling in different directions.
+        </p>
+        <div class="training-rows">
+          <div class="training-row">
+            <span class="training-row-label">Who it&rsquo;s for</span>
+            <p class="training-row-text">Programme leads, service integration managers, and enterprise architects &mdash; people about to run, or already running, a live SIAM model under pressure.</p>
           </div>
-          <h3 class="training-name">SIAM Professional</h3>
-          <p class="training-lede">
-            The working level. Three days on implementation patterns, governance
-            layers, measurement, and the messy reality of integrators, providers
-            and customers all pulling in different directions.
-          </p>
-          <div class="training-rows">
-            <div class="training-row">
-              <span class="training-row-label">Who it&rsquo;s for</span>
-              <p class="training-row-text">Programme leads, service integration managers, and enterprise architects &mdash; people about to run, or already running, a live SIAM model under pressure.</p>
-            </div>
-            <div class="training-row">
-              <span class="training-row-label">You leave with</span>
-              <p class="training-row-text">A tailored operating-model baseline for your own organisation, mapped to the CSOM<span class="tm">&trade;</span> seven disciplines and two orbits, reviewed by a practitioner who has built one before. And the pattern book for the next twelve months of governance decisions.</p>
-            </div>
+          <div class="training-row">
+            <span class="training-row-label">You leave with</span>
+            <p class="training-row-text">A tailored operating-model baseline for your own organisation, mapped to the CSOM<span class="tm">&trade;</span> seven disciplines and two orbits, reviewed by a practitioner who has built one before. And the pattern book for the next twelve months of governance decisions.</p>
           </div>
-          <a class="training-cta" href="#contact">
-            Apply to the next cohort
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-        </article>
-      </div>
+        </div>
+        <a class="training-cta" href="#contact">
+          Apply to the next cohort
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </article>
     </div>
   </div>
 
