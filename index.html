@@ -3031,13 +3031,94 @@
     margin: 0;
   }
 
+  /* "Shape of the system" split: info panel on the LEFT (header +
+     compact disciplines list + orbit legend) and the video on the
+     RIGHT, scaled to fit. Mirrors the universe section's split and
+     the practitioner section's hierarchy. */
+  .model-split {
+    max-width: 1440px;
+    width: calc(100% - 48px);
+    margin: 40px auto 68px;
+    display: grid;
+    grid-template-columns: minmax(320px, 440px) minmax(0, 1fr);
+    gap: clamp(24px, 3vw, 56px);
+    align-items: center;
+  }
+  .model-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 460px;
+  }
+  .model-info .section-eyebrow,
+  .model-info .section-title,
+  .model-info .section-lede {
+    text-align: left;
+    margin: 0;
+    max-width: none;
+  }
+  .model-info .section-title { font-size: clamp(30px, 3.2vw, 44px); line-height: 1.06; }
+  .model-info .section-lede  { font-size: clamp(14px, 1.1vw, 16px); }
+
+  /* Light-surface variant of the glass disciplines list + orbit legend
+     (styled dark by default for use inside the sunset-gradient
+     universe section). Scoped to #model so we don't disturb the dark
+     original. */
+  #model .cg-universe-list {
+    border: 1px solid var(--line, rgba(0, 0, 0, 0.10));
+    background: rgba(255, 255, 255, 0.58);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(12, 16, 26, 0.06);
+  }
+  #model .cg-ul-head {
+    background: rgba(240, 90, 30, 0.08);
+    border-bottom: 1px solid rgba(12, 16, 26, 0.08);
+    color: var(--brand-orange);
+  }
+  #model .cg-ul-row {
+    border-bottom: 1px solid rgba(12, 16, 26, 0.06);
+  }
+  #model .cg-ul-row:hover { background: rgba(12, 16, 26, 0.04); }
+  #model .cg-ul-num  { color: rgba(12, 16, 26, 0.38); }
+  #model .cg-ul-name { color: #121109; }
+  #model .cg-ul-epithet { color: rgba(12, 16, 26, 0.55); }
+
+  #model .cg-orbit-legend {
+    margin-top: 6px;
+  }
+  #model .cg-ol-row {
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid var(--acc, rgba(12, 16, 26, 0.12));
+    box-shadow: 0 0 12px color-mix(in srgb, var(--acc, #000) 18%, transparent);
+  }
+  #model .cg-ol-eyebrow { color: var(--acc, var(--brand-orange)); }
+  #model .cg-ol-name    { color: #121109; }
+
   /* Stage wrapper — contains the video frame + floating label pills
-     (7 disciplines overlaid on the video, 2 orbits outside the frame). */
+     (7 disciplines overlaid on the video, 2 orbits outside the frame).
+     Inside .model-split, the stage is auto-sized by the grid column. */
   .model-stage {
     position: relative;
     max-width: 1400px;
     width: calc(100% - 48px);
     margin: 60px auto 68px;   /* extra room above/below for orbit pills */
+  }
+  .model-split .model-stage {
+    width: 100%;
+    margin: 0;
+  }
+  @media (max-width: 980px) {
+    .model-split {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      margin: 32px auto 56px;
+    }
+    .model-info { max-width: 720px; }
+    .model-split .model-stage { margin: 0 auto; }
+  }
+  @media (max-width: 560px) {
+    #model .cg-ul-epithet { display: none; }
   }
   .model-video-frame {
     position: relative;
@@ -7285,23 +7366,78 @@
      two sections don't preview the same nine names. id="model-video" kept
      so the nav anchor continues to resolve. -->
 <section class="solar" id="model">
-  <div class="wrap reveal">
-    <div class="section-head" style="margin: 0 auto 20px; text-align: center;">
+  <div class="model-split reveal">
+    <!-- LEFT: header + compact disciplines list + orbit legend.
+         Reuses the .cg-universe-list / .cg-orbit-legend classes from
+         the universe section below; #model-scoped CSS re-skins them
+         for the warm-paper light surface here. -->
+    <aside class="model-info">
       <span class="section-eyebrow">A first look</span>
       <h2 class="section-title">The shape of the system.</h2>
-      <p class="section-lede" style="margin: 0 auto;">Sixty seconds to see the whole model. Scroll on to explore it discipline by discipline.</p>
-    </div>
-  </div>
+      <p class="section-lede">Sixty seconds to see the whole model. Scroll on to explore it discipline by discipline.</p>
 
-  <div class="model-stage reveal" id="model-video">
-    <div class="model-video-frame">
-      <!-- Video is 6.5 MB so we defer loading until the user is
-           scrolling near it (IntersectionObserver in the JS below
-           swaps data-src -> src). Saves the download for visitors
-           who never reach this section. -->
-      <video class="model-video" muted loop playsinline preload="none" aria-hidden="true" data-lazy-video>
-        <source data-src="guide-avatar.mp4" type="video/mp4">
-      </video>
+      <div class="cg-universe-list" role="list" aria-label="The seven CSOM disciplines (preview)">
+        <div class="cg-ul-head">The Seven Disciplines</div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p1);">
+          <span class="cg-ul-num">01</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body"><span class="cg-ul-name">Leadership</span></span>
+        </div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p7);">
+          <span class="cg-ul-num">02</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body"><span class="cg-ul-name">Organisation Design</span></span>
+        </div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p2);">
+          <span class="cg-ul-num">03</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body"><span class="cg-ul-name">Program Management</span></span>
+        </div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p3);">
+          <span class="cg-ul-num">04</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body"><span class="cg-ul-name">Change Management</span></span>
+        </div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p4);">
+          <span class="cg-ul-num">05</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body"><span class="cg-ul-name">Service Management</span></span>
+        </div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p6);">
+          <span class="cg-ul-num">06</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body"><span class="cg-ul-name">Ecosystem Integration</span></span>
+        </div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p5);">
+          <span class="cg-ul-num">07</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body"><span class="cg-ul-name">Customer Success</span></span>
+        </div>
+      </div>
+
+      <div class="cg-orbit-legend" aria-label="The two CSOM orbits">
+        <div class="cg-ol-row" style="--acc: var(--p8);">
+          <span class="cg-ol-eyebrow">Inner Orbit</span>
+          <span class="cg-ol-name">Data &amp; Intelligence</span>
+        </div>
+        <div class="cg-ol-row" style="--acc: var(--p9);">
+          <span class="cg-ol-eyebrow">Outer Orbit</span>
+          <span class="cg-ol-name">Continual Improvement</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT: the 60-second overview video, auto-sized to fill its column. -->
+    <div class="model-stage" id="model-video">
+      <div class="model-video-frame">
+        <!-- Video is 6.5 MB so we defer loading until the user is
+             scrolling near it (IntersectionObserver in the JS below
+             swaps data-src -> src). Saves the download for visitors
+             who never reach this section. -->
+        <video class="model-video" muted loop playsinline preload="none" aria-hidden="true" data-lazy-video>
+          <source data-src="guide-avatar.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
   </div>
 </section>
