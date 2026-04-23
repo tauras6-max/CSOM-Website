@@ -4912,59 +4912,102 @@
   }
 
   /* ---- Two Worlds, One Model — TAM expansion band ---- */
+  /* ---- Two Worlds — light surface, slide-3 card styling ---- */
   .two-worlds {
     position: relative;
     z-index: 2;
-    padding: clamp(4rem, 7vw, 5.5rem) 0;
+    padding: clamp(5rem, 8vw, 7rem) 0;
     background:
-      radial-gradient(ellipse 70% 60% at 15% 20%, rgba(39, 184, 179, 0.07), transparent 60%),
-      radial-gradient(ellipse 70% 60% at 85% 80%, rgba(245, 160, 46, 0.07), transparent 60%),
-      linear-gradient(180deg, #08101F 0%, #0A1328 100%);
+      radial-gradient(ellipse 65% 55% at 15% 20%, rgba(39, 184, 179, 0.06), transparent 65%),
+      radial-gradient(ellipse 65% 55% at 85% 80%, rgba(245, 160, 46, 0.06), transparent 65%),
+      var(--light-bg);
+    color: var(--ink-dark);
     border-top: 0;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 0;
   }
+  .two-worlds::before,
+  .two-worlds::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--brand-gradient);
+    opacity: 0.9;
+  }
+  .two-worlds::before { top: 0; }
+  .two-worlds::after  { bottom: 0; }
+
   .two-worlds .section-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .two-worlds .section-eyebrow {
+    color: var(--brand-orange);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 18px;
+  }
+  .two-worlds .section-title { color: var(--ink-dark); }
+  .two-worlds .section-title .accent {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .two-worlds .tm { color: var(--brand-orange) !important; }
+
   .tw-lede {
     max-width: 760px;
     margin: 0 auto;
     text-align: center;
     font-size: clamp(15px, 1.6vw, 17px);
     line-height: 1.65;
-    color: var(--ink-2);
+    color: var(--ink-body);
   }
-  .tw-lede strong { color: #fff; font-weight: 600; }
+  .tw-lede strong { color: var(--ink-dark); font-weight: 600; }
+
   .tw-grid {
     margin-top: clamp(2rem, 4vw, 3rem);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(1rem, 2vw, 1.5rem);
+    gap: 22px;
     max-width: 1160px;
     margin-inline: auto;
+    padding: 0 28px;
   }
   .tw-card {
     position: relative;
-    padding: clamp(1.5rem, 2.4vw, 2rem);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.004)),
-      rgba(4, 8, 18, 0.55);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    padding: 32px 28px 26px;
+    border: 1px solid var(--light-line);
+    border-radius: 16px;
+    background: var(--light-bg);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
     display: flex;
     flex-direction: column;
     gap: 14px;
+    overflow: hidden;
   }
-  .tw-card-product::before,
-  .tw-card-services::before {
+  .tw-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.09);
+    border-color: var(--light-line-strong);
+  }
+  /* Coloured top-bar (slide-3 pattern, replaces the old left-bar) */
+  .tw-card::before {
     content: "";
     position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    border-radius: 14px 0 0 14px;
+    top: 0; left: 0; right: 0;
+    height: 3px;
   }
-  .tw-card-product::before  { background: linear-gradient(180deg, var(--brand-blue), rgba(39,184,179,0.1)); }
-  .tw-card-services::before { background: linear-gradient(180deg, var(--brand-orange), var(--brand-red) 60%, rgba(236,107,40,0.08)); }
+  .tw-card-product::before  { background: var(--brand-blue); }
+  .tw-card-services::before { background: var(--brand-orange); }
+
   .tw-chip {
     display: inline-flex;
     align-self: flex-start;
@@ -4972,28 +5015,41 @@
     font-size: 10.5px;
     letter-spacing: .22em;
     text-transform: uppercase;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.12);
-    color: var(--ink-2);
+    border: 1px solid var(--light-line);
+    color: var(--ink-muted);
+    background: var(--light-bg-soft);
+    font-weight: 700;
   }
-  .tw-card-product  .tw-chip { color: #7FDDCF; border-color: rgba(39,184,179,0.55); }
-  .tw-card-services .tw-chip { color: #F8B86E; border-color: rgba(245,160,46,0.45); }
+  .tw-card-product  .tw-chip {
+    color: var(--brand-blue);
+    border-color: rgba(39, 184, 179, 0.35);
+    background: rgba(39, 184, 179, 0.08);
+  }
+  .tw-card-services .tw-chip {
+    color: var(--brand-orange);
+    border-color: rgba(245, 160, 46, 0.35);
+    background: rgba(245, 160, 46, 0.08);
+  }
+
   .tw-block-label {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 10.5px;
     letter-spacing: .22em;
     text-transform: uppercase;
-    color: var(--ink-3);
+    color: var(--ink-muted);
+    font-weight: 700;
     margin: 4px 0 -4px 0;
   }
   .tw-block-body {
     font-size: 14.5px;
     line-height: 1.6;
-    color: var(--ink-2);
+    color: var(--ink-body);
     margin: 0;
   }
-  .tw-block-body strong { color: #fff; font-weight: 600; }
+  .tw-block-body strong { color: var(--ink-dark); font-weight: 600; }
+
   .tw-close {
     margin: clamp(2rem, 4vw, 3rem) auto 0;
     max-width: 760px;
@@ -5001,51 +5057,111 @@
     font-family: 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: clamp(15px, 1.5vw, 17px);
-    color: var(--ink-1);
+    color: var(--ink-body);
     letter-spacing: .01em;
+    padding: 0 28px;
   }
   @media (max-width: 780px) {
     .tw-grid { grid-template-columns: 1fr; }
   }
 
-  /* ---- Signals — recognition-based proof (no testimonials, conflict-of-interest safe) ---- */
+  /* ---- Signals — recognition-based proof, light surface ---- */
   .signals {
     position: relative;
     z-index: 2;
-    padding: clamp(3.5rem, 6vw, 5rem) 0;
+    padding: clamp(4.5rem, 7vw, 6rem) 0;
     background:
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245, 160, 46, 0.05), transparent 65%),
-      #070D1C;
-    border-top: 1px solid var(--line);
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(245, 160, 46, 0.05), transparent 65%),
+      var(--light-bg-soft);
+    color: var(--ink-dark);
+    border-top: 0;
+  }
+  .signals::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background: var(--brand-gradient);
+    opacity: 0.9;
   }
   .signals .section-head { margin-bottom: clamp(1.8rem, 3vw, 2.4rem); }
+  .signals .section-eyebrow {
+    color: var(--brand-orange);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 18px;
+  }
+  .signals .section-title { color: var(--ink-dark); }
+  .signals .section-title .accent {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .signals .section-lede { color: var(--ink-body); }
+  .signals .tm { color: var(--brand-orange) !important; }
+
   .signals-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: clamp(0.9rem, 1.6vw, 1.25rem);
+    gap: 22px;
     max-width: 1160px;
     margin-inline: auto;
+    padding: 0 28px;
   }
   .signal-card {
-    padding: clamp(1.2rem, 2vw, 1.5rem) clamp(1.3rem, 2vw, 1.6rem);
-    border: 1px solid var(--line);
-    border-left: 3px solid rgba(255, 207, 84, 0.45);
-    border-radius: 10px;
-    background: rgba(4, 8, 18, 0.45);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    position: relative;
+    padding: 28px 26px 24px;
+    border: 1px solid var(--light-line);
+    border-radius: 14px;
+    background: var(--light-bg);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
     font-size: 14.5px;
     line-height: 1.6;
-    color: var(--ink-2);
+    color: var(--ink-body);
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+    overflow: hidden;
   }
-  .signal-card strong { color: #fff; font-weight: 600; display: block; margin-bottom: 4px; }
+  .signal-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--brand-orange);
+  }
+  .signal-card:nth-child(1)::before { background: var(--brand-blue); }
+  .signal-card:nth-child(2)::before { background: var(--brand-green); }
+  .signal-card:nth-child(3)::before { background: var(--brand-orange); }
+  .signal-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.09);
+    border-color: var(--light-line-strong);
+  }
+  .signal-card strong {
+    color: var(--ink-dark);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    letter-spacing: -0.005em;
+  }
   .signals-close {
     margin: clamp(1.8rem, 3vw, 2.4rem) auto 0;
     text-align: center;
     font-family: 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: 16px;
-    color: var(--ink-1);
+    color: var(--ink-body);
+    padding: 0 28px;
   }
   @media (max-width: 860px) {
     .signals-grid { grid-template-columns: 1fr; }
