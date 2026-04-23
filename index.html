@@ -1810,6 +1810,15 @@
     color: rgba(241, 245, 249, 0.68);
     font-weight: 500;
   }
+  .foot-attribution-disclosure {
+    margin-top: 10px;
+    padding-top: 0;
+    border-top: 0;
+    max-width: 760px;
+    font-size: 11.5px;
+    color: rgba(241, 245, 249, 0.32);
+    font-style: italic;
+  }
 
   /* ============== BRINGING THE CHANGE ============== */
   .bring-bridge {
@@ -4369,12 +4378,14 @@
   .practitioner-gives.show .gives-item:nth-child(1) { transition-delay: .15s; }
   .practitioner-gives.show .gives-item:nth-child(2) { transition-delay: .32s; }
   .practitioner-gives.show .gives-item:nth-child(3) { transition-delay: .50s; }
+  .practitioner-gives.show .gives-item:nth-child(4) { transition-delay: .68s; }
   .practitioner-gives.show .gives-num {
     animation: givesNumPop .7s var(--ease) both;
   }
   .practitioner-gives.show .gives-item:nth-child(1) .gives-num { animation-delay: .25s; }
   .practitioner-gives.show .gives-item:nth-child(2) .gives-num { animation-delay: .42s; }
   .practitioner-gives.show .gives-item:nth-child(3) .gives-num { animation-delay: .60s; }
+  .practitioner-gives.show .gives-item:nth-child(4) .gives-num { animation-delay: .78s; }
   @keyframes givesNumPop {
     0%   { transform: scale(.6); filter: brightness(1.8) drop-shadow(0 0 14px rgba(255, 207, 84, 0.55)); }
     60%  { transform: scale(1.08); }
@@ -4410,6 +4421,42 @@
     color: var(--ink-2);
     font-size: 14px;
     line-height: 1.55;
+  }
+
+  /* ---- Value, defined — pullquote in manifesto ---- */
+  .value-def {
+    max-width: 720px;
+    margin: clamp(1.8rem, 3vw, 2.6rem) auto clamp(2.5rem, 5vw, 3.5rem);
+    padding: 20px 28px 22px;
+    border-left: 3px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    background:
+      linear-gradient(90deg, rgba(255, 207, 84, 0.10), rgba(255, 207, 84, 0) 70%),
+      rgba(4, 8, 18, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    text-align: left;
+  }
+  .value-def-tag {
+    display: inline-block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .value-def-body {
+    margin: 0;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: clamp(16px, 1.6vw, 18.5px);
+    line-height: 1.55;
+    color: #fff;
+  }
+  .value-def-body strong {
+    font-weight: 600;
+    color: var(--gold);
   }
 
   /* ---- The Fence — Not / Is pairs ---- */
@@ -4486,6 +4533,365 @@
   @media (max-width: 720px) {
     .fence-pair { grid-template-columns: 1fr; }
     .fence-not { border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+  }
+
+  /* ---- Pillars diagram — CSOM as the connective layer above ITIL / SIAM / CS ---- */
+  .pillars-figure {
+    margin: clamp(3rem, 6vw, 4.5rem) auto 0;
+    max-width: 1040px;
+    padding: 0 8px;
+  }
+  .pillars-cap {
+    text-align: center;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(15px, 1.4vw, 17.5px);
+    color: var(--ink-1);
+    margin: 0 0 clamp(1.2rem, 2vw, 1.8rem);
+  }
+  .pillars-cap em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  .pillars-diagram {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Top beam: CSOM layer */
+  .pd-beam {
+    position: relative;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 207, 84, 0.32);
+    background:
+      radial-gradient(ellipse 90% 120% at 50% 0%, rgba(255, 207, 84, 0.12), transparent 70%),
+      linear-gradient(180deg, rgba(14, 22, 42, 0.82), rgba(6, 10, 22, 0.72));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+      0 0 0 1px rgba(255, 207, 84, 0.06),
+      0 18px 60px -25px rgba(255, 207, 84, 0.35);
+    padding: 22px 28px 24px;
+    z-index: 2;
+  }
+  .pd-beam-title {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  }
+  .pd-beam-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--gold);
+  }
+  .pd-beam-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(17px, 1.8vw, 21px);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -.005em;
+  }
+  .pd-beam-body {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 28px;
+  }
+  @media (max-width: 720px) {
+    .pd-beam-body { grid-template-columns: 1fr; gap: 18px; }
+  }
+  .pd-group-label {
+    display: inline-block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .pd-list {
+    list-style: none;
+    counter-reset: pd;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 20px;
+  }
+  .pd-list-orbits {
+    grid-template-columns: 1fr;
+  }
+  .pd-list li {
+    counter-increment: pd;
+    position: relative;
+    padding-left: 24px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-1);
+  }
+  .pd-disciplines .pd-list li::before {
+    content: counter(pd, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 2px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .pd-list-orbits li::before {
+    content: "●";
+    position: absolute;
+    left: 4px;
+    top: 0;
+    font-size: 9px;
+    color: var(--brand-orange);
+  }
+  .pd-orbit-role {
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  /* Connectors between beam and pillars */
+  .pd-connectors {
+    height: 28px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    position: relative;
+  }
+  .pd-connectors span {
+    justify-self: center;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(255, 207, 84, 0.45), rgba(255, 207, 84, 0.08));
+  }
+
+  /* Three pillars */
+  .pd-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 720px) {
+    .pd-pillars { grid-template-columns: 1fr; gap: 12px; }
+    .pd-connectors { display: none; }
+  }
+  .pd-pillar {
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: rgba(4, 8, 18, 0.55);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color .25s var(--ease), transform .25s var(--ease);
+  }
+  .pd-pillar:hover {
+    border-color: rgba(255, 207, 84, 0.28);
+    transform: translateY(-2px);
+  }
+  .pd-pillar-cap {
+    padding: 12px 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    background: linear-gradient(180deg, rgba(255, 207, 84, 0.10), rgba(255, 207, 84, 0));
+    border-bottom: 1px dashed rgba(255, 207, 84, 0.2);
+  }
+  .pd-pillar-body {
+    padding: 16px 16px 18px;
+    text-align: center;
+    flex: 1;
+  }
+  .pd-pillar-body p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  /* Base — Value Realized */
+  .pd-base {
+    margin-top: 20px;
+    text-align: center;
+    display: inline-flex;
+    align-self: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 140, 80, 0.35);
+    background:
+      radial-gradient(ellipse 70% 140% at 50% 50%, rgba(255, 140, 80, 0.18), rgba(255, 140, 80, 0) 70%),
+      rgba(4, 8, 18, 0.55);
+  }
+  .pd-base-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffd166 0%, #ff8a4c 100%);
+    box-shadow: 0 0 16px rgba(255, 180, 80, 0.6);
+  }
+  .pd-base-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13.5px;
+    letter-spacing: .08em;
+    color: var(--ink-1);
+  }
+  .pd-base-label strong {
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  /* ---- Two Worlds, One Model — TAM expansion band ---- */
+  .two-worlds {
+    padding: clamp(4rem, 7vw, 5.5rem) 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 20% 20%, rgba(63, 168, 224, 0.08), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 80% 80%, rgba(255, 140, 80, 0.08), transparent 60%),
+      #050A18;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .two-worlds .section-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .tw-lede {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: clamp(15px, 1.6vw, 17px);
+    line-height: 1.65;
+    color: var(--ink-2);
+  }
+  .tw-lede strong { color: #fff; font-weight: 600; }
+  .tw-grid {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    max-width: 1040px;
+    margin-inline: auto;
+  }
+  .tw-card {
+    position: relative;
+    padding: clamp(1.5rem, 2.4vw, 2rem);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.004)),
+      rgba(4, 8, 18, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .tw-card-product::before,
+  .tw-card-services::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    border-radius: 14px 0 0 14px;
+  }
+  .tw-card-product::before  { background: linear-gradient(180deg, #3FA8E0, rgba(63,168,224,0.1)); }
+  .tw-card-services::before { background: linear-gradient(180deg, #FFCF54, rgba(255,140,80,0.1)); }
+  .tw-chip {
+    display: inline-flex;
+    align-self: flex-start;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--ink-2);
+  }
+  .tw-card-product  .tw-chip { color: #9CD3F0; border-color: rgba(63,168,224,0.35); }
+  .tw-card-services .tw-chip { color: #FFD880; border-color: rgba(255,207,84,0.35); }
+  .tw-block-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 4px 0 -4px 0;
+  }
+  .tw-block-body {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .tw-block-body strong { color: #fff; font-weight: 600; }
+  .tw-close {
+    margin: clamp(2rem, 4vw, 3rem) auto 0;
+    max-width: 760px;
+    text-align: center;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(15px, 1.5vw, 17px);
+    color: var(--ink-1);
+    letter-spacing: .01em;
+  }
+  @media (max-width: 780px) {
+    .tw-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---- Signals — recognition-based proof (no testimonials, conflict-of-interest safe) ---- */
+  .signals {
+    padding: clamp(3.5rem, 6vw, 5rem) 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 140, 80, 0.05), transparent 65%),
+      #070D1C;
+    border-top: 1px solid var(--line);
+  }
+  .signals .section-head { margin-bottom: clamp(1.8rem, 3vw, 2.4rem); }
+  .signals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(0.9rem, 1.6vw, 1.25rem);
+    max-width: 1060px;
+    margin-inline: auto;
+  }
+  .signal-card {
+    padding: clamp(1.2rem, 2vw, 1.5rem) clamp(1.3rem, 2vw, 1.6rem);
+    border: 1px solid var(--line);
+    border-left: 3px solid rgba(255, 207, 84, 0.45);
+    border-radius: 10px;
+    background: rgba(4, 8, 18, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .signal-card strong { color: #fff; font-weight: 600; display: block; margin-bottom: 4px; }
+  .signals-close {
+    margin: clamp(1.8rem, 3vw, 2.4rem) auto 0;
+    text-align: center;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-1);
+  }
+  @media (max-width: 860px) {
+    .signals-grid { grid-template-columns: 1fr; }
   }
 
   /* ---- Pick One — closing commitment ---- */
@@ -4808,9 +5214,9 @@
       <span class="title-main">CSOM<span class="tm">™</span> is the operating model that closes the gap between what your organisation <span class="accent">delivers</span> and what your customers actually <span class="accent">realize</span>.</span>
     </h1>
     <p class="hero-subtitle">
-      <span>The recovery, not the procedure.</span>
-      <span>The journey, not the flight.</span>
-      <span>The outcome, not the product.</span>
+      <span>A recovering smile, not the dental procedure.</span>
+      <span>A flight worth remembering, not the ticket.</span>
+      <span>A product people actually use, not the licence renewed.</span>
     </p>
     <div class="gs-actions">
       <a href="#model" class="btn btn-primary">
@@ -4838,6 +5244,14 @@
       Customers &mdash; in every industry, on every continent &mdash; now reward only
       one thing: the <strong style="color:#fff;">Value</strong> they realize.
     </p>
+
+    <aside class="value-def reveal" aria-label="Value, defined">
+      <span class="value-def-tag">Value, defined</span>
+      <p class="value-def-body">
+        Value is the outcome your customer came for &mdash; the recovery, the journey,
+        the result &mdash; <strong>not the output you produced.</strong>
+      </p>
+    </aside>
 
     <div class="shift-grid">
       <div class="shift-card">
@@ -4940,6 +5354,10 @@
     </div>
     <ul class="fence-list reveal" role="list">
       <li class="fence-pair">
+        <div class="fence-not"><span class="fence-tag">Not</span> a model only for services or outsourcing.</div>
+        <div class="fence-is"><span class="fence-tag">Is</span> the operating model that lets SIAM, ITIL, and Customer Success work in both services <em>and</em> product companies.</div>
+      </li>
+      <li class="fence-pair">
         <div class="fence-not"><span class="fence-tag">Not</span> a replacement for ITIL, SIAM, or Customer Success.</div>
         <div class="fence-is"><span class="fence-tag">Is</span> the operating model that lets those frameworks finally deliver Value.</div>
       </li>
@@ -4960,6 +5378,124 @@
         <div class="fence-is"><span class="fence-tag">Is</span> a system organised around what the customer actually realizes.</div>
       </li>
     </ul>
+
+    <!-- Pillars diagram — shows CSOM as the connective layer above ITIL / SIAM / CS,
+         and names the 7 disciplines + 2 orbits on the homepage. -->
+    <figure class="pillars-figure reveal" aria-labelledby="pillarsCap">
+      <figcaption id="pillarsCap" class="pillars-cap">
+        CSOM&trade; sits <em>on top</em> of what you already know, not beside it.
+      </figcaption>
+
+      <div class="pillars-diagram" role="img" aria-label="CSOM is the connective layer above ITIL, SIAM, and Customer Success, serving Value Realization">
+        <!-- Top beam: CSOM layer -->
+        <div class="pd-beam">
+          <div class="pd-beam-title">
+            <span class="pd-beam-eyebrow">The connective layer</span>
+            <span class="pd-beam-name">CSOM<span class="tm">&trade;</span> Operating Model</span>
+          </div>
+          <div class="pd-beam-body">
+            <div class="pd-disciplines">
+              <span class="pd-group-label">Seven disciplines</span>
+              <ol class="pd-list">
+                <li>Leadership</li>
+                <li>Organisation Design</li>
+                <li>Program Management</li>
+                <li>Change Management</li>
+                <li>Service Management</li>
+                <li>Ecosystem Integration</li>
+                <li>Customer Success</li>
+              </ol>
+            </div>
+            <div class="pd-orbits">
+              <span class="pd-group-label">Two orbits</span>
+              <ul class="pd-list pd-list-orbits">
+                <li>Data &amp; Intelligence <span class="pd-orbit-role">&middot; inner</span></li>
+                <li>Continual Improvement <span class="pd-orbit-role">&middot; outer</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drop connectors -->
+        <div class="pd-connectors" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+
+        <!-- Three pillars -->
+        <div class="pd-pillars">
+          <div class="pd-pillar">
+            <div class="pd-pillar-cap">ITIL</div>
+            <div class="pd-pillar-body">
+              <p>Process. Service design.<br/>Incident &amp; change.</p>
+            </div>
+          </div>
+          <div class="pd-pillar">
+            <div class="pd-pillar-cap">SIAM</div>
+            <div class="pd-pillar-body">
+              <p>Multi-vendor coordination.<br/>Governance. Integration.</p>
+            </div>
+          </div>
+          <div class="pd-pillar">
+            <div class="pd-pillar-cap">Customer Success</div>
+            <div class="pd-pillar-body">
+              <p>Relationships. Adoption.<br/>Retention.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Value sun at the base -->
+        <div class="pd-base">
+          <span class="pd-base-dot" aria-hidden="true"></span>
+          <span class="pd-base-label">All serving &mdash; <strong>Value Realized</strong></span>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- =============== TWO WORLDS. ONE MODEL. — services + product TAM =============== -->
+<section class="two-worlds" id="two-worlds" aria-labelledby="twoWorldsTitle">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Services or product &mdash; same model</span>
+      <h2 class="section-title" id="twoWorldsTitle">Two worlds. <span class="accent">One model.</span></h2>
+      <p class="tw-lede">
+        SIAM and ITIL were built inside services companies. Customer Success was built inside product companies.
+        They&rsquo;ve spoken different languages for twenty years. <strong>CSOM<span class="tm" style="color:#FFD054;">™</span> is the translation layer.</strong>
+      </p>
+    </div>
+
+    <div class="tw-grid reveal">
+      <article class="tw-card tw-card-product">
+        <span class="tw-chip">Product companies</span>
+        <p class="tw-block-label">Today</p>
+        <p class="tw-block-body">
+          Customer Success owns retention. Engineering ships. Support fire-fights.
+          <strong>Nobody owns the operating model</strong> that turns the product into realized Value.
+        </p>
+        <p class="tw-block-label">With CSOM<span class="tm" style="color:#FFD054;">&trade;</span></p>
+        <p class="tw-block-body">
+          SIAM-grade rigour applied to product adoption. ITIL-grade service discipline applied to Customer Success.
+          One operating model, end-to-end.
+        </p>
+      </article>
+
+      <article class="tw-card tw-card-services">
+        <span class="tw-chip">Services companies</span>
+        <p class="tw-block-label">Today</p>
+        <p class="tw-block-body">
+          SIAM coordinates vendors. ITIL runs the process.
+          <strong>The customer still doesn&rsquo;t feel the Value.</strong>
+        </p>
+        <p class="tw-block-label">With CSOM<span class="tm" style="color:#FFD054;">&trade;</span></p>
+        <p class="tw-block-body">
+          The missing layer that turns process compliance and vendor coordination
+          into outcomes the customer actually recognises.
+        </p>
+      </article>
+    </div>
+
+    <p class="tw-close reveal">The disciplines don&rsquo;t change. The definition of &ldquo;done&rdquo; does.</p>
   </div>
 </section>
 
@@ -5176,6 +5712,31 @@
   </div>
 </section>
 
+<!-- =============== SIGNALS — recognition-based proof (does this sound like your week?) =============== -->
+<section class="signals" id="signals" aria-labelledby="signalsTitle">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Does this sound like you?</span>
+      <h2 class="section-title" id="signalsTitle">Three signals we hear every week.</h2>
+    </div>
+    <div class="signals-grid reveal">
+      <div class="signal-card">
+        <strong>You&rsquo;ve stood up SIAM and it still doesn&rsquo;t feel like it&rsquo;s working.</strong>
+        The contracts are tight. The governance runs. The customer still isn&rsquo;t seeing Value.
+      </div>
+      <div class="signal-card">
+        <strong>You&rsquo;ve certified the team in ITIL and nothing changed.</strong>
+        The process is correct. The outcome is absent.
+      </div>
+      <div class="signal-card">
+        <strong>You run Customer Success but the service organisation doesn&rsquo;t.</strong>
+        You&rsquo;re closing the loop on one side of the house while the other side ships outputs.
+      </div>
+    </div>
+    <p class="signals-close reveal">If one of these is your week, CSOM<span class="tm" style="color:#FFD054;">&trade;</span> was written for you.</p>
+  </div>
+</section>
+
 <!-- =============== FOR PRACTITIONERS — skills gap + what CSOM adds =============== -->
 <section id="practitioners">
   <div class="wrap">
@@ -5255,6 +5816,13 @@
             <p>The market is crowded with certified practitioners. CSOM makes you the one who can build the whole model.</p>
           </div>
         </li>
+        <li class="gives-item">
+          <span class="gives-num">04</span>
+          <div>
+            <h4 class="gives-name">A bridge to product</h4>
+            <p>CSOM<span class="tm">&trade;</span> gives ITIL and SIAM practitioners a credible path into Customer Success and Value Engineering roles at product companies &mdash; without abandoning the discipline they&rsquo;ve spent a career building.</p>
+          </div>
+        </li>
       </ol>
     </aside>
     </div>
@@ -5329,34 +5897,10 @@
       </article>
     </div>
 
-    <div class="practitioner-grid">
-      <div class="practitioner-item reveal">
-        <span class="num">01 · Taught by people who built it</span>
-        <h4>Practitioners, not trainers.</h4>
-        <p>Every facilitator has designed and run service-integration operating models inside enterprise IT, fintech, or industrials. The answers to your awkward questions come from scar tissue, not a slide deck.</p>
-      </div>
-      <div class="practitioner-item reveal">
-        <span class="num">02 · CSOM™, not just SIAM</span>
-        <h4>Taught in context.</h4>
-        <p>SIAM doesn't live in a vacuum. You learn where it sits inside the wider CSOM operating model — so your implementation survives the first governance review, the first renewal, and the first reorg.</p>
-      </div>
-      <div class="practitioner-item reveal">
-        <span class="num">03 · Case-led, not slide-led</span>
-        <h4>Real incidents. Real failure modes.</h4>
-        <p>If a framework needs a workaround in the wild, we'll show you the workaround. Case studies come from programmes our facilitators actually ran — names changed, lessons intact.</p>
-      </div>
-    </div>
-
-    <div class="cohort-cta reveal">
-      <div>
-        <h3>Ready for the next cohort?</h3>
-        <p>Open enrolment quarterly — virtual. In-house runs for teams of 10+. Share your interest — we&rsquo;ll reach out when the next cohort opens.</p>
-      </div>
-      <a href="#contact" class="btn btn-primary">
-        Talk to the training team
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-    </div>
+    <p class="bring-footnote reveal">
+      Open enrolment quarterly &middot; virtual &middot; in-house runs for teams of 10+.
+      <a href="#contact">Talk to the training team &rarr;</a>
+    </p>
   </div>
 </section>
 
@@ -5448,12 +5992,11 @@
     </div>
 
     <div class="pick-grid reveal">
-      <!-- TODO: replace href with the CSOM LinkedIn / Substack / essays URL once live -->
-      <a class="pick-tile" href="#who">
+      <a class="pick-tile" href="#contact">
         <span class="pick-num">01</span>
-        <h3 class="pick-name">Read the work</h3>
-        <p class="pick-desc">The essays, the talks, the posts making the case for the Value era. No gatekeeping.</p>
-        <span class="pick-go">Start reading <span aria-hidden="true">→</span></span>
+        <h3 class="pick-name">Follow the journey</h3>
+        <p class="pick-desc">Short-form notes on the model as it develops. Quarterly, no spam.</p>
+        <span class="pick-go">Subscribe <span aria-hidden="true">→</span></span>
       </a>
       <a class="pick-tile" href="#bring">
         <span class="pick-num">02</span>
@@ -5505,12 +6048,16 @@
       </a>
     </div>
   </div>
-  <!-- Founding attribution — small secondary text above legal line.
-       Replace [YOUR NAME] with the founder's name. -->
+  <!-- Founding attribution — anonymous by design (conflict-of-interest guardrails). -->
   <p class="foot-attribution">
-    CSOM<span class="tm" style="color:#FFD054;">™</span> Global is founded and authored
-    by <span class="foot-attribution-name">[YOUR NAME]</span>, with contributors from
-    service management, customer success, and operating-model design.
+    Built by a practitioner with <span class="foot-attribution-name">25+ years</span>
+    leading ITIL, SIAM and service-integration programs across Fortune 500 enterprises,
+    with contributors from service management, customer success, and operating-model design.
+  </p>
+  <p class="foot-attribution foot-attribution-disclosure">
+    CSOM<span class="tm" style="color:#FFD054;">™</span> is an independent body of work.
+    Views are the author&rsquo;s own and not those of any employer, past or present.
+    No client, employer, or engagement is referenced on this site.
   </p>
 </footer>
 
@@ -6054,14 +6601,13 @@
     if (!bfStage) return;
     const practitionerSec = document.getElementById('practitioners');
     const practitionerHead = practitionerSec && practitionerSec.querySelector('.section-head');
-    const skillsGrid       = document.querySelector('#practitioners .skills-gap-grid');
+    const skillsGrid       = document.querySelector('#practitioners .skills-gap-table');
     const bringSec         = document.getElementById('bring');
     const bringHead        = document.querySelector('#bring .section-head');
     const coursesGrid      = document.querySelector('#bring .courses-grid');
-    const practitionerGrid = document.querySelector('#bring .practitioner-grid');
-    const cohortCta        = document.querySelector('#bring .cohort-cta');
+    const bringFoot        = document.querySelector('#bring .bring-footnote');
     const contactSec       = document.getElementById('contact');
-    if (!practitionerSec || !bringSec || !skillsGrid || !coursesGrid || !practitionerGrid) return;
+    if (!practitionerSec || !bringSec || !skillsGrid || !coursesGrid) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       bfStage.style.opacity = '1';
@@ -6083,7 +6629,7 @@
         { el: skillsGrid,                          top: 55, left: 50, scale: 2.70, op: 0.70 },
         { el: bringHead || bringSec,               top: 42, left: 80, scale: 1.55, op: 1.00 },
         { el: coursesGrid,                         top: 50, left: 52, scale: 2.40, op: 0.70 },
-        { el: cohortCta || practitionerGrid,       top: 58, left: 50, scale: 2.95, op: 0.70 },
+        { el: bringFoot || coursesGrid,            top: 58, left: 50, scale: 2.75, op: 0.60 },
       ],
       fadeIn:  { el: practitionerSec, startVh: 1.00, endVh: 0.55 },
       fadeOut: contactSec ? { el: contactSec, startVh: 0.95, endVh: 0.35 } : null,
