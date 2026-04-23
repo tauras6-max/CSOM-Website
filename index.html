@@ -3911,6 +3911,114 @@
     .gs.align-center .gs-actions { margin: 0 auto; }
   }
 
+  /* ============== HERO — LOGO-CALIBRATED GRADIENT ==============
+     Scoped to #top only. The rewrite/manifesto section (#rewritten)
+     keeps the dark background so the contrast between the clean,
+     colourful hero and the reflective manifesto still reads. */
+  #top.gs {
+    background:
+      radial-gradient(ellipse 55% 80% at 88% 50%, rgba(255,255,255,0.07), transparent 60%),
+      linear-gradient(95deg,
+        var(--brand-blue)   0%,
+        var(--brand-teal)   20%,
+        var(--brand-green)  40%,
+        var(--brand-lime)   58%,
+        var(--brand-yellow) 76%,
+        var(--brand-orange) 100%);
+    color: #fff;
+  }
+  /* Kill any inherited aurora/grid inside the hero */
+  #top .hero-aurora,
+  #top .hero-grid { display: none; }
+
+  /* Dark glass eyebrow with orange dot — matches reference */
+  #top .gs-badge {
+    background: rgba(12, 16, 26, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #fff;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding-left: 34px;
+    position: relative;
+  }
+  #top .gs-badge::before {
+    content: "";
+    position: absolute;
+    left: 14px; top: 50%;
+    transform: translateY(-50%);
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--brand-orange);
+    box-shadow: 0 0 10px rgba(245, 160, 46, 0.9);
+  }
+
+  /* Title: solid white + italic serif accent (like "compounds" in the reference) */
+  #top .gs-title {
+    color: #fff;
+    text-shadow: 0 2px 40px rgba(10, 14, 26, 0.22);
+  }
+  #top .gs-title .accent {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: #fff;
+    color: #fff;
+  }
+
+  /* Subtitle: crisp white body copy */
+  #top .hero-subtitle {
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 2px 16px rgba(10, 14, 26, 0.22);
+  }
+
+  /* Primary CTA: solid black pill with white text — matches reference */
+  #top .btn-primary {
+    background: #0a0a0a;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 14px 34px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+  #top .btn-primary:hover {
+    background: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow:
+      0 20px 44px rgba(0, 0, 0, 0.36),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
+
+  /* SIAM training line — white on gradient */
+  #top .hero-meta-note {
+    font-size: 0.92rem;
+    margin-top: 1.4rem;
+    letter-spacing: 0.01em;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  #top .hero-meta-note .dot {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  }
+  #top .hero-meta-note a {
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    transition: border-color .2s var(--ease), opacity .2s var(--ease);
+  }
+  #top .hero-meta-note a:hover {
+    border-bottom-color: #fff;
+    opacity: 0.9;
+  }
+
+  /* Push the butterfly stage below the hero so the clean gradient reads.
+     Butterfly re-appears in later dark sections per its existing scroll logic. */
+  #top ~ * .butterfly-stage,
+  #top .butterfly-stage { opacity: 0; }
+
   /* =====================================================
      ========   BLEND ENHANCEMENT — NEW SECTIONS   =======
      All rules below reuse existing design tokens
@@ -5266,10 +5374,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
     </div>
-    <p style="font-size: 0.92rem; margin-top: 1.4rem; opacity: 0.82; letter-spacing: 0.01em;">
-      <span style="color:#FFD054;">●</span>
+    <p class="hero-meta-note">
+      <span class="dot" aria-hidden="true">●</span>
       Accredited SIAM training cohorts now enrolling &mdash;
-      <a href="#bring" style="color:#FFD054; border-bottom:1px solid rgba(255,208,84,0.4); text-decoration:none;">see training details →</a>
+      <a href="#bring">see training details →</a>
     </p>
   </div>
 </header>
