@@ -6705,17 +6705,30 @@
       transparent 100%
     );
   }
-  .diagnosis-subhead {
+  .diagnosis-part2-head {
     max-width: 1280px;
     margin: clamp(1.6rem, 3vw, 2.2rem) auto 0;
     padding: 0 clamp(24px, 4vw, 40px);
+    text-align: center;
+  }
+  .diagnosis-part2-title {
+    margin: 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+    color: var(--ink-dark);
+  }
+  .diagnosis-part2-lede {
+    margin: clamp(14px, 1.6vw, 20px) auto 0;
+    max-width: 640px;
     font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-weight: 500;
-    font-size: clamp(20px, 2vw, 26px);
-    line-height: 1.35;
-    color: var(--ink-dark);
-    text-align: center;
+    font-size: clamp(16px, 1.4vw, 20px);
+    line-height: 1.4;
+    color: var(--ink-body);
   }
   /* Legacy anchors: keep external deep-links to #fails and #rewritten landing on merged section */
   .anchor-legacy {
@@ -7347,7 +7360,15 @@
 
   <!-- ═══════════ PART 1 → PART 2 transition ═══════════ -->
   <div class="diagnosis-divider reveal" role="presentation"></div>
-  <p class="diagnosis-subhead reveal">And here&rsquo;s how it shows up in your organisation:</p>
+  <header class="diagnosis-part2-head reveal">
+    <h3 class="diagnosis-part2-title">
+      Most organisations aren&rsquo;t failing at strategy.<br/>
+      They&rsquo;re failing at the operating model&nbsp;underneath&nbsp;it.
+    </h3>
+    <p class="diagnosis-part2-lede">
+      Here&rsquo;s how it shows up in your organisation:
+    </p>
+  </header>
 
   <!-- ═══════════ PART 2 — THE SYMPTOMS ═══════════ -->
   <div class="fails-wrap reveal">
