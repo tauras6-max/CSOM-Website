@@ -99,6 +99,16 @@
     --radius: 18px;
     --ease: cubic-bezier(.2,.7,.2,1);
     --max: 1240px;
+
+    /* ---- Light-surface tokens (adapted from slide 2/3 design spec) ---- */
+    --light-bg:       #ffffff;
+    --light-bg-soft:  #f8fafc;   /* card shoulder / subtle background */
+    --light-bg-alt:   #f1f5f9;   /* alternating band */
+    --light-line:     #e2e8f0;   /* card border */
+    --light-line-strong: #cbd5e1;
+    --ink-dark:       #0f172a;   /* titles on light surface */
+    --ink-body:       #475569;   /* body on light surface */
+    --ink-muted:      #64748b;   /* captions / meta on light surface */
   }
 
   * { box-sizing: border-box; }
@@ -5041,6 +5051,259 @@
     .signals-grid { grid-template-columns: 1fr; }
   }
 
+  /* ========================================================
+     ====   LIGHT-SURFACE SECTIONS — adapted from design   ===
+     Slide 2: split-layout manifesto + 3-step band
+     Slide 3: white 3x2 pillar card grid with coloured tops
+     All light sections share the .light-surface base so the
+     tokens + typography stay consistent site-wide.
+     ======================================================== */
+
+  .light-surface {
+    position: relative;
+    z-index: 2;
+    background: var(--light-bg);
+    color: var(--ink-dark);
+    padding: clamp(5rem, 8vw, 7rem) 0;
+  }
+  .light-surface.alt { background: var(--light-bg-soft); }
+
+  /* Thin brand-gradient hairline along the top + bottom edges of light sections
+     — mirrors the slide 2 detail along the slide bottom. */
+  .light-surface::before,
+  .light-surface::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--brand-gradient);
+    opacity: 0.9;
+  }
+  .light-surface::before { top: 0; }
+  .light-surface::after  { bottom: 0; }
+
+  .light-surface .section-eyebrow {
+    color: var(--brand-orange);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 18px;
+  }
+  .light-surface .section-title {
+    color: var(--ink-dark);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    font-size: clamp(34px, 4.6vw, 54px);
+    margin: 0 0 18px;
+  }
+  .light-surface .section-lede,
+  .light-surface .section-body p {
+    color: var(--ink-body);
+    font-size: clamp(16px, 1.25vw, 18px);
+    line-height: 1.65;
+  }
+
+  /* Italic-serif gradient line — the "A CS function that runs itself." treatment */
+  .light-surface .serif-gradient {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.012em;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin: 12px 0 0;
+    display: block;
+  }
+
+  /* ---- Slide-2 split layout: "Six pillars. One rhythm." ---- */
+  .split-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: clamp(40px, 6vw, 90px);
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 28px;
+    align-items: start;
+  }
+  .split-intro-left  { min-width: 0; }
+  .split-intro-right { min-width: 0; }
+  .split-intro-right p { margin: 0 0 18px; }
+  .split-intro-right p:last-of-type { margin-bottom: 32px; }
+
+  .step-band {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 28px;
+  }
+  .step-card {
+    position: relative;
+    padding: 20px 4px 4px;
+    border-top: 2px solid var(--brand-orange);
+  }
+  .step-card:nth-child(1) { border-top-color: var(--brand-blue); }
+  .step-card:nth-child(2) { border-top-color: var(--brand-green); }
+  .step-card:nth-child(3) { border-top-color: var(--brand-orange); }
+  .step-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .step-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink-dark);
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .step-desc {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-body);
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .split-intro { grid-template-columns: 1fr; gap: 32px; }
+    .step-band { grid-template-columns: 1fr; gap: 14px; }
+  }
+
+  /* ---- Slide-3 pillar card grid ---- */
+  .pillar-grid-wrap {
+    max-width: 1240px;
+    margin: clamp(40px, 6vw, 72px) auto 0;
+    padding: 0 28px;
+  }
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+  .pillar-card {
+    position: relative;
+    background: var(--light-bg);
+    border: 1px solid var(--light-line);
+    border-radius: 16px;
+    padding: 28px 26px 24px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+    overflow: hidden;
+  }
+  .pillar-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--pc-accent, var(--brand-orange));
+  }
+  .pillar-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.09);
+    border-color: var(--light-line-strong);
+  }
+  .pillar-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .pillar-chip {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--pc-chip-bg, rgba(245, 160, 46, 0.14));
+    color: var(--pc-accent, var(--brand-orange));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .pillar-chip svg {
+    width: 20px; height: 20px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .pillar-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    letter-spacing: .05em;
+  }
+  .pillar-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink-dark);
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .pillar-desc {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-body);
+    margin: 0 0 14px;
+  }
+  .pillar-checks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .pillar-checks li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-body);
+  }
+  .pillar-checks li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 6px;
+    width: 14px; height: 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l4 4L19 7'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  /* Accent variants per pillar — matches slide 3 colour rotation */
+  .pillar-card.pc-blue   { --pc-accent: var(--brand-blue);   --pc-chip-bg: rgba(39, 184, 179, 0.14); }
+  .pillar-card.pc-green  { --pc-accent: var(--brand-green);  --pc-chip-bg: rgba(76, 199, 63, 0.14); }
+  .pillar-card.pc-yellow { --pc-accent: var(--brand-yellow); --pc-chip-bg: rgba(244, 203, 46, 0.18); }
+  .pillar-card.pc-coral  { --pc-accent: var(--brand-coral);  --pc-chip-bg: rgba(230, 123, 86, 0.14); }
+  .pillar-card.pc-purple { --pc-accent: #a78bfa;             --pc-chip-bg: rgba(167, 139, 250, 0.14); }
+  .pillar-card.pc-teal   { --pc-accent: var(--brand-teal);   --pc-chip-bg: rgba(46, 200, 154, 0.14); }
+  .pillar-card.pc-orange { --pc-accent: var(--brand-orange); --pc-chip-bg: rgba(245, 160, 46, 0.14); }
+
+  @media (max-width: 1024px) { .pillar-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px)  { .pillar-grid { grid-template-columns: 1fr; } }
+
+  /* Hide the old dark pillars-figure whenever a .pillar-grid is present
+     in the same section — prevents duplicate content during the migration. */
+  .has-pillar-grid .pillars-figure { display: none; }
+
   /* ---- Pick One — closing commitment ---- */
   .pick-one {
     padding: clamp(4rem, 8vw, 6rem) 0 clamp(5rem, 9vw, 7rem);
@@ -5496,7 +5759,7 @@
 </section>
 
 <!-- =============== THE FENCE — what CSOM is, and what it isn't =============== -->
-<section class="fence" id="fence" aria-labelledby="fenceTitle">
+<section class="fence has-pillar-grid" id="fence" aria-labelledby="fenceTitle">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="section-eyebrow">Before we go further</span>
@@ -5600,6 +5863,206 @@
         </div>
       </div>
     </figure>
+  </div>
+</section>
+
+<!-- =============== THE MODEL — slide-2 split intro + slide-3 pillar grid =============== -->
+<section class="light-surface" id="pillars" aria-labelledby="modelTitle">
+  <div class="split-intro reveal">
+    <div class="split-intro-left">
+      <span class="section-eyebrow">The model</span>
+      <h2 class="section-title" id="modelTitle">
+        Seven disciplines.<br/>Two orbits.
+      </h2>
+      <span class="serif-gradient">A function that realizes&nbsp;Value.</span>
+    </div>
+    <div class="split-intro-right section-body">
+      <p>
+        Most organisations are stitched together &mdash; a framework from a conference, a
+        dashboard from the last tool evaluation, a cadence nobody actually runs. The
+        results are predictable: churn, heroic saves, and no way to prove the outcome.
+      </p>
+      <p>
+        CSOM<span class="tm">&trade;</span> replaces the patchwork with a single operating
+        model. Seven disciplines designed together, two orbits running through all of
+        them, instrumented end-to-end &mdash; so the organisation <em>compounds</em>
+        Value instead of constantly catching up.
+      </p>
+      <div class="step-band">
+        <div class="step-card">
+          <span class="step-label">Step 01</span>
+          <h4 class="step-name">Diagnose</h4>
+          <p class="step-desc">Baseline where you stand across all seven disciplines.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-label">Step 02</span>
+          <h4 class="step-name">Design</h4>
+          <p class="step-desc">Co-create the operating model with your team.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-label">Step 03</span>
+          <h4 class="step-name">Deploy</h4>
+          <p class="step-desc">Implement, instrument, train &mdash; in twelve weeks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pillar-grid-wrap reveal">
+    <div class="pillar-grid" role="list">
+      <!-- 01 Leadership -->
+      <article class="pillar-card pc-blue" role="listitem">
+        <div class="pillar-head">
+          <div class="pillar-chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14l3-6 5 2-3 6-5-2z"/></svg>
+          </div>
+          <span class="pillar-num">01</span>
+        </div>
+        <h3 class="pillar-title">Leadership</h3>
+        <p class="pillar-desc">Sets the north star for Value realization and holds the operating model to account.</p>
+        <ul class="pillar-checks">
+          <li>Operating-model principles</li>
+          <li>Value-realization mandate</li>
+          <li>Executive sponsorship</li>
+        </ul>
+      </article>
+
+      <!-- 02 Organisation Design -->
+      <article class="pillar-card pc-purple" role="listitem">
+        <div class="pillar-head">
+          <div class="pillar-chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><path d="M15 20c0-2 2-3 4-3"/></svg>
+          </div>
+          <span class="pillar-num">02</span>
+        </div>
+        <h3 class="pillar-title">Organisation Design</h3>
+        <p class="pillar-desc">Structures teams around customer outcomes, not org-chart boundaries.</p>
+        <ul class="pillar-checks">
+          <li>Roles &amp; coverage ratios</li>
+          <li>Team-to-customer mapping</li>
+          <li>Career paths</li>
+        </ul>
+      </article>
+
+      <!-- 03 Program Management -->
+      <article class="pillar-card pc-green" role="listitem">
+        <div class="pillar-head">
+          <div class="pillar-chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 3v4M16 3v4"/></svg>
+          </div>
+          <span class="pillar-num">03</span>
+        </div>
+        <h3 class="pillar-title">Program Management</h3>
+        <p class="pillar-desc">Sequences the bets and keeps the rhythm running.</p>
+        <ul class="pillar-checks">
+          <li>Portfolio cadence</li>
+          <li>Milestone tracking</li>
+          <li>Outcome reviews</li>
+        </ul>
+      </article>
+
+      <!-- 04 Change Management -->
+      <article class="pillar-card pc-orange" role="listitem">
+        <div class="pillar-head">
+          <div class="pillar-chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 7h12l-3-3"/><path d="M20 17H8l3 3"/></svg>
+          </div>
+          <span class="pillar-num">04</span>
+        </div>
+        <h3 class="pillar-title">Change Management</h3>
+        <p class="pillar-desc">Moves the organisation toward the new definition of &ldquo;done&rdquo;.</p>
+        <ul class="pillar-checks">
+          <li>Adoption playbooks</li>
+          <li>Stakeholder alignment</li>
+          <li>Communication rhythm</li>
+        </ul>
+      </article>
+
+      <!-- 05 Service Management -->
+      <article class="pillar-card pc-teal" role="listitem">
+        <div class="pillar-head">
+          <div class="pillar-chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+          </div>
+          <span class="pillar-num">05</span>
+        </div>
+        <h3 class="pillar-title">Service Management</h3>
+        <p class="pillar-desc">Process discipline that keeps the engine clean &mdash; ITIL-grade.</p>
+        <ul class="pillar-checks">
+          <li>Service design</li>
+          <li>Incident &amp; change</li>
+          <li>Operational hygiene</li>
+        </ul>
+      </article>
+
+      <!-- 06 Ecosystem Integration -->
+      <article class="pillar-card pc-yellow" role="listitem">
+        <div class="pillar-head">
+          <div class="pillar-chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 7l8 0M8 8l4 8M16 8l-4 8"/></svg>
+          </div>
+          <span class="pillar-num">06</span>
+        </div>
+        <h3 class="pillar-title">Ecosystem Integration</h3>
+        <p class="pillar-desc">Multi-vendor coordination and partner governance &mdash; SIAM-grade.</p>
+        <ul class="pillar-checks">
+          <li>Partner SLAs</li>
+          <li>Cross-tower handoffs</li>
+          <li>Integration governance</li>
+        </ul>
+      </article>
+
+      <!-- 07 Customer Success -->
+      <article class="pillar-card pc-coral" role="listitem">
+        <div class="pillar-head">
+          <div class="pillar-chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7-5-7-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-7 11-7 11"/></svg>
+          </div>
+          <span class="pillar-num">07</span>
+        </div>
+        <h3 class="pillar-title">Customer Success</h3>
+        <p class="pillar-desc">Adoption, retention, and realized Value on the ground.</p>
+        <ul class="pillar-checks">
+          <li>Lifecycle stages</li>
+          <li>Health scoring</li>
+          <li>Value reviews</li>
+        </ul>
+      </article>
+
+      <!-- Orbit 01 Data & Intelligence -->
+      <article class="pillar-card pc-blue" role="listitem">
+        <div class="pillar-head">
+          <div class="pillar-chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 20h18"/><rect x="5" y="12" width="3" height="7"/><rect x="10" y="7" width="3" height="12"/><rect x="15" y="4" width="3" height="15"/></svg>
+          </div>
+          <span class="pillar-num">Orbit &middot; inner</span>
+        </div>
+        <h3 class="pillar-title">Data &amp; Intelligence</h3>
+        <p class="pillar-desc">The signal layer. What&rsquo;s working. What isn&rsquo;t. What to do next.</p>
+        <ul class="pillar-checks">
+          <li>Telemetry &amp; dashboards</li>
+          <li>Leading indicators</li>
+          <li>Decision support</li>
+        </ul>
+      </article>
+
+      <!-- Orbit 02 Continual Improvement -->
+      <article class="pillar-card pc-green" role="listitem">
+        <div class="pillar-head">
+          <div class="pillar-chip" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v5h-5"/></svg>
+          </div>
+          <span class="pillar-num">Orbit &middot; outer</span>
+        </div>
+        <h3 class="pillar-title">Continual Improvement</h3>
+        <p class="pillar-desc">The learning loop that turns one quarter&rsquo;s gains into the next quarter&rsquo;s baseline.</p>
+        <ul class="pillar-checks">
+          <li>Feedback cadence</li>
+          <li>Experiment log</li>
+          <li>Retrospective rhythm</li>
+        </ul>
+      </article>
+    </div>
   </div>
 </section>
 
