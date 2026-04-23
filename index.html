@@ -8440,19 +8440,23 @@
   const modelSection   = document.getElementById('model');
 
   if (globeStageEl && heroSection && rewriteSection) {
+    /* Globe belongs to the HERO — it carries narrative weight there and
+       nowhere else. In the manifesto and later sections it was landing
+       on top of body copy and centered quotes, ruining readability on
+       every viewport below ~1600px. We now fade the globe out as the
+       user enters the manifesto, and skip per-section stops entirely. */
     const globeStops = [
-      /* Hero: push far right + scale down so the globe stops crashing
-         into the left-aligned headline. Readability first. */
-      { el: heroSection,    top: 48, left: 85, scale: 1.40 },
-      { el: rewriteSection, top: 28, left: 50, scale: 0.95 },
+      { el: heroSection, top: 48, left: 85, scale: 1.40 },
     ];
-    /* Fails section is light-surface with dark text — keep globe clearly
-       to the right so it decorates, never overlays the cards. */
-    if (failsSection) globeStops.push({ el: failsSection, top: 50, left: 88, scale: 1.45 });
 
     createScrollStage(globeStageEl, {
       stops:   globeStops,
-      fadeOut: modelSection ? { el: modelSection, startVh: 1.00, endVh: 0.35 } : null,
+      /* Fade begins when the rewrite section reaches the bottom of the
+         viewport (startVh: 1.0) and completes when its top is still
+         well below the viewport top (endVh: 0.65) — so the globe is
+         already invisible by the time any manifesto body copy comes
+         within text-reading distance of it. */
+      fadeOut: rewriteSection ? { el: rewriteSection, startVh: 1.00, endVh: 0.65 } : null,
       format:  stageTransform,
     });
   }
