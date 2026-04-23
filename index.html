@@ -9033,6 +9033,7 @@
     const practitionerSec  = document.getElementById('practitioners');
     if (!practitionerSec) return;
     const splitIntro       = practitionerSec.querySelector('.split-intro');
+    const splitIntroLeft   = practitionerSec.querySelector('.split-intro-left');
     const skillsTable      = practitionerSec.querySelector('.skills-gap-table');
     const givesBand        = practitionerSec.querySelector('.gives-band');
     const bringSec         = document.getElementById('bring');
@@ -9046,22 +9047,25 @@
     }
 
     /* Three stops within #practitioners — the butterfly's flight path:
-       1. Split-intro: butterfly sits upper-right next to the quote at
-          scale 1.45, full opacity — the entry pose from the annotated
-          picture 1 reference.
-       2. Skills-gap-table: mid-travel, drifts toward centre at scale
-          2.40, dimmed to op: 0.55 so wing tips frame the table without
-          fighting the cells.
+       1. Emergence (split-intro-left): butterfly APPEARS FROM the
+          section title "You've mastered the frameworks. / Now lead the
+          model. / The career-defining skill of the Value era." Sits
+          over the left column at scale 1.25, op 0.85 so the title copy
+          (z-index:5) still reads cleanly.
+       2. Skills-gap-table: mid-travel, drifts diagonally toward centre
+          at scale 2.40, dimmed to op: 0.55 so wing tips frame the
+          table without fighting the cells.
        3. Gives-band: lands centred behind the 4-card "What CSOM gives
           you as a practitioner" grid at scale 3.0, op: 0.60 — the
           emergence pose from the annotated picture 2 reference.
-       All section copy (practitioner-quote, practitioner-bridge,
-       skills-gap cells, gives-wrap / gives-card) carries z-index:5 so
-       it paints over the z-index:3 butterfly-stage; only the parts of
-       the butterfly outside those footprints remain visible. */
+       All section copy (split-intro, practitioner-quote, practitioner-
+       bridge, skills-gap cells, gives-wrap / gives-card) carries
+       z-index:5 so it paints over the z-index:3 butterfly-stage; only
+       the parts of the butterfly outside those footprints remain
+       visible. */
     const stops = [
-      { el: splitIntro,  top: 40, left: 80, scale: 1.45, op: 1.00 },
-      { el: skillsTable, top: 55, left: 55, scale: 2.40, op: 0.55 },
+      { el: splitIntroLeft || splitIntro, top: 38, left: 26, scale: 1.25, op: 0.85 },
+      { el: skillsTable,                  top: 55, left: 55, scale: 2.40, op: 0.55 },
     ];
     if (givesBand) {
       stops.push({ el: givesBand, top: 55, left: 50, scale: 3.00, op: 0.60 });
