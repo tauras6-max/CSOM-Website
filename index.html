@@ -3380,10 +3380,12 @@
     width: 100%;
   }
   /* 3D scroll zone — tall wrapper that drives rotation via scroll.
-     Inner .cg-3d-sticky pins the 3D scene to the viewport throughout. */
+     Inner .cg-3d-sticky pins the 3D scene to the viewport throughout.
+     Height = viewport (so scene fills one screen) + ~20vh of rotation
+     scroll, matching the tight hand-off the original .cg-wrap had. */
   .cg-3d-scroll {
     position: relative;
-    height: 180vh;            /* scroll distance that drives ring rotation */
+    height: 120vh;
     width: 100%;
   }
   .cg-3d-sticky {
@@ -3601,7 +3603,7 @@
       align-self: center;
       overflow: visible;
     }
-    .cg-3d-scroll { height: 140vh; }
+    .cg-3d-scroll { height: 120vh; }
     .cg-stage-wrap { transform: scale(0.80); }
     .cg-orbit-legend { grid-template-columns: 1fr 1fr; }
   }
