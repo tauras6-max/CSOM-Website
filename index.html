@@ -3338,22 +3338,25 @@
   .cg-wrap {
     position: relative;
     width: 100%;
-    /* Consolidated section: .cg-layout drives its own height (video
-       height + 3D scroll zone), so no fixed height here. */
-    background:
-      radial-gradient(ellipse 60% 80% at 20% 20%, rgba(31, 111, 214, 0.22), transparent 55%),
-      radial-gradient(ellipse 50% 60% at 85% 85%, rgba(245, 166, 35, 0.20), transparent 55%),
-      linear-gradient(110deg, #2B5D7E 0%, #6A5373 30%, #B96A55 58%, #E88754 82%, #F29A5E 100%);
+    /* Consolidated section: .cg-layout drives its own height. After
+       Option A, the 3D rotating ring is replaced with a static
+       discipline grid, so the warm sunset gradient is swapped for a
+       clean white canvas -- scannable, print-style. */
+    background: #ffffff;
     overflow: hidden;
     font-family: 'Space Grotesk', 'Inter', sans-serif;
   }
-  /* Section-wide background layer: starfield + veil span the full
-     consolidated section behind both the video and the 3D scene. */
+  /* Section-wide background layer. The starfield + veil were tuned
+     for the dark-space aesthetic of the rotating ring; on the white
+     canvas they either hide (stars) or suppress a vignette that would
+     darken the white (veil). Kept in the DOM so any reintroduction is
+     a single-line flip rather than a re-insertion. */
   .cg-bg-layer {
     position: absolute;
     inset: 0;
     z-index: 0;
     pointer-events: none;
+    display: none;
   }
   /* Two-column layout wrapping LEFT (sticky info) + RIGHT (video + 3D). */
   .cg-layout {
@@ -3398,6 +3401,114 @@
     align-items: center;
     justify-content: center;
   }
+
+  /* =============== 7 DISCIPLINE CARDS (STATIC GRID) ================
+     Replaces the 3D rotating ring. 2-col grid of hairline-outlined
+     white cards on a white section background. Each card owns a
+     --acc colour (inherited from the planet palette --p1..--p7) which
+     drives the icon tint, the check-mark bullets, and the hover
+     border treatment. */
+  .discipline-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(14px, 1.6vw, 20px);
+    width: 100%;
+  }
+  @media (max-width: 1100px) {
+    .discipline-grid { grid-template-columns: 1fr; }
+  }
+  .discipline-card {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid rgba(12, 16, 26, 0.09);
+    border-radius: 16px;
+    padding: clamp(18px, 1.8vw, 24px) clamp(20px, 2vw, 26px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 4px 14px rgba(12, 16, 26, 0.035);
+    transition: box-shadow .25s var(--ease), transform .25s var(--ease), border-color .25s var(--ease);
+  }
+  .discipline-card:hover {
+    box-shadow: 0 14px 32px rgba(12, 16, 26, 0.08);
+    border-color: color-mix(in srgb, var(--acc) 40%, rgba(12, 16, 26, 0.12));
+    transform: translateY(-2px);
+  }
+  .dc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .dc-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+    background: color-mix(in srgb, var(--acc) 14%, transparent);
+    color: var(--acc);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .dc-icon svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
+  .dc-num {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(12, 16, 26, 0.38);
+    letter-spacing: 0.04em;
+    padding-top: 6px;
+  }
+  .dc-title {
+    margin: 4px 0 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(18px, 1.5vw, 22px);
+    font-weight: 700;
+    color: var(--ink-dark);
+    line-height: 1.18;
+    letter-spacing: -0.012em;
+  }
+  .dc-desc {
+    margin: 0;
+    font-size: clamp(13.5px, 1vw, 15px);
+    line-height: 1.55;
+    color: var(--ink-body);
+  }
+  .dc-bullets {
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .dc-bullets li {
+    position: relative;
+    padding-left: 24px;
+    font-size: clamp(13px, 0.95vw, 14.5px);
+    color: var(--ink-body);
+    line-height: 1.4;
+  }
+  .dc-bullets li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    background: var(--acc);
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 12 10 18 20 6'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 12 10 18 20 6'/></svg>") center/contain no-repeat;
+  }
+  /* Hide the scroll-progress rail: it was driven by the 3D ring scroll
+     calc, which no longer exists. Left in the DOM so any JS reference
+     stays safe; just invisible. */
+  #planets .cg-progress { display: none; }
   /* Legacy class kept only for any stray references — no longer renders
      a grid; the new structure uses .cg-layout instead. */
   .cg-sticky {
@@ -7679,7 +7790,7 @@
       <span class="cg-eyebrow">A first look &middot; The CSOM Universe</span>
       <h2 class="cg-title">Seven disciplines.<br>Two orbits. One sun.</h2>
       <p class="cg-lede">Customer Value Realization at the centre. Scroll to orbit.</p>
-      <p class="cg-sub-lede">Sixty seconds to see the whole model above &mdash; then watch the disciplines orbit one by one.</p>
+      <p class="cg-sub-lede">Sixty seconds to see the whole model above &mdash; then read each discipline on the right.</p>
 
       <div class="cg-universe-list" role="list" aria-label="The seven CSOM disciplines">
         <div class="cg-ul-head">The Seven Disciplines</div>
@@ -7769,34 +7880,123 @@
         </div>
       </div>
 
-      <!-- 3D scene scroll zone: tall wrapper so scroll distance drives
-           ring rotation; inner .cg-3d-sticky pins the scene to the
-           viewport during that scroll. JS measures #cg3dScroll to map
-           progress -> rotation. -->
-      <div class="cg-3d-scroll" id="cg3dScroll">
-        <div class="cg-3d-sticky">
-          <div class="cg-stage-wrap">
-            <!-- 3D stage: perspective wrapper → rotating ring → cards + sun
-                 id="cgStage" = pointer-drag target for manual rotation. -->
-            <div class="cg-3d" id="cgStage">
-              <div class="cg-ring" id="cgRing">
-                <!-- The Sun — Value Realization -->
-                <div class="cg-sun" aria-hidden="true">
-                  <div class="cg-sun-glow"></div>
-                  <span>VALUE</span>
-                  <span>REALIZATION</span>
-                </div>
-
-                <!-- 7 planet cards injected here by JS as .cg-card elements -->
-              </div>
+      <!-- 7 discipline cards — static grid replacing the former 3D
+           rotating ring. Each card carries icon, number, title, short
+           description, and three capability bullets in the discipline's
+           accent colour. Order matches the planets[] array in the JS
+           data block (Leadership → Customer Success). -->
+      <div class="discipline-grid">
+        <article class="discipline-card" style="--acc: var(--p1);">
+          <div class="dc-head">
+            <div class="dc-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="12,6 14.2,12 12,18 9.8,12" fill="currentColor" stroke="none"/></svg>
             </div>
-
-            <!-- Scroll hint -->
-            <div class="cg-hint" aria-hidden="true">
-              SCROLL TO EXPLORE <span class="cg-hint-arrow">↓</span>
-            </div>
+            <span class="dc-num">01</span>
           </div>
-        </div>
+          <h3 class="dc-title">Leadership</h3>
+          <p class="dc-desc">Sets direction, owns accountability, and sponsors the operating model across Services and Products.</p>
+          <ul class="dc-bullets">
+            <li>Operating-model sponsorship</li>
+            <li>Outcome accountability</li>
+            <li>Cross-domain direction</li>
+          </ul>
+        </article>
+
+        <article class="discipline-card" style="--acc: var(--p7);">
+          <div class="dc-head">
+            <div class="dc-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><line x1="12" y1="7.5" x2="5.8" y2="15.8"/><line x1="12" y1="7.5" x2="18.2" y2="15.8"/></svg>
+            </div>
+            <span class="dc-num">02</span>
+          </div>
+          <h3 class="dc-title">Organisation Design</h3>
+          <p class="dc-desc">Roles, capabilities, and structures built around the customer &mdash; not the org chart.</p>
+          <ul class="dc-bullets">
+            <li>Customer-centred structure</li>
+            <li>Capability architecture</li>
+            <li>Role &amp; accountability clarity</li>
+          </ul>
+        </article>
+
+        <article class="discipline-card" style="--acc: var(--p2);">
+          <div class="dc-head">
+            <div class="dc-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="14" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="16" y2="18"/></svg>
+            </div>
+            <span class="dc-num">03</span>
+          </div>
+          <h3 class="dc-title">Program Management</h3>
+          <p class="dc-desc">Executes, coordinates, and tracks delivery against outcomes &mdash; not just milestones.</p>
+          <ul class="dc-bullets">
+            <li>Outcome-based delivery</li>
+            <li>Cross-team coordination</li>
+            <li>Complexity management</li>
+          </ul>
+        </article>
+
+        <article class="discipline-card" style="--acc: var(--p3);">
+          <div class="dc-head">
+            <div class="dc-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-15.5 6.3"/><path d="M3 12a9 9 0 0 1 15.5-6.3"/><polyline points="21 3 21 8 16 8"/><polyline points="3 21 3 16 8 16"/></svg>
+            </div>
+            <span class="dc-num">04</span>
+          </div>
+          <h3 class="dc-title">Change Management</h3>
+          <p class="dc-desc">Drives adoption across people, process, and culture &mdash; an ongoing discipline, not a one-time event.</p>
+          <ul class="dc-bullets">
+            <li>Behaviour &amp; belief shifts</li>
+            <li>Adoption across lifecycles</li>
+            <li>Ongoing culture work</li>
+          </ul>
+        </article>
+
+        <article class="discipline-card" style="--acc: var(--p4);">
+          <div class="dc-head">
+            <div class="dc-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 3 20.5 7 12 11 3.5 7"/><polyline points="3.5 12 12 16 20.5 12"/><polyline points="3.5 17 12 21 20.5 17"/></svg>
+            </div>
+            <span class="dc-num">05</span>
+          </div>
+          <h3 class="dc-title">Service Management</h3>
+          <p class="dc-desc">How services are designed, delivered, and supported at scale. Rooted in ITIL, adapted for the customer outcome.</p>
+          <ul class="dc-bullets">
+            <li>ITIL foundations</li>
+            <li>Service design &amp; delivery</li>
+            <li>Support at scale</li>
+          </ul>
+        </article>
+
+        <article class="discipline-card" style="--acc: var(--p6);">
+          <div class="dc-head">
+            <div class="dc-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="4" r="2"/><circle cx="20" cy="4" r="2"/><circle cx="4" cy="20" r="2"/><circle cx="20" cy="20" r="2"/><line x1="5.5" y1="5.5" x2="10" y2="10"/><line x1="18.5" y1="5.5" x2="14" y2="10"/><line x1="5.5" y1="18.5" x2="10" y2="14"/><line x1="18.5" y1="18.5" x2="14" y2="14"/></svg>
+            </div>
+            <span class="dc-num">06</span>
+          </div>
+          <h3 class="dc-title">Ecosystem Integration</h3>
+          <p class="dc-desc">Multi-vendor, partners, and platforms working as one coherent system. Grounded in SIAM principles.</p>
+          <ul class="dc-bullets">
+            <li>SIAM principles</li>
+            <li>Multi-vendor orchestration</li>
+            <li>Partner &amp; platform fit</li>
+          </ul>
+        </article>
+
+        <article class="discipline-card" style="--acc: var(--p5);">
+          <div class="dc-head">
+            <div class="dc-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M12 21s-7-4.6-7-10.1A4.5 4.5 0 0 1 13.5 8 4.5 4.5 0 0 1 19 10.9c0 5.5-7 10.1-7 10.1z"/></svg>
+            </div>
+            <span class="dc-num">07</span>
+          </div>
+          <h3 class="dc-title">Customer Success</h3>
+          <p class="dc-desc">Onboarding, adoption, retention, and expansion &mdash; turning a transaction into a relationship and a product into a result.</p>
+          <ul class="dc-bullets">
+            <li>Onboarding &amp; adoption</li>
+            <li>Retention &amp; expansion</li>
+            <li>Transaction &rarr; relationship</li>
+          </ul>
+        </article>
       </div>
     </div>
   </div>
