@@ -6029,7 +6029,7 @@
   }
   .audience-band {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(24px, 3vw, 40px);
   }
   .audience-hair {
@@ -6037,8 +6037,11 @@
     padding: 22px 4px 6px;
     border-top: 2px solid var(--brand-orange);
     background: transparent;
+    display: flex;
+    flex-direction: column;
   }
-  .audience-hair.ah-green { border-top-color: var(--brand-green); }
+  .audience-hair.ah-blue   { border-top-color: var(--brand-blue); }
+  .audience-hair.ah-green  { border-top-color: var(--brand-green); }
   .audience-hair.ah-orange { border-top-color: var(--brand-orange); }
 
   .audience-hair .ah-eyebrow {
@@ -6050,7 +6053,8 @@
     display: block;
     margin-bottom: 10px;
   }
-  .audience-hair.ah-green .ah-eyebrow { color: var(--brand-green); }
+  .audience-hair.ah-blue   .ah-eyebrow { color: var(--brand-blue); }
+  .audience-hair.ah-green  .ah-eyebrow { color: var(--brand-green); }
   .audience-hair.ah-orange .ah-eyebrow { color: var(--brand-orange); }
 
   .audience-hair h3 {
@@ -6103,13 +6107,43 @@
     border-bottom: 2px solid var(--brand-orange);
     transform: rotate(-45deg);
   }
+  .audience-hair.ah-blue li::before { background: var(--brand-blue); opacity: 0.18; }
+  .audience-hair.ah-blue li::after {
+    border-left-color: var(--brand-blue);
+    border-bottom-color: var(--brand-blue);
+  }
   .audience-hair.ah-green li::before { background: var(--brand-green); opacity: 0.18; }
   .audience-hair.ah-green li::after {
     border-left-color: var(--brand-green);
     border-bottom-color: var(--brand-green);
   }
-  @media (max-width: 700px) {
+  .audience-hair .ah-cta {
+    margin-top: auto;
+    padding-top: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .01em;
+    text-decoration: none;
+    color: var(--brand-orange);
+    align-self: flex-start;
+  }
+  .audience-hair.ah-blue   .ah-cta { color: var(--brand-blue); }
+  .audience-hair.ah-green  .ah-cta { color: var(--brand-green); }
+  .audience-hair.ah-orange .ah-cta { color: var(--brand-orange); }
+  .audience-hair .ah-cta:hover { opacity: .75; }
+
+  /* Responsive: 3 cols (desktop) → 2 cols with Practitioners full-width row 2 (tablet) → 1 col (mobile) */
+  @media (max-width: 1023px) {
+    .audience-band { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .audience-band > .audience-hair:nth-child(3) { grid-column: 1 / -1; }
+  }
+  @media (max-width: 767px) {
     .audience-band { grid-template-columns: 1fr; gap: 18px; }
+    .audience-band > .audience-hair:nth-child(3) { grid-column: auto; }
     .audience-hair ul { grid-template-columns: 1fr; gap: 8px; }
   }
 
@@ -7671,55 +7705,75 @@
     <div class="split-intro-left">
       <span class="section-eyebrow">Who it&rsquo;s for</span>
       <h2 class="section-title" id="audienceTitle">
-        Two audiences.<br/>One framework.
+        Three audiences.<br/>One operating model.
       </h2>
-      <span class="serif-gradient">Organisations and the&nbsp;people who lead them.</span>
+      <span class="serif-gradient">Two sides of the vendor bridge, and&nbsp;the people who lead it.</span>
     </div>
     <div class="split-intro-right section-body">
       <p>
-        CSOM<span class="tm">&trade;</span> Global exists for the organisations
-        that want to deliver value &mdash; and the professionals who want to
-        lead that change.
+        CSOM<span class="tm">&trade;</span> Global exists for the product companies
+        that build what customers adopt, the services firms that deploy and run
+        it, and the practitioners who carry the craft between them.
       </p>
       <p>
-        Same operating model, two entry points: build it for the business, or
-        become the practitioner who can.
+        Same operating model, three entry points: ship outcomes, deliver
+        outcomes, or become the practitioner who can.
       </p>
     </div>
   </div>
 
   <div class="audience-wrap reveal">
     <div class="audience-band">
-      <article class="audience-hair ah-green">
-        <span class="ah-eyebrow">For organisations</span>
-        <h3>Build the operating model your customers deserve.</h3>
+      <article class="audience-hair ah-blue">
+        <span class="ah-eyebrow">For product companies</span>
+        <h3>Build products your customers actually adopt.</h3>
         <p>
-          Insurance, banking, healthcare, logistics, technology &mdash; your
-          customers now reward the outcome, not the product.
-          CSOM<span class="tm">&trade;</span> gives you the operating model to
-          deliver it at scale.
+          You ship features. Your customers adopt a fraction of what they pay
+          for. Churn follows. CSOM<span class="tm">&trade;</span> turns feature
+          adoption into outcome adoption &mdash; the only kind that renews and
+          expands.
         </p>
         <ul>
-          <li>Close the promise-vs-value gap</li>
-          <li>Reduce churn</li>
-          <li>Build outcome structure</li>
-          <li>Works for any size</li>
+          <li>Close the feature-vs-outcome gap</li>
+          <li>Protect NRR and CLV</li>
+          <li>Feed adoption signal back to Product</li>
+          <li>Works across SaaS, platform, and hardware+SaaS</li>
         </ul>
+        <a class="ah-cta" href="#contact">Start a conversation &rarr;</a>
+      </article>
+      <article class="audience-hair ah-green">
+        <span class="ah-eyebrow">For services &amp; SI</span>
+        <h3>Deploy for go-live. Get paid for outcomes.</h3>
+        <p>
+          Your SOW ends at go-live. Your customer&rsquo;s journey starts there.
+          CSOM<span class="tm">&trade;</span> turns implementation into value
+          realization &mdash; the only kind that commands margin and extends
+          engagements.
+        </p>
+        <ul>
+          <li>Outcome-based SOWs, not deployment-based</li>
+          <li>Become the Product vendor&rsquo;s adoption partner</li>
+          <li>New service lines: CVR assessments, adoption accelerators</li>
+          <li>Works across SI, consultancies, and managed services</li>
+        </ul>
+        <a class="ah-cta" href="#contact">Start a conversation &rarr;</a>
       </article>
       <article class="audience-hair ah-orange">
-        <span class="ah-eyebrow">For practitioners</span>
-        <h3>Lead the model your industry is learning to build.</h3>
+        <span class="ah-eyebrow">For practitioners &middot; ITIL &middot; SIAM &middot; Customer Success</span>
+        <h3>Your certifications got you here. CSOM<span class="tm">&trade;</span> takes you further.</h3>
         <p>
-          If you run ITIL, SIAM, or Customer Success &mdash;
-          <strong>CSOM<span class="tm">&trade;</span> is the model that makes your craft
-          the differentiator of the Value era.</strong>
+          You&rsquo;ve mastered ITIL, SIAM, or Customer Success &mdash; the output
+          layer. CSOM<span class="tm">&trade;</span> is the operating model that
+          turns that craft into value realization. The career lever your badges
+          can&rsquo;t give you.
         </p>
         <ul>
-          <li>Build on your certification</li>
-          <li>Career differentiator</li>
-          <li>Works in any industry</li>
-          <li>Taught by practitioners</li>
+          <li>Bridge ITIL + SIAM + CS into one operating model</li>
+          <li>Move from output specialist to outcome architect</li>
+          <li>Carry the model into any industry, at any scale</li>
+          <li>Trained and taught by practitioners who&rsquo;ve built one</li>
         </ul>
+        <a class="ah-cta" href="#practitioners">See training &rarr;</a>
       </article>
     </div>
   </div>
