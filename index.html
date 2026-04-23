@@ -3094,6 +3094,24 @@
     font-size: clamp(14px, 1.1vw, 16px);
     line-height: 1.65;
   }
+  /* Practitioners-style third tier: Fraunces italic with brand gradient.
+     Mirrors .light-surface .serif-gradient but scaled to the model-info
+     column width. #model isn't .light-surface, so we scope this locally. */
+  .model-info .serif-gradient {
+    display: inline-block;
+    margin: 0;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(20px, 2.2vw, 28px);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
 
   /* Light-surface variant of the glass disciplines list + orbit legend
      (styled dark by default for use inside the sunset-gradient
@@ -7526,6 +7544,7 @@
     <aside class="model-info">
       <span class="section-eyebrow">A first look</span>
       <h2 class="section-title">The shape of the system.</h2>
+      <span class="serif-gradient">Seven disciplines. Two orbits.&nbsp;One&nbsp;model.</span>
       <p class="section-lede">Sixty seconds to see the whole model. Scroll on to explore it discipline by discipline.</p>
 
       <div class="cg-universe-list" role="list" aria-label="The seven CSOM disciplines (preview)">
