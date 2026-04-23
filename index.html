@@ -6036,6 +6036,124 @@
     .fails-band { grid-template-columns: 1fr; gap: 18px; }
   }
 
+  /* ---- Manifesto section ("The rules of business...") — white canvas ---- */
+  /* Scoped to #rewritten when it carries .light-surface. Keeps the centered
+     globe composition but flips the palette: white background, ink-dark
+     title, body-grey paragraphs, and re-skinned shift cards with brand-
+     coloured hairlines instead of the old dark glass. */
+  #rewritten.light-surface {
+    background: var(--light-bg);
+    min-height: auto;
+    padding: clamp(72px, 10vw, 140px) 28px clamp(72px, 10vw, 140px);
+  }
+  #rewritten.light-surface::before,
+  #rewritten.light-surface::after { display: none; }
+  #rewritten.light-surface .gs-badge {
+    background: transparent;
+    border: 1px solid var(--brand-orange);
+    color: var(--brand-orange);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  #rewritten.light-surface .gs-title,
+  #rewritten.light-surface .gs-title .title-main {
+    color: var(--ink-dark);
+    text-shadow: none;
+  }
+  #rewritten.light-surface .gs-desc {
+    color: var(--ink-body);
+    text-shadow: none;
+  }
+  #rewritten.light-surface .gs-desc strong {
+    color: var(--ink-dark);
+    font-weight: 700;
+  }
+  #rewritten.light-surface .gs-close {
+    color: var(--ink-body);
+    text-shadow: none;
+  }
+  #rewritten.light-surface .gs-close strong { color: var(--ink-dark); }
+
+  /* Value, defined callout — white card, orange left border, orange tag */
+  #rewritten.light-surface .value-def {
+    background: var(--light-bg-soft);
+    border: 1px solid var(--light-line);
+    border-left: 3px solid var(--brand-orange);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+  }
+  #rewritten.light-surface .value-def-tag {
+    color: var(--brand-orange);
+  }
+  #rewritten.light-surface .value-def-body {
+    color: var(--ink-dark);
+  }
+  #rewritten.light-surface .value-def-body strong {
+    color: var(--brand-orange);
+  }
+
+  /* Shift cards — white boxes with coloured 2px top hairlines */
+  #rewritten.light-surface .shift-card {
+    background: var(--light-bg);
+    border: 1px solid var(--light-line);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+    border-radius: 14px;
+    padding: 28px 22px 22px;
+  }
+  #rewritten.light-surface .shift-card::before {
+    width: 100%;
+    height: 2px;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  #rewritten.light-surface .shift-card:nth-child(1)::before { background: var(--brand-green); }
+  #rewritten.light-surface .shift-card:nth-child(2)::before { background: var(--brand-orange); }
+  #rewritten.light-surface .shift-card:nth-child(3)::before { background: var(--brand-blue); }
+  #rewritten.light-surface .shift-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--light-line-strong);
+    background: var(--light-bg);
+    box-shadow: 0 16px 32px -16px rgba(15, 23, 42, 0.18);
+  }
+  #rewritten.light-surface .shift-card:nth-child(1) .shift-ic { color: var(--brand-green); }
+  #rewritten.light-surface .shift-card:nth-child(2) .shift-ic { color: var(--brand-orange); }
+  #rewritten.light-surface .shift-card:nth-child(3) .shift-ic { color: var(--brand-blue); }
+  #rewritten.light-surface .shift-from {
+    color: var(--ink-muted);
+  }
+  #rewritten.light-surface .shift-card:nth-child(1) .shift-from { color: var(--brand-green); }
+  #rewritten.light-surface .shift-card:nth-child(2) .shift-from { color: var(--brand-orange); }
+  #rewritten.light-surface .shift-card:nth-child(3) .shift-from { color: var(--brand-blue); }
+  #rewritten.light-surface .shift-to {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  #rewritten.light-surface .shift-note {
+    color: var(--ink-muted);
+  }
+
+  /* Pull quote — paper-soft callout with orange left border + serif italic */
+  #rewritten.light-surface .gs-quote {
+    background: var(--light-bg-soft);
+    border: 1px solid var(--light-line);
+    border-left: 3px solid var(--brand-orange);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-radius: 14px;
+    padding: 30px 34px 30px 60px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+  }
+  #rewritten.light-surface .gs-quote::before {
+    color: var(--brand-orange);
+    opacity: 0.85;
+  }
+  #rewritten.light-surface .gs-quote p {
+    color: var(--ink-dark);
+  }
+
   /* ---- Slide-3 pillar card grid ---- */
   .pillar-grid-wrap {
     max-width: 1240px;
@@ -6539,8 +6657,8 @@
   </div>
 </header>
 
-<!-- =============== SECTION 2: THE MANIFESTO — ported from global.html =============== -->
-<section class="gs align-center reveal" id="rewritten" aria-labelledby="rewriteTitle">
+<!-- =============== SECTION 2: THE MANIFESTO — white canvas, icons + globe preserved =============== -->
+<section class="gs align-center light-surface reveal" id="rewritten" aria-labelledby="rewriteTitle">
   <div class="gs-content">
     <span class="gs-badge">A shift no one announced</span>
     <h2 class="gs-title" id="rewriteTitle">
