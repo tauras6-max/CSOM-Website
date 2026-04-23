@@ -72,14 +72,18 @@
     --gold: #ffcf54;
     --gold-soft: #ffe79a;
 
-    /* Brand gradient — from CSOM logo / gradient reference */
-    --brand-blue: #3fa8e0;
-    --brand-green: #3ad489;
-    --brand-yellow: #ffbe3d;
-    --brand-orange: #ff6e3c;
-    --brand-coral: #e67b56;
-    --brand-gradient: linear-gradient(90deg, #3fa8e0 0%, #3ad489 35%, #ffbe3d 65%, #ff6e3c 100%);
-    --brand-gradient-soft: linear-gradient(90deg, rgba(63,168,224,.22), rgba(58,212,137,.16), rgba(255,190,61,.22), rgba(255,110,60,.28));
+    /* Brand gradient — calibrated to CSOM logo. Cold end is green-tinted teal,
+       not blue: matches the logo's "S" dominance over the "C". */
+    --brand-blue:   #27B8B3;  /* green-leaning teal — was cyan-blue */
+    --brand-teal:   #2EC89A;  /* teal-green */
+    --brand-green:  #4CC73F;  /* "S", swoosh tail */
+    --brand-lime:   #A8D932;  /* green→yellow */
+    --brand-yellow: #F4CB2E;  /* S→M transition */
+    --brand-orange: #F5A02E;  /* "O" swoosh, M base */
+    --brand-red:    #EC6B28;  /* warm glow */
+    --brand-coral:  #E67B56;
+    --brand-gradient: linear-gradient(90deg, #27B8B3 0%, #2EC89A 14%, #4CC73F 32%, #A8D932 52%, #F4CB2E 72%, #F5A02E 100%);
+    --brand-gradient-soft: linear-gradient(90deg, rgba(39,184,179,.22), rgba(46,200,154,.18), rgba(76,199,63,.18), rgba(168,217,50,.20), rgba(244,203,46,.22), rgba(245,160,46,.28));
 
     /* Planet palette — matched to discipline emoji */
     --p1: #b388ff;  /* 🟣 Leadership */
@@ -924,7 +928,7 @@
   .section-head {
     position: relative;
     z-index: 5;
-    max-width: 820px;
+    max-width: 1000px;   /* widened from 820 so titles breathe across wide grids below */
     margin-bottom: 70px;
   }
   .section-eyebrow {
@@ -945,6 +949,15 @@
     margin: 0 0 22px;
     color: #fff;
     text-shadow: 0 2px 24px rgba(6, 10, 20, 0.55);
+  }
+  /* Accent on section-titles — matches hero's gradient so the emphasised
+     word actually reads as accented instead of blending into white. */
+  .section-title .accent {
+    background: linear-gradient(135deg, var(--gold), var(--brand-orange));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
   .section-lede {
     font-size: 17px;
@@ -3565,6 +3578,19 @@
      Scroll progress bar + right-side section nav rail
      — same pattern as global.html and journey.html. */
 
+  /* Brand identity strip — always visible, sits above the scroll progress bar */
+  .brand-strip {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--brand-gradient);
+    z-index: 201;
+    pointer-events: none;
+    opacity: 0.92;
+  }
+
   /* Scroll progress bar — top of viewport, 3px brand gradient */
   .scroll-progress {
     position: fixed;
@@ -3692,7 +3718,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 5;
+    z-index: 1;
     pointer-events: none;
     will-change: transform, opacity;
     transform: translate3d(70vw, 50vh, 0) translate3d(-50%, -50%, 0) scale3d(1.65, 1.65, 1);
@@ -4069,7 +4095,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 3;
+    z-index: 1;
     pointer-events: none;
     will-change: transform, opacity;
     opacity: 0;
@@ -4461,12 +4487,15 @@
 
   /* ---- The Fence — Not / Is pairs ---- */
   .fence {
+    position: relative;
+    z-index: 2;
     padding: clamp(4rem, 8vw, 6rem) 0;
     background:
-      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 207, 84, 0.04), transparent 65%),
-      #0A1328;
+      radial-gradient(ellipse 90% 55% at 70% 10%, rgba(76, 199, 63, 0.06), transparent 60%),
+      radial-gradient(ellipse 80% 50% at 20% 80%, rgba(245, 160, 46, 0.05), transparent 65%),
+      linear-gradient(180deg, #0A1328 0%, #08101F 100%);
     border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+    /* No bottom border — lets the fence flow seamlessly into Two Worlds */
   }
   .fence .section-head { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
   .fence-list {
@@ -4476,7 +4505,7 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
-    max-width: 980px;
+    max-width: 1160px;
     margin-inline: auto;
   }
   .fence-pair {
@@ -4538,7 +4567,7 @@
   /* ---- Pillars diagram — CSOM as the connective layer above ITIL / SIAM / CS ---- */
   .pillars-figure {
     margin: clamp(3rem, 6vw, 4.5rem) auto 0;
-    max-width: 1040px;
+    max-width: 1160px;
     padding: 0 8px;
   }
   .pillars-cap {
@@ -4594,10 +4623,16 @@
   .pd-beam-name {
     font-family: 'Space Grotesk', sans-serif;
     font-size: clamp(17px, 1.8vw, 21px);
-    font-weight: 600;
-    color: #fff;
+    font-weight: 700;
     letter-spacing: -.005em;
+    background: var(--brand-gradient);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 18px rgba(15, 111, 191, 0.25)) drop-shadow(0 0 22px rgba(245, 160, 46, 0.20));
   }
+  .pd-beam-name .tm { color: var(--brand-orange); -webkit-background-clip: initial; background-clip: initial; -webkit-text-fill-color: var(--brand-orange); }
   .pd-beam-body {
     display: grid;
     grid-template-columns: 1.7fr 1fr;
@@ -4742,8 +4777,8 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: radial-gradient(circle, #ffd166 0%, #ff8a4c 100%);
-    box-shadow: 0 0 16px rgba(255, 180, 80, 0.6);
+    background: radial-gradient(circle, var(--brand-lime) 0%, var(--brand-orange) 100%);
+    box-shadow: 0 0 16px rgba(76, 199, 63, 0.55), 0 0 24px rgba(245, 160, 46, 0.35);
   }
   .pd-base-label {
     font-family: 'Space Grotesk', sans-serif;
@@ -4760,12 +4795,14 @@
 
   /* ---- Two Worlds, One Model — TAM expansion band ---- */
   .two-worlds {
+    position: relative;
+    z-index: 2;
     padding: clamp(4rem, 7vw, 5.5rem) 0;
     background:
-      radial-gradient(ellipse 70% 60% at 20% 20%, rgba(63, 168, 224, 0.08), transparent 60%),
-      radial-gradient(ellipse 70% 60% at 80% 80%, rgba(255, 140, 80, 0.08), transparent 60%),
-      #050A18;
-    border-top: 1px solid var(--line);
+      radial-gradient(ellipse 70% 60% at 15% 20%, rgba(39, 184, 179, 0.07), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 85% 80%, rgba(245, 160, 46, 0.07), transparent 60%),
+      linear-gradient(180deg, #08101F 0%, #0A1328 100%);
+    border-top: 0;
     border-bottom: 1px solid var(--line);
   }
   .two-worlds .section-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
@@ -4783,7 +4820,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(1rem, 2vw, 1.5rem);
-    max-width: 1040px;
+    max-width: 1160px;
     margin-inline: auto;
   }
   .tw-card {
@@ -4808,8 +4845,8 @@
     width: 3px; height: 100%;
     border-radius: 14px 0 0 14px;
   }
-  .tw-card-product::before  { background: linear-gradient(180deg, #3FA8E0, rgba(63,168,224,0.1)); }
-  .tw-card-services::before { background: linear-gradient(180deg, #FFCF54, rgba(255,140,80,0.1)); }
+  .tw-card-product::before  { background: linear-gradient(180deg, var(--brand-blue), rgba(39,184,179,0.1)); }
+  .tw-card-services::before { background: linear-gradient(180deg, var(--brand-orange), var(--brand-red) 60%, rgba(236,107,40,0.08)); }
   .tw-chip {
     display: inline-flex;
     align-self: flex-start;
@@ -4822,8 +4859,8 @@
     border: 1px solid rgba(255,255,255,0.12);
     color: var(--ink-2);
   }
-  .tw-card-product  .tw-chip { color: #9CD3F0; border-color: rgba(63,168,224,0.35); }
-  .tw-card-services .tw-chip { color: #FFD880; border-color: rgba(255,207,84,0.35); }
+  .tw-card-product  .tw-chip { color: #7FDDCF; border-color: rgba(39,184,179,0.55); }
+  .tw-card-services .tw-chip { color: #F8B86E; border-color: rgba(245,160,46,0.45); }
   .tw-block-label {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 10.5px;
@@ -4855,9 +4892,11 @@
 
   /* ---- Signals — recognition-based proof (no testimonials, conflict-of-interest safe) ---- */
   .signals {
+    position: relative;
+    z-index: 2;
     padding: clamp(3.5rem, 6vw, 5rem) 0;
     background:
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 140, 80, 0.05), transparent 65%),
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245, 160, 46, 0.05), transparent 65%),
       #070D1C;
     border-top: 1px solid var(--line);
   }
@@ -4866,7 +4905,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: clamp(0.9rem, 1.6vw, 1.25rem);
-    max-width: 1060px;
+    max-width: 1160px;
     margin-inline: auto;
   }
   .signal-card {
@@ -4908,7 +4947,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 18px;
     margin-top: clamp(2rem, 4vw, 3rem);
-    max-width: 1080px;
+    max-width: 1160px;
     margin-inline: auto;
   }
   @media (max-width: 900px) {
@@ -5050,6 +5089,9 @@
 <!-- Skip-to-content link for keyboard / screen-reader users.
      Visually hidden until focused, then appears at the top left. -->
 <a class="skip-link" href="#model">Skip to main content</a>
+
+<!-- Brand identity strip — always-on 2px gradient from the logo -->
+<div class="brand-strip" aria-hidden="true"></div>
 
 <!-- Scroll progress bar -->
 <div class="scroll-progress" aria-hidden="true"></div>
