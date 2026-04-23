@@ -6939,6 +6939,41 @@
     text-shadow: 0 2px 20px rgba(6, 10, 20, 0.3);
   }
 
+  /* ---- Consolidated contact tiles (reuses .pick-tile visual system) ---- */
+  /* Tile 03 is a <button> toggling a collapsible form; reset native button paint. */
+  button.pick-tile {
+    font: inherit;
+    color: #ffffff;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+  }
+  .pick-tile-compose[aria-expanded="true"] {
+    border-color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.10);
+    box-shadow: 0 18px 40px -16px rgba(6, 10, 20, 0.3);
+  }
+  .pick-tile-compose[aria-expanded="true"]::before { opacity: 1; }
+
+  /* Collapsible form panel under the tiles — max-height transition for smooth reveal. */
+  .contact-form-wrap {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 0;
+    transition: max-height .45s var(--ease, cubic-bezier(.22,1,.36,1)),
+                opacity .32s var(--ease, cubic-bezier(.22,1,.36,1)),
+                margin-top .32s var(--ease, cubic-bezier(.22,1,.36,1));
+  }
+  .contact-form-wrap.is-open {
+    max-height: 1200px;
+    opacity: 1;
+    margin-top: clamp(20px, 2.4vw, 28px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .contact-form-wrap { transition: none; }
+  }
+
   /* ---- Dual CTA band ---- */
   .dual-cta {
     padding: clamp(4rem, 8vw, 6rem) 28px;
@@ -7987,110 +8022,64 @@
 
 <!-- Three Missions section removed per consolidated revision -->
 
-<!-- =============== CONTACT & REACH OUT =============== -->
-<section id="contact" class="contact-section">
+<!-- =============== CONTACT — consolidated: 3 tiles + collapsible form + salute =============== -->
+<section id="contact" class="contact-section" aria-labelledby="contactTitle">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="section-eyebrow">In the same orbit</span>
-      <h2 class="section-title">One real question. <span class="accent">One real conversation.</span></h2>
+      <h2 class="section-title" id="contactTitle">One real <span class="accent">conversation.</span></h2>
       <p class="section-lede">
-        Three ways in — a short note, a direct email, or a thirty-minute slot on the calendar. Whichever is least friction for you. Someone who has actually built this will write back.
+        Three ways in. Whichever is least friction &mdash; a practitioner writes back within two working days.
       </p>
     </div>
 
-    <div class="contact-panel contact-panel-single contact-panel-form reveal">
-      <span class="panel-eyebrow">Send a Signal</span>
-      <h3 class="panel-title">Send a note</h3>
-      <p class="panel-lede">Four fields, no gatekeeping. Tell us what you&rsquo;re wrestling with — we&rsquo;ll reply within two working days.</p>
-
-      <form class="contact-form" id="contactFormMain" novalidate>
-        <div class="contact-form-row">
-          <label class="field" data-field="name">
-            <span class="field-label">Your name</span>
-            <input class="field-input" type="text" name="name" required autocomplete="name" placeholder="What should we call you?" />
-            <span class="field-error">Please tell us your name.</span>
-          </label>
-          <label class="field" data-field="email">
-            <span class="field-label">Email</span>
-            <input class="field-input" type="email" name="email" required autocomplete="email" placeholder="you@company.com" inputmode="email" />
-            <span class="field-error">Please enter a valid email address (e.g. you@company.com).</span>
-          </label>
-        </div>
-        <label class="field" data-field="reason">
-          <span class="field-label">What brings you here?</span>
-          <div class="field-select-wrap">
-            <select class="field-select" name="reason">
-              <option value="" disabled selected>Choose one…</option>
-              <option value="cohort">I want to join a SIAM cohort</option>
-              <option value="conversation">I&rsquo;d like to have a conversation about CSOM</option>
-              <option value="uplift">I&rsquo;m an ITIL/SIAM/CS practitioner looking to uplift my skills</option>
-              <option value="follow">I want to follow the CSOM journey</option>
-              <option value="other">Something else</option>
-            </select>
-            <svg class="field-select-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </div>
-        </label>
-        <label class="field" data-field="message">
-          <span class="field-label">What&rsquo;s on your mind?</span>
-          <textarea class="field-textarea" name="message" rows="3" required placeholder="A sentence or two is enough. We&rsquo;ll follow up with the right questions."></textarea>
-          <span class="field-error">A sentence or two helps us reply meaningfully.</span>
-        </label>
-        <button type="submit" class="btn btn-primary contact-submit">
-          Send a signal
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </button>
-      </form>
-
-      <div class="contact-direct">
-        <div class="contact-direct-divider"><span>Or reach out directly</span></div>
-        <div class="contact-direct-actions">
-          <a class="contact-direct-email" href="mailto:contact@csom.global">
-            <span class="contact-direct-dot" aria-hidden="true"></span>
-            contact@csom.global
-            <span class="contact-direct-arrow">→</span>
-          </a>
-          <a class="btn btn-ghost contact-direct-btn"
-             href="https://calendar.app.google/thqqvcQyunDvD3pD7"
-             target="_blank" rel="noopener">
-            Book a 30-min practitioner call
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- =============== PICK ONE — closing commitment, per Winston "end on a salute" =============== -->
-<section class="pick-one" id="pick-one" aria-labelledby="pickOneTitle">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="section-eyebrow">The work ahead</span>
-      <h2 class="section-title" id="pickOneTitle">Pick one.</h2>
-      <p class="section-lede">However you show up, we&rsquo;ll meet you there.</p>
-    </div>
-
-    <div class="pick-grid reveal">
-      <a class="pick-tile" href="#contact">
+    <div class="pick-grid contact-tiles reveal">
+      <a class="pick-tile" href="mailto:contact@csom.global">
         <span class="pick-num">01</span>
-        <h3 class="pick-name">Read the work</h3>
-        <p class="pick-desc">The essays, the talks, the posts making the case for the Value era. No gatekeeping.</p>
-        <span class="pick-go">Start reading <span aria-hidden="true">→</span></span>
+        <h3 class="pick-name">Write</h3>
+        <p class="pick-desc">Email a practitioner direct. No deck, no pitch.</p>
+        <span class="pick-go"><span class="pick-go-label">contact@csom.global</span> <span aria-hidden="true">→</span></span>
       </a>
-      <a class="pick-tile" href="#bring">
+      <a class="pick-tile" href="https://calendar.app.google/thqqvcQyunDvD3pD7" target="_blank" rel="noopener">
         <span class="pick-num">02</span>
-        <h3 class="pick-name">Join a cohort</h3>
-        <p class="pick-desc">Accredited SIAM training, taught inside the full CSOM&trade; operating model.</p>
-        <span class="pick-go">See the cohorts <span aria-hidden="true">→</span></span>
+        <h3 class="pick-name">Book</h3>
+        <p class="pick-desc">Thirty minutes with someone who has actually built one.</p>
+        <span class="pick-go"><span class="pick-go-label">Book a slot</span> <span aria-hidden="true">→</span></span>
       </a>
-      <a class="pick-tile" href="#contact">
+      <button class="pick-tile pick-tile-compose" type="button" id="composeTile" aria-expanded="false" aria-controls="composeForm">
         <span class="pick-num">03</span>
-        <h3 class="pick-name">Have a conversation</h3>
-        <p class="pick-desc">Thirty minutes with a practitioner who has actually built one. No deck, no pitch.</p>
-        <span class="pick-go">Start the conversation <span aria-hidden="true">→</span></span>
-      </a>
+        <h3 class="pick-name">Send a note</h3>
+        <p class="pick-desc">Three fields. Reply within two working days.</p>
+        <span class="pick-go"><span class="pick-go-label">Open the form</span> <span aria-hidden="true">→</span></span>
+      </button>
+    </div>
+
+    <div class="contact-form-wrap" id="composeForm">
+      <div class="contact-panel contact-panel-single contact-panel-form">
+        <form class="contact-form" id="contactFormMain" novalidate>
+          <div class="contact-form-row">
+            <label class="field" data-field="name">
+              <span class="field-label">Your name</span>
+              <input class="field-input" type="text" name="name" required autocomplete="name" placeholder="What should we call you?" />
+              <span class="field-error">Please tell us your name.</span>
+            </label>
+            <label class="field" data-field="email">
+              <span class="field-label">Email</span>
+              <input class="field-input" type="email" name="email" required autocomplete="email" placeholder="you@company.com" inputmode="email" />
+              <span class="field-error">Please enter a valid email address (e.g. you@company.com).</span>
+            </label>
+          </div>
+          <label class="field" data-field="message">
+            <span class="field-label">What&rsquo;s on your mind?</span>
+            <textarea class="field-textarea" name="message" rows="3" required placeholder="A sentence or two is enough. We&rsquo;ll follow up with the right questions."></textarea>
+            <span class="field-error">A sentence or two helps us reply meaningfully.</span>
+          </label>
+          <button type="submit" class="btn btn-primary contact-submit">
+            Send a signal
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+      </div>
     </div>
 
     <p class="pick-salute reveal">Value isn&rsquo;t built in a deck. It&rsquo;s built in the work.</p>
@@ -8418,6 +8407,34 @@
   /* =============== CONTACT FORM ===============
      Opens the user's mail client with fields pre-filled.
      No backend required — the same approach as the microsite. */
+
+  /* ---- Tile 03 ("Send a note") toggles the form open/closed. ---- */
+  (function(){
+    const tile = document.getElementById('composeTile');
+    const wrap = document.getElementById('composeForm');
+    if (!tile || !wrap) return;
+    const label = tile.querySelector('.pick-go-label');
+    const LABEL_OPEN  = 'Open the form';
+    const LABEL_CLOSE = 'Close the form';
+
+    tile.addEventListener('click', () => {
+      const isOpen = tile.getAttribute('aria-expanded') === 'true';
+      const next = !isOpen;
+      tile.setAttribute('aria-expanded', String(next));
+      wrap.classList.toggle('is-open', next);
+      if (label) label.textContent = next ? LABEL_CLOSE : LABEL_OPEN;
+
+      if (next) {
+        // After transition, scroll form into view and move focus to first field
+        setTimeout(() => {
+          const firstInput = wrap.querySelector('input, textarea');
+          if (firstInput) firstInput.focus({ preventScroll: true });
+          wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 380);
+      }
+    });
+  })();
+
   const contactFormMain = document.getElementById('contactFormMain');
   if (contactFormMain) {
     // Robust email regex — requires local@domain.tld with TLD of at least 2 chars,
