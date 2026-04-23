@@ -3805,7 +3805,10 @@
      are ported from global.html. A fixed earth globe travels
      between them on scroll, then hides when scrolled past. */
 
-  /* Fixed globe — travels between hero and rewrite section */
+  /* Fixed globe — travels between hero and rewrite section.
+     Sits in the RIGHT half of the hero so it doesn't crash into the
+     left-aligned H1. Scale tuned down from 1.65 -> 1.4 — still bold,
+     no longer competing with the headline for the same pixels. */
   .globe-stage {
     position: fixed;
     top: 0;
@@ -3813,7 +3816,7 @@
     z-index: 1;
     pointer-events: none;
     will-change: transform, opacity;
-    transform: translate3d(70vw, 50vh, 0) translate3d(-50%, -50%, 0) scale3d(1.65, 1.65, 1);
+    transform: translate3d(85vw, 48vh, 0) translate3d(-50%, -50%, 0) scale3d(1.4, 1.4, 1);
     /* Transform is driven every scroll frame via JS lerp — no CSS
        transition on transform (would fight the continuous updates).
        Keep a short opacity transition so the fade-to-#model stays soft. */
@@ -4023,6 +4026,11 @@
     inset: 0;
     z-index: 0;
     background:
+      /* Editorial scrim — soft dark wash anchored bottom-left where the
+         text column sits. Guarantees contrast without muddying the
+         brand gradient. Fades to transparent before reaching the globe. */
+      radial-gradient(ellipse 70% 90% at 12% 72%, rgba(8, 12, 24, 0.55), rgba(8, 12, 24, 0.20) 45%, transparent 72%),
+      /* Existing highlight on the right where the globe sits */
       radial-gradient(ellipse 60% 80% at 78% 30%, rgba(255, 255, 255, 0.10), transparent 60%),
       linear-gradient(95deg,
         #1F6FD6 0%,
@@ -4036,6 +4044,10 @@
   #top .gs-content {
     position: relative;
     z-index: 10;
+    /* Cap hero text column so the H1 never bleeds into the right-side
+       globe zone on wide monitors. Globe sits at 85vw — leaving the
+       left ~60% of the viewport for the text column. */
+    max-width: min(720px, 58vw);
   }
   /* Kill any inherited aurora/grid inside the hero */
   #top .hero-aurora,
@@ -8429,10 +8441,14 @@
 
   if (globeStageEl && heroSection && rewriteSection) {
     const globeStops = [
-      { el: heroSection,    top: 50, left: 70, scale: 1.65 },
+      /* Hero: push far right + scale down so the globe stops crashing
+         into the left-aligned headline. Readability first. */
+      { el: heroSection,    top: 48, left: 85, scale: 1.40 },
       { el: rewriteSection, top: 28, left: 50, scale: 0.95 },
     ];
-    if (failsSection) globeStops.push({ el: failsSection, top: 50, left: 80, scale: 1.70 });
+    /* Fails section is light-surface with dark text — keep globe clearly
+       to the right so it decorates, never overlays the cards. */
+    if (failsSection) globeStops.push({ el: failsSection, top: 50, left: 88, scale: 1.45 });
 
     createScrollStage(globeStageEl, {
       stops:   globeStops,
