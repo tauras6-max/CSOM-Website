@@ -5691,6 +5691,98 @@
     .gives-band { grid-template-columns: 1fr; gap: 14px; }
   }
 
+  /* ---- Audience hairline cards ("Two audiences. One framework.") ---- */
+  .audience-wrap {
+    max-width: 1240px;
+    margin: clamp(40px, 6vw, 64px) auto 0;
+    padding: 0 28px;
+  }
+  .audience-band {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(24px, 3vw, 40px);
+  }
+  .audience-hair {
+    position: relative;
+    padding: 22px 4px 6px;
+    border-top: 2px solid var(--brand-orange);
+    background: transparent;
+  }
+  .audience-hair.ah-green { border-top-color: var(--brand-green); }
+  .audience-hair.ah-orange { border-top-color: var(--brand-orange); }
+
+  .audience-hair .ah-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .audience-hair.ah-green .ah-eyebrow { color: var(--brand-green); }
+  .audience-hair.ah-orange .ah-eyebrow { color: var(--brand-orange); }
+
+  .audience-hair h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(22px, 2.2vw, 28px);
+    font-weight: 700;
+    letter-spacing: -.018em;
+    color: var(--ink-dark);
+    line-height: 1.15;
+    margin: 0 0 12px;
+  }
+  .audience-hair p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-body);
+    margin: 0 0 18px;
+  }
+  .audience-hair ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 20px;
+  }
+  .audience-hair li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-body);
+  }
+  .audience-hair li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--brand-orange);
+    opacity: 0.15;
+  }
+  .audience-hair li::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 8px;
+    width: 6px; height: 3px;
+    border-left: 2px solid var(--brand-orange);
+    border-bottom: 2px solid var(--brand-orange);
+    transform: rotate(-45deg);
+  }
+  .audience-hair.ah-green li::before { background: var(--brand-green); opacity: 0.18; }
+  .audience-hair.ah-green li::after {
+    border-left-color: var(--brand-green);
+    border-bottom-color: var(--brand-green);
+  }
+  @media (max-width: 700px) {
+    .audience-band { grid-template-columns: 1fr; gap: 18px; }
+    .audience-hair ul { grid-template-columns: 1fr; gap: 8px; }
+  }
+
   /* ---- Slide-3 pillar card grid ---- */
   .pillar-grid-wrap {
     max-width: 1240px;
@@ -6828,42 +6920,55 @@
   </div>
 </section>
 
-<!-- =============== WHO IS THIS FOR — two audiences =============== -->
-<section id="audience">
-  <div class="wrap">
-    <div class="section-head reveal">
+<!-- =============== WHO IS THIS FOR — split-intro + hairline cards =============== -->
+<section class="light-surface" id="audience" aria-labelledby="audienceTitle">
+  <div class="split-intro reveal">
+    <div class="split-intro-left">
       <span class="section-eyebrow">Who it&rsquo;s for</span>
-      <h2 class="section-title">Two audiences. One framework.</h2>
-      <p class="section-lede">
-        CSOM<span class="tm">™</span> Global exists for the organisations that want to deliver value —
-        and the professionals who want to lead that change.
+      <h2 class="section-title" id="audienceTitle">
+        Two audiences.<br/>One framework.
+      </h2>
+      <span class="serif-gradient">Organisations and the&nbsp;people who lead them.</span>
+    </div>
+    <div class="split-intro-right section-body">
+      <p>
+        CSOM<span class="tm">&trade;</span> Global exists for the organisations
+        that want to deliver value &mdash; and the professionals who want to
+        lead that change.
+      </p>
+      <p>
+        Same operating model, two entry points: build it for the business, or
+        become the practitioner who can.
       </p>
     </div>
+  </div>
 
-    <div class="audience-grid">
-      <article class="audience-card audience-card-org reveal">
-        <span class="audience-chip">For organisations</span>
-        <h3 class="audience-title">Build the operating model your customers deserve.</h3>
-        <p class="audience-body">
-          Insurance, banking, healthcare, logistics, technology &mdash; your customers
-          now reward the outcome, not the product. CSOM<span class="tm">™</span> gives
-          you the operating model to deliver it at scale.
+  <div class="audience-wrap reveal">
+    <div class="audience-band">
+      <article class="audience-hair ah-green">
+        <span class="ah-eyebrow">For organisations</span>
+        <h3>Build the operating model your customers deserve.</h3>
+        <p>
+          Insurance, banking, healthcare, logistics, technology &mdash; your
+          customers now reward the outcome, not the product.
+          CSOM<span class="tm">&trade;</span> gives you the operating model to
+          deliver it at scale.
         </p>
-        <ul class="audience-list">
+        <ul>
           <li>Close the promise-vs-value gap</li>
           <li>Reduce churn</li>
           <li>Build outcome structure</li>
           <li>Works for any size</li>
         </ul>
       </article>
-      <article class="audience-card audience-card-prac reveal">
-        <span class="audience-chip">For practitioners</span>
-        <h3 class="audience-title">Become the professional who can build it.</h3>
-        <p class="audience-body">
+      <article class="audience-hair ah-orange">
+        <span class="ah-eyebrow">For practitioners</span>
+        <h3>Become the professional who can build it.</h3>
+        <p>
           If you run ITIL, SIAM, or Customer Success &mdash; this is the model
           that turns your craft into a career-defining capability.
         </p>
-        <ul class="audience-list">
+        <ul>
           <li>Go beyond certification</li>
           <li>Career differentiator</li>
           <li>Works in any industry</li>
