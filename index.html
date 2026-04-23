@@ -4919,7 +4919,13 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
+    /* z-index must climb above .light-surface (z-index: 2) so the
+       butterfly paints over the white section background. The
+       #practitioners override below (z-index: auto) cancels the
+       section's stacking context so its own z-index:5 children
+       (practitioner-quote, skills-gap-table, split-intro copy) still
+       paint over the butterfly at root level. */
+    z-index: 3;
     pointer-events: none;
     will-change: transform, opacity;
     opacity: 0;
@@ -5004,6 +5010,17 @@
   #practitioners .section-head {
     margin-bottom: clamp(4rem, 8vw, 6.5rem);
   }
+  /* Cancel the .light-surface stacking context on #practitioners only
+     so the fixed butterfly-stage (z-index: 3) can paint over the
+     section's white background while the section's own z-index:5
+     children still paint over the butterfly. Every other .light-surface
+     section keeps its z-index: 2 isolation unchanged. */
+  #practitioners.light-surface { z-index: auto; }
+  /* Lift the split-intro copy above the butterfly so the hero lines,
+     gradient tagline and body paragraphs never get covered by wings. */
+  #practitioners .split-intro,
+  #practitioners .split-intro-left,
+  #practitioners .split-intro-right { position: relative; z-index: 5; }
   #practitioners .practitioner-gives { position: relative; z-index: 5; }
   .practitioner-quote {
     position: relative;
