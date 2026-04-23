@@ -40,6 +40,10 @@
 
 <link rel="preload" href="/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Fraunces — display serif from the handoff design system -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap" rel="stylesheet">
 <style>
   @font-face {
     font-family: 'Inter';
@@ -72,18 +76,27 @@
     --gold: #ffcf54;
     --gold-soft: #ffe79a;
 
-    /* Brand gradient — calibrated to CSOM logo. Cold end is green-tinted teal,
-       not blue: matches the logo's "S" dominance over the "C". */
-    --brand-blue:   #27B8B3;  /* green-leaning teal — was cyan-blue */
-    --brand-teal:   #2EC89A;  /* teal-green */
-    --brand-green:  #4CC73F;  /* "S", swoosh tail */
-    --brand-lime:   #A8D932;  /* green→yellow */
-    --brand-yellow: #F4CB2E;  /* S→M transition */
-    --brand-orange: #F5A02E;  /* "O" swoosh, M base */
-    --brand-red:    #EC6B28;  /* warm glow */
-    --brand-coral:  #E67B56;
-    --brand-gradient: linear-gradient(90deg, #27B8B3 0%, #2EC89A 14%, #4CC73F 32%, #A8D932 52%, #F4CB2E 72%, #F5A02E 100%);
-    --brand-gradient-soft: linear-gradient(90deg, rgba(39,184,179,.22), rgba(46,200,154,.18), rgba(76,199,63,.18), rgba(168,217,50,.20), rgba(244,203,46,.22), rgba(245,160,46,.28));
+    /* Brand spectrum — Warm Bold Spectrum (from the CSOM design handoff).
+       Saturated logo colours + a warm sunset hero background. */
+    --brand-blue:   #1F6FD6;  /* logo blue — saturated, cool */
+    --brand-blue-lt:#3A8BE8;
+    --brand-teal:   #2BB673;  /* transition teal (same hue as green) */
+    --brand-green:  #2BB673;  /* logo green / jade */
+    --brand-green-lt:#4BD48E;
+    --brand-lime:   #7BC94C;  /* green→yellow bridge */
+    --brand-yellow: #F5A623;  /* logo yellow / sun */
+    --brand-orange: #F05A1E;  /* primary accent — vermilion */
+    --brand-orange-lt:#FF7A3E;
+    --brand-red:    #D64326;  /* deeper warm */
+    --brand-coral:  #E88754;  /* sunset coral */
+    --brand-iris:   #6B5BFF;  /* secondary accent — periwinkle violet */
+
+    /* Signature brand gradient — 4 stops from the handoff bundle */
+    --brand-gradient:     linear-gradient(95deg, #1F6FD6 0%, #2BB673 38%, #F05A1E 72%, #F5A623 100%);
+    --brand-gradient-soft:linear-gradient(95deg, rgba(31,111,214,.18), rgba(43,182,115,.18) 38%, rgba(240,90,30,.22) 72%, rgba(245,166,35,.22));
+    --brand-gradient-warm:linear-gradient(135deg, #F05A1E 0%, #F5A623 100%);
+    /* Hero sunset — steel-blue → dusty-rose → orange (from the handoff hero bg) */
+    --brand-sunset:       linear-gradient(110deg, #2B5D7E 0%, #6A5373 30%, #B96A55 58%, #E88754 82%, #F29A5E 100%);
 
     /* Planet palette — matched to discipline emoji */
     --p1: #b388ff;  /* 🟣 Leadership */
@@ -100,15 +113,15 @@
     --ease: cubic-bezier(.2,.7,.2,1);
     --max: 1240px;
 
-    /* ---- Light-surface tokens (adapted from slide 2/3 design spec) ---- */
-    --light-bg:       #ffffff;
-    --light-bg-soft:  #f8fafc;   /* card shoulder / subtle background */
-    --light-bg-alt:   #f1f5f9;   /* alternating band */
-    --light-line:     #e2e8f0;   /* card border */
-    --light-line-strong: #cbd5e1;
-    --ink-dark:       #0f172a;   /* titles on light surface */
-    --ink-body:       #475569;   /* body on light surface */
-    --ink-muted:      #64748b;   /* captions / meta on light surface */
+    /* ---- Light-surface tokens (Warm Bold Spectrum — paper base) ---- */
+    --light-bg:       #FAF7F2;   /* warm off-white paper (handoff --paper) */
+    --light-bg-soft:  #F4EFE7;   /* card shoulder / subtle surface (paper-2) */
+    --light-bg-alt:   #EBE4D7;   /* pressed / alt band (paper-3) */
+    --light-line:     #E8E2D8;   /* 1px borders on paper */
+    --light-line-strong: #D8CFBE;
+    --ink-dark:       #0E0E14;   /* titles on paper — near-black w/ blue tint */
+    --ink-body:       #5C564B;   /* body on paper (mute-2) */
+    --ink-muted:      #8C8578;   /* captions / meta on paper (mute-1) */
   }
 
   * { box-sizing: border-box; }
@@ -177,11 +190,11 @@
     border-radius: 4px;
   }
   body {
-    /* Pure brand gradient backdrop — no dark scrim. Text containers
-       (cards, panels, nav, fails table, narration, etc.) carry their
-       own dark-glass backgrounds so readability stays intact even
-       against the brighter midtones of the gradient. */
-    background: linear-gradient(135deg, #3e6b87 0%, #7a6a82 40%, #b87766 70%, #e27853 100%);
+    /* Warm sunset backdrop — from the handoff design system.
+       Text containers (cards, panels, nav, fails table, narration, etc.)
+       carry their own dark-glass backgrounds so readability stays intact
+       even against the brighter midtones of the gradient. */
+    background: var(--brand-sunset);
     background-attachment: fixed;
     background-size: cover;
     min-height: 100vh;
@@ -980,7 +993,7 @@
     margin-top: 18px;
     padding-left: 14px;
     border-left: 1px solid rgba(255, 207, 84, 0.28);
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: 15px;
     line-height: 1.55;
@@ -1050,7 +1063,7 @@
     margin-bottom: 24px;
   }
   .rewrite-title {
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', serif;
     font-size: clamp(30px, 4.6vw, 56px);
     line-height: 1.12;
     letter-spacing: -0.012em;
@@ -1127,7 +1140,7 @@
     margin-bottom: 6px;
   }
   .shift-to {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: clamp(22px, 2vw, 26px);
     font-weight: 500;
@@ -1161,13 +1174,13 @@
     content: "“";
     position: absolute;
     top: -8px; left: 14px;
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', serif;
     font-size: 56px;
     line-height: 1;
     color: rgba(255, 207, 84, 0.35);
   }
   .rewrite-quote p {
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', serif;
     font-size: clamp(17px, 1.5vw, 21px);
     line-height: 1.55;
     color: rgba(255, 255, 255, 0.94);
@@ -1177,7 +1190,7 @@
 
   /* The single declaration — the whitespace matters most here */
   .rewrite-declare {
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', serif;
     font-size: clamp(34px, 6vw, 72px);
     line-height: 1.08;
     letter-spacing: -0.02em;
@@ -1338,7 +1351,7 @@
     margin: 20px 0 0;
     padding-top: 18px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: 14px;
     line-height: 1.55;
@@ -1491,7 +1504,7 @@
     transform: translateY(-2px);
   }
   .fails-signal {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: clamp(17px, 1.35vw, 19.5px);
     line-height: 1.45;
@@ -1513,7 +1526,7 @@
     max-width: 880px;
     margin: clamp(4.5rem, 9vw, 7rem) auto clamp(2rem, 4vw, 3rem);
     text-align: center;
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', serif;
     font-size: clamp(20px, 2.4vw, 30px);
     line-height: 1.38;
     letter-spacing: -0.008em;
@@ -1847,7 +1860,7 @@
   .bring-bridge {
     margin-top: 20px;
     max-width: 62ch;
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: clamp(14px, 1.1vw, 16px);
     line-height: 1.55;
@@ -2584,7 +2597,7 @@
     margin-bottom: 18px;
   }
   .film-title {
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', serif;
     font-size: clamp(28px, 4.4vw, 52px);
     line-height: 1.1;
     letter-spacing: -0.01em;
@@ -2666,7 +2679,7 @@
     padding: 2rem;
   }
   .film-poster-title {
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', serif;
     font-size: clamp(26px, 3.6vw, 44px);
     font-weight: 500;
     color: #fff;
@@ -2811,7 +2824,7 @@
   .film-ref:hover .film-ref-num { color: #FFD054; }
   .film-ref-body { min-width: 0; }
   .film-ref-title {
-    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', serif;
     font-size: 16px;
     font-weight: 500;
     color: #fff;
@@ -3900,14 +3913,14 @@
     position: absolute;
     top: 12px;
     left: 20px;
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-size: 48px;
     color: var(--gold);
     line-height: 1;
     opacity: 0.7;
   }
   .gs-quote p {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: clamp(16px, 1.4vw, 19px);
     line-height: 1.55;
@@ -3921,20 +3934,15 @@
     .gs.align-center .gs-actions { margin: 0 auto; }
   }
 
-  /* ============== HERO — LOGO-CALIBRATED GRADIENT ==============
-     Scoped to #top only. The rewrite/manifesto section (#rewritten)
-     keeps the dark background so the contrast between the clean,
-     colourful hero and the reflective manifesto still reads. */
+  /* ============== HERO — WARM SUNSET GRADIENT ==============
+     Steel-blue → dusty-rose → coral → peach, matching the handoff
+     hero background. Scoped to #top only; the manifesto still stays
+     dark so the contrast between the warm hero and reflective
+     manifesto carries. */
   #top.gs {
     background:
-      radial-gradient(ellipse 55% 80% at 88% 50%, rgba(255,255,255,0.07), transparent 60%),
-      linear-gradient(95deg,
-        var(--brand-blue)   0%,
-        var(--brand-teal)   20%,
-        var(--brand-green)  40%,
-        var(--brand-lime)   58%,
-        var(--brand-yellow) 76%,
-        var(--brand-orange) 100%);
+      radial-gradient(ellipse 60% 80% at 82% 50%, rgba(255, 230, 200, 0.14), transparent 65%),
+      var(--brand-sunset);
     color: #fff;
   }
   /* Kill any inherited aurora/grid inside the hero */
@@ -3968,7 +3976,7 @@
     text-shadow: 0 2px 40px rgba(10, 14, 26, 0.22);
   }
   #top .gs-title .accent {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-weight: 500;
     letter-spacing: -0.012em;
@@ -4313,7 +4321,7 @@
     -webkit-backdrop-filter: blur(12px);
   }
   .practitioner-quote p {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: clamp(17px, 1.6vw, 20px);
     line-height: 1.5;
@@ -4326,7 +4334,7 @@
     max-width: 720px;
     margin: 0 auto clamp(3rem, 6vw, 4.5rem);
     text-align: center;
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-size: clamp(17px, 1.6vw, 20px);
     line-height: 1.5;
     color: var(--ink-1);
@@ -4387,7 +4395,7 @@
     font-weight: 700;
   }
   .sgt-strong {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     color: #fff;
   }
@@ -4593,7 +4601,7 @@
   }
   .value-def-body {
     margin: 0;
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-size: clamp(16px, 1.6vw, 18.5px);
     line-height: 1.55;
     color: #fff;
@@ -4690,7 +4698,7 @@
   }
   .pillars-cap {
     text-align: center;
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: clamp(15px, 1.4vw, 17.5px);
     color: var(--ink-1);
@@ -4950,7 +4958,7 @@
   }
   .two-worlds .section-title { color: var(--ink-dark); }
   .two-worlds .section-title .accent {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-weight: 500;
     background: var(--brand-gradient);
@@ -5054,7 +5062,7 @@
     margin: clamp(2rem, 4vw, 3rem) auto 0;
     max-width: 760px;
     text-align: center;
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: clamp(15px, 1.5vw, 17px);
     color: var(--ink-body);
@@ -5097,7 +5105,7 @@
   }
   .signals .section-title { color: var(--ink-dark); }
   .signals .section-title .accent {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-weight: 500;
     background: var(--brand-gradient);
@@ -5157,7 +5165,7 @@
   .signals-close {
     margin: clamp(1.8rem, 3vw, 2.4rem) auto 0;
     text-align: center;
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: 16px;
     color: var(--ink-body);
@@ -5226,7 +5234,7 @@
 
   /* Italic-serif gradient line — the "A CS function that runs itself." treatment */
   .light-surface .serif-gradient {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-weight: 500;
     font-size: clamp(28px, 3.6vw, 44px);
@@ -5515,7 +5523,7 @@
     margin: clamp(2.5rem, 5vw, 4rem) auto 0;
     max-width: 640px;
     text-align: center;
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-size: clamp(17px, 1.6vw, 20px);
     line-height: 1.5;
