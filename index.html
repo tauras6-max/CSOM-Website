@@ -6041,8 +6041,12 @@
      globe composition but flips the palette: white background, ink-dark
      title, body-grey paragraphs, and re-skinned shift cards with brand-
      coloured hairlines instead of the old dark glass. */
+  /* Keep the section transparent so the fixed-position globe
+     (z-index: 1) shows through from behind. The body is already
+     white, so the visual effect is identical to a white section
+     but without occluding the globe. */
   #rewritten.light-surface {
-    background: var(--light-bg);
+    background: transparent;
     min-height: auto;
     padding: clamp(72px, 10vw, 140px) 28px clamp(72px, 10vw, 140px);
   }
