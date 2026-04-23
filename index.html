@@ -98,16 +98,16 @@
     /* Hero sunset — steel-blue → dusty-rose → orange (from the handoff hero bg) */
     --brand-sunset:       linear-gradient(110deg, #2B5D7E 0%, #6A5373 30%, #B96A55 58%, #E88754 82%, #F29A5E 100%);
 
-    /* Planet palette — matched to discipline emoji */
-    --p1: #b388ff;  /* 🟣 Leadership */
-    --p2: #5aa9ff;  /* 🔵 Program Management */
-    --p3: #ff8c42;  /* 🟠 Change Management */
-    --p4: #39e6a8;  /* 🟢 Service Management */
-    --p5: #ffd166;  /* 🟡 Customer Success */
-    --p6: #9dd88d;  /* 🌿 Ecosystem Integration */
-    --p7: #ff93c4;  /* 🌸 Organisation Design */
-    --p8: #64e9ff;  /* 🔷 Data & Intelligence */
-    --p9: #a5f3fc;  /* 🩵 Continual Improvement */
+    /* Planet palette — Warm Bold Spectrum (aligned with brand tokens) */
+    --p1: #4A3FA8;  /* 🟣 Leadership — brand indigo */
+    --p2: #1F6FD6;  /* 🔵 Program Management — brand blue */
+    --p3: #F05A1E;  /* 🟠 Change Management — brand orange */
+    --p4: #2BB673;  /* 🟢 Service Management — brand green */
+    --p5: #F5A623;  /* 🟡 Customer Success — brand yellow */
+    --p6: #4BD48E;  /* 🌿 Ecosystem Integration — brand green-lt */
+    --p7: #D64326;  /* 🌸 Organisation Design — brand red */
+    --p8: #3A8BE8;  /* 🔷 Data & Intelligence — brand blue-lt */
+    --p9: #FF7A3E;  /* 🩵 Continual Improvement — brand orange-lt */
 
     --radius: 18px;
     --ease: cubic-bezier(.2,.7,.2,1);
@@ -3168,14 +3168,31 @@
      kicks in when user stops scrolling. Cards fade by angle.
      Prefix `.cg-` (csom gallery) avoids clashing with the
      pre-existing `.orbit-card` / `.planets-*` styles above. */
+  /* Outer shell frames the universe as an inset panel on white canvas */
+  .universe-shell {
+    background: var(--light-bg);
+    padding: clamp(40px, 5vw, 72px) clamp(16px, 3vw, 32px);
+  }
+  .universe-shell .cg-wrap {
+    border-radius: clamp(20px, 2.4vw, 28px);
+    box-shadow: 0 32px 80px -24px rgba(14, 14, 20, 0.35), 0 8px 24px -8px rgba(14, 14, 20, 0.18);
+    max-width: 1440px;
+    margin: 0 auto;
+  }
   .cg-wrap {
     position: relative;
     width: 100%;
     height: 120vh;                  /* pinned scroll length — only ~20vh of rotation scroll, so the section hands off to the next one almost immediately after cards finish */
-    background: linear-gradient(135deg, #1a2a4a 0%, #6b4570 50%, #e8693a 100%);
+    background:
+      radial-gradient(ellipse 60% 80% at 20% 20%, rgba(31, 111, 214, 0.22), transparent 55%),
+      radial-gradient(ellipse 50% 60% at 85% 85%, rgba(245, 166, 35, 0.20), transparent 55%),
+      linear-gradient(110deg, #2B5D7E 0%, #6A5373 30%, #B96A55 58%, #E88754 82%, #F29A5E 100%);
     overflow: hidden;
-    font-family: 'DM Sans', 'Space Grotesk', sans-serif;
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
   }
+  /* Keep position:sticky behaviour untouched — modern browsers clip sticky
+     descendants against a rounded + overflow:hidden ancestor correctly. */
+  .universe-shell .cg-sticky { border-radius: inherit; }
   .cg-sticky {
     position: sticky;
     top: 0;
@@ -3234,26 +3251,32 @@
   }
   .cg-eyebrow {
     display: inline-block;
-    font-family: 'Syne', 'Space Grotesk', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.3em;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    opacity: 0.75;
-    margin-bottom: 10px;
+    color: var(--brand-orange-lt);
+    font-weight: 700;
+    opacity: 1;
+    margin-bottom: 14px;
   }
   .cg-title {
-    font-family: 'Syne', 'Space Grotesk', sans-serif;
-    font-size: 34px;
-    font-weight: 800;
-    line-height: 1.1;
-    margin: 0 0 12px;
-    letter-spacing: -0.01em;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(30px, 3.4vw, 44px);
+    font-weight: 700;
+    line-height: 1.08;
+    margin: 0 0 14px;
+    letter-spacing: -0.022em;
+    color: #fff;
   }
   .cg-lede {
-    font-size: 15px;
-    opacity: 0.8;
-    max-width: 480px;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(15px, 1.3vw, 18px);
+    opacity: 0.88;
+    max-width: 540px;
     margin: 0 auto;
+    color: #fff;
   }
 
   .cg-3d {
@@ -6891,6 +6914,7 @@
      pinned in the viewport during that scroll. Idle auto-rotation + per-card
      opacity-by-angle fade animate the ring. Classes use `.cg-*` prefix to
      avoid collision with pre-existing `.orbit-card` / `.planets-*` styles. -->
+<div class="universe-shell">
 <section id="planets" class="cg-wrap">
   <!-- Sticky viewport — stays pinned while 500vh of scroll rotates the ring -->
   <div class="cg-sticky">
@@ -6955,6 +6979,7 @@
     </div>
   </div>
 </section>
+</div>
 
 <!-- =============== THE MISSION — split-intro + box-style cards =============== -->
 <section class="light-surface" id="who" aria-labelledby="missionTitle">
