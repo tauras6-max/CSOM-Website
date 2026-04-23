@@ -3338,7 +3338,8 @@
   .cg-wrap {
     position: relative;
     width: 100%;
-    height: 120vh;                  /* pinned scroll length — only ~20vh of rotation scroll, so the section hands off to the next one almost immediately after cards finish */
+    /* Consolidated section: .cg-layout drives its own height (video
+       height + 3D scroll zone), so no fixed height here. */
     background:
       radial-gradient(ellipse 60% 80% at 20% 20%, rgba(31, 111, 214, 0.22), transparent 55%),
       radial-gradient(ellipse 50% 60% at 85% 85%, rgba(245, 166, 35, 0.20), transparent 55%),
@@ -3346,16 +3347,59 @@
     overflow: hidden;
     font-family: 'Space Grotesk', 'Inter', sans-serif;
   }
-  .cg-sticky {
+  /* Section-wide background layer: starfield + veil span the full
+     consolidated section behind both the video and the 3D scene. */
+  .cg-bg-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  /* Two-column layout wrapping LEFT (sticky info) + RIGHT (video + 3D). */
+  .cg-layout {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(400px, 560px) minmax(0, 1fr);
+    gap: clamp(32px, 4vw, 72px);
+    padding: clamp(40px, 6vw, 80px) clamp(20px, 4vw, 40px);
+    max-width: 1680px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  /* RIGHT column — video on top, 3D scroll zone below. */
+  .cg-right {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(32px, 4vw, 56px);
+    min-width: 0;
+  }
+  /* Video intro block — calm frame, sits at top of right column. */
+  .cg-video-intro {
+    position: relative;
+    width: 100%;
+  }
+  /* 3D scroll zone — tall wrapper that drives rotation via scroll.
+     Inner .cg-3d-sticky pins the 3D scene to the viewport throughout. */
+  .cg-3d-scroll {
+    position: relative;
+    height: 180vh;            /* scroll distance that drives ring rotation */
+    width: 100%;
+  }
+  .cg-3d-sticky {
     position: sticky;
     top: 0;
     width: 100%;
     height: 100vh;
-    min-height: 720px;
-    /* Two-column sticky stage: info panel on the LEFT, 3D orbit on the RIGHT.
-       Matches the split pattern used by the practitioners + manifesto sections
-       so the universe section stops living in a world of its own. */
-    display: grid;
+    min-height: 640px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Legacy class kept only for any stray references — no longer renders
+     a grid; the new structure uses .cg-layout instead. */
+  .cg-sticky {
+    display: contents;
     grid-template-columns: minmax(340px, 460px) minmax(0, 1fr);
     gap: clamp(24px, 3vw, 56px);
     align-items: center;
@@ -3363,27 +3407,63 @@
     overflow: hidden;
     box-sizing: border-box;
   }
-  /* Info panel: static, centered in its column, stays readable against the
-     starfield + veil behind it. */
+  /* Info panel: sticky on the LEFT — stays pinned while the right
+     column scrolls through video -> 3D rotation. Enlarged as the
+     dominant element anchoring both right-column stages. */
   .cg-info {
-    position: relative;
+    position: sticky;
+    top: clamp(24px, 4vh, 56px);
     z-index: 11;
     color: #fff;
-    max-width: 460px;
+    max-width: 560px;
     justify-self: start;
+    align-self: start;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: clamp(16px, 1.6vw, 22px);
+    /* Glass card treatment so the sticky info reads as a solid anchor
+       over the sunset gradient, matching the .p-card family. */
+    padding: clamp(28px, 3vw, 40px);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(4, 8, 18, 0.62) 0%, rgba(4, 8, 18, 0.48) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+    /* Safety: if the section content column somehow grows taller than
+       the viewport, scroll the card internally rather than clipping. */
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    scrollbar-width: thin;
   }
   .cg-info .cg-eyebrow,
   .cg-info .cg-title,
-  .cg-info .cg-lede {
+  .cg-info .cg-lede,
+  .cg-info .cg-sub-lede {
     text-align: left;
     max-width: none;
     margin: 0;
   }
-  .cg-info .cg-title { font-size: clamp(28px, 2.8vw, 40px); line-height: 1.08; }
-  .cg-info .cg-lede  { font-size: clamp(14px, 1.1vw, 16px); }
+  /* Enlarged title: bigger than the old 28-40 range since the card now
+     anchors both the video and the 3D scene. */
+  .cg-info .cg-title {
+    font-size: clamp(32px, 3.4vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+  }
+  .cg-info .cg-lede {
+    font-size: clamp(15px, 1.25vw, 18px);
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  /* Secondary lede — tells the reader what's on the right column. */
+  .cg-info .cg-sub-lede {
+    font-size: clamp(13px, 1vw, 15px);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.70);
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+  }
 
   /* Seven-disciplines list — styled as a glass-rounded box, echoing the
      skills-gap-table in the practitioners section so the universe feels
@@ -3497,6 +3577,7 @@
     position: relative;
     width: 100%;
     height: 100%;
+    min-height: 640px;
     z-index: 2;
     transform: scale(0.82);
     transform-origin: center center;
@@ -3504,16 +3585,23 @@
   @media (max-width: 1280px) {
     .cg-stage-wrap { transform: scale(0.74); }
   }
-  /* Below 980px: collapse to single column — info panel on top,
-     3D stage below (full width, slightly reduced height). */
+  /* Below 980px: collapse to single column — sticky info card releases,
+     video + 3D scene stack below full-width. */
   @media (max-width: 980px) {
-    .cg-sticky {
+    .cg-layout {
       grid-template-columns: 1fr;
-      grid-template-rows: auto 1fr;
-      padding: 24px 20px;
-      gap: 20px;
+      gap: 24px;
+      padding: 32px 20px;
     }
-    .cg-info { max-width: 720px; justify-self: center; }
+    .cg-info {
+      position: static;
+      max-width: 720px;
+      max-height: none;
+      justify-self: center;
+      align-self: center;
+      overflow: visible;
+    }
+    .cg-3d-scroll { height: 140vh; }
     .cg-stage-wrap { transform: scale(0.80); }
     .cg-orbit-legend { grid-template-columns: 1fr 1fr; }
   }
@@ -7547,88 +7635,10 @@
   </div>
 </section>
 
-<!-- =============== A FIRST LOOK (cinematic intro — 60s video) ===================
-     Video acts as the emotional first glimpse of the operating model; the 3D
-     gallery below is the interactive walk-through. Pill labels removed so the
-     two sections don't preview the same nine names. id="model-video" kept
-     so the nav anchor continues to resolve. -->
-<section class="solar" id="model">
-  <div class="model-split reveal">
-    <!-- LEFT: header + compact disciplines list + orbit legend.
-         Reuses the .cg-universe-list / .cg-orbit-legend classes from
-         the universe section below; #model-scoped CSS re-skins them
-         for the warm-paper light surface here. -->
-    <aside class="model-info">
-      <span class="section-eyebrow">A first look</span>
-      <h2 class="section-title">The shape of the system.</h2>
-      <span class="serif-gradient">Seven disciplines. Two orbits.&nbsp;One&nbsp;model.</span>
-      <p class="section-lede">Sixty seconds to see the whole model. Scroll on to explore it discipline by discipline.</p>
-
-      <div class="cg-universe-list" role="list" aria-label="The seven CSOM disciplines (preview)">
-        <div class="cg-ul-head">The Seven Disciplines</div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p1);">
-          <span class="cg-ul-num">01</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body"><span class="cg-ul-name">Leadership</span></span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p7);">
-          <span class="cg-ul-num">02</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body"><span class="cg-ul-name">Organisation Design</span></span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p2);">
-          <span class="cg-ul-num">03</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body"><span class="cg-ul-name">Program Management</span></span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p3);">
-          <span class="cg-ul-num">04</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body"><span class="cg-ul-name">Change Management</span></span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p4);">
-          <span class="cg-ul-num">05</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body"><span class="cg-ul-name">Service Management</span></span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p6);">
-          <span class="cg-ul-num">06</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body"><span class="cg-ul-name">Ecosystem Integration</span></span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p5);">
-          <span class="cg-ul-num">07</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body"><span class="cg-ul-name">Customer Success</span></span>
-        </div>
-      </div>
-
-      <div class="cg-orbit-legend" aria-label="The two CSOM orbits">
-        <div class="cg-ol-row" style="--acc: var(--p8);">
-          <span class="cg-ol-eyebrow">Inner Orbit</span>
-          <span class="cg-ol-name">Data &amp; Intelligence</span>
-        </div>
-        <div class="cg-ol-row" style="--acc: var(--p9);">
-          <span class="cg-ol-eyebrow">Outer Orbit</span>
-          <span class="cg-ol-name">Continual Improvement</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- RIGHT: the 60-second overview video, auto-sized to fill its column. -->
-    <div class="model-stage" id="model-video">
-      <div class="model-video-frame">
-        <!-- Video is 6.5 MB so we defer loading until the user is
-             scrolling near it (IntersectionObserver in the JS below
-             swaps data-src -> src). Saves the download for visitors
-             who never reach this section. -->
-        <video class="model-video" muted loop playsinline preload="none" aria-hidden="true" data-lazy-video>
-          <source data-src="guide-avatar.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- #model section consolidated into #planets below: the 60s video now
+     sits above the 3D sticky scene in #planets; .cg-info is the single
+     left column. Legacy #model / #model-video anchor stubs live inside
+     #planets so any external deep-links still resolve. -->
 
 <!-- =============== 3D ORBIT GALLERY (replaces "The Disciplines" section) =======
      Scroll-driven 3D circular gallery: 7 discipline cards orbit the
@@ -7639,23 +7649,35 @@
      avoid collision with pre-existing `.orbit-card` / `.planets-*` styles. -->
 <div class="universe-shell">
 <section id="planets" class="cg-wrap">
-  <!-- Sticky viewport — stays pinned while 500vh of scroll rotates the ring -->
-  <div class="cg-sticky">
-    <!-- Starfield (80 twinkling dots injected by JS) -->
-    <div class="cg-stars" id="cgStars" aria-hidden="true"></div>
+  <!-- Legacy anchor stubs: #model + #model-video used to be a separate
+       section above. They were consolidated into this section; these
+       stubs preserve any external deep-links landing here. -->
+  <a id="model" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
+  <a id="model-video" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
 
-    <!-- Darkening radial veil for depth -->
-    <div class="cg-veil" aria-hidden="true"></div>
+  <!-- Section-wide background layer: starfield + darkening veil span
+       the full consolidated section (video + 3D scene), so the warm
+       sunset canvas feels continuous top to bottom. -->
+  <div class="cg-bg-layer" aria-hidden="true">
+    <div class="cg-stars" id="cgStars"></div>
+    <div class="cg-veil"></div>
+  </div>
 
-    <!-- Scroll progress rail (section-local; scales x on scroll) -->
-    <div class="cg-progress" id="cgProgress" aria-hidden="true"></div>
+  <!-- Scroll progress rail (sticky at top of viewport during section) -->
+  <div class="cg-progress" id="cgProgress" aria-hidden="true"></div>
 
-    <!-- LEFT column: info panel — header + planet list box + orbit legend.
-         Mirrors the split-layout pattern used by practitioners + manifesto. -->
+  <!-- Two-column layout: sticky .cg-info (LEFT) spans full section
+       height; RIGHT column scrolls — video first, then sticky 3D scene. -->
+  <div class="cg-layout">
+    <!-- LEFT column: info panel — pinned with position: sticky so it
+         stays visible while the right column scrolls through video
+         then 3D rotation. Larger typography than before so the card
+         anchors both right-column elements. -->
     <aside class="cg-info">
-      <span class="cg-eyebrow">The CSOM Universe</span>
+      <span class="cg-eyebrow">A first look &middot; The CSOM Universe</span>
       <h2 class="cg-title">Seven disciplines.<br>Two orbits. One sun.</h2>
       <p class="cg-lede">Customer Value Realization at the centre. Scroll to orbit.</p>
+      <p class="cg-sub-lede">Sixty seconds to see the whole model above &mdash; then watch the disciplines orbit one by one.</p>
 
       <div class="cg-universe-list" role="list" aria-label="The seven CSOM disciplines">
         <div class="cg-ul-head">The Seven Disciplines</div>
@@ -7729,26 +7751,50 @@
       </div>
     </aside>
 
-    <!-- RIGHT column: the 3D orbit scene, scaled to fit its column. -->
-    <div class="cg-stage-wrap">
-      <!-- 3D stage: perspective wrapper → rotating ring → cards + sun
-           id="cgStage" = pointer-drag target for manual rotation. -->
-      <div class="cg-3d" id="cgStage">
-        <div class="cg-ring" id="cgRing">
-          <!-- The Sun — Value Realization -->
-          <div class="cg-sun" aria-hidden="true">
-            <div class="cg-sun-glow"></div>
-            <span>VALUE</span>
-            <span>REALIZATION</span>
-          </div>
-
-          <!-- 7 planet cards injected here by JS as .cg-card elements -->
+    <!-- RIGHT column: video first (normal scroll flow), then 3D scene
+         pinned in its own sticky wrapper for scroll-driven rotation. -->
+    <div class="cg-right">
+      <!-- 60-second overview video, sits at top of right column. -->
+      <div class="cg-video-intro">
+        <div class="model-video-frame">
+          <!-- Video is 6.5 MB so we defer loading until the user is
+               scrolling near it (IntersectionObserver in the JS below
+               swaps data-src -> src). Saves the download for visitors
+               who never reach this section. -->
+          <video class="model-video" muted loop playsinline preload="none" aria-hidden="true" data-lazy-video>
+            <source data-src="guide-avatar.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
 
-      <!-- Scroll hint -->
-      <div class="cg-hint" aria-hidden="true">
-        SCROLL TO EXPLORE <span class="cg-hint-arrow">↓</span>
+      <!-- 3D scene scroll zone: tall wrapper so scroll distance drives
+           ring rotation; inner .cg-3d-sticky pins the scene to the
+           viewport during that scroll. JS measures #cg3dScroll to map
+           progress -> rotation. -->
+      <div class="cg-3d-scroll" id="cg3dScroll">
+        <div class="cg-3d-sticky">
+          <div class="cg-stage-wrap">
+            <!-- 3D stage: perspective wrapper → rotating ring → cards + sun
+                 id="cgStage" = pointer-drag target for manual rotation. -->
+            <div class="cg-3d" id="cgStage">
+              <div class="cg-ring" id="cgRing">
+                <!-- The Sun — Value Realization -->
+                <div class="cg-sun" aria-hidden="true">
+                  <div class="cg-sun-glow"></div>
+                  <span>VALUE</span>
+                  <span>REALIZATION</span>
+                </div>
+
+                <!-- 7 planet cards injected here by JS as .cg-card elements -->
+              </div>
+            </div>
+
+            <!-- Scroll hint -->
+            <div class="cg-hint" aria-hidden="true">
+              SCROLL TO EXPLORE <span class="cg-hint-arrow">↓</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -8158,7 +8204,10 @@
      scroll → ring rotation + idle auto-rotation + per-card opacity fade.
      Reuses the `planets` array above (first 7 entries = disciplines). */
   (function(){
-    const wrap     = document.querySelector('.cg-wrap');
+    /* Scroll target: the 3D scroll zone (video lives above it in the
+       consolidated section). Rotation starts when the 3D wrap enters
+       the viewport, not when the video starts. */
+    const wrap     = document.getElementById('cg3dScroll') || document.querySelector('.cg-wrap');
     const ring     = document.getElementById('cgRing');
     const stage    = document.getElementById('cgStage');
     const progress = document.getElementById('cgProgress');
