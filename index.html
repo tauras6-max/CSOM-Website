@@ -3403,19 +3403,30 @@
   }
 
   /* =============== 7 DISCIPLINE CARDS (STATIC GRID) ================
-     Replaces the 3D rotating ring. 2-col grid of hairline-outlined
-     white cards on a white section background. Each card owns a
-     --acc colour (inherited from the planet palette --p1..--p7) which
-     drives the icon tint, the check-mark bullets, and the hover
-     border treatment. */
+     Replaces the 3D rotating ring. Responsive grid of hairline-outlined
+     white cards on a white section background — cards flow
+     left-to-right across the full page width and wrap to the next row.
+     Each card owns a --acc colour (inherited from the planet palette
+     --p1..--p7) which drives the icon tint, the check-mark bullets, and
+     the hover border treatment. */
+  .planets-video {
+    max-width: 1440px;
+    margin: clamp(36px, 5vw, 56px) auto 0;
+    padding: 0 28px;
+  }
+  .discipline-band {
+    max-width: 1440px;
+    margin: clamp(40px, 6vw, 64px) auto 0;
+    padding: 0 28px;
+  }
   .discipline-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(14px, 1.6vw, 20px);
+    /* auto-fit flow: cards stack left-to-right across the page,
+       naturally wrapping onto a second row. At typical desktop widths
+       this resolves to 3-4 columns; tablet → 2; phone → 1. */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: clamp(16px, 1.8vw, 22px);
     width: 100%;
-  }
-  @media (max-width: 1100px) {
-    .discipline-grid { grid-template-columns: 1fr; }
   }
   .discipline-card {
     position: relative;
@@ -7761,131 +7772,66 @@
      opacity-by-angle fade animate the ring. Classes use `.cg-*` prefix to
      avoid collision with pre-existing `.orbit-card` / `.planets-*` styles. -->
 <div class="universe-shell">
-<section id="planets" class="cg-wrap">
+<section id="planets" class="light-surface" aria-labelledby="planetsTitle">
   <!-- Legacy anchor stubs: #model + #model-video used to be a separate
        section above. They were consolidated into this section; these
        stubs preserve any external deep-links landing here. -->
   <a id="model" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
   <a id="model-video" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
 
-  <!-- Section-wide background layer: starfield + darkening veil span
-       the full consolidated section (video + 3D scene), so the warm
-       sunset canvas feels continuous top to bottom. -->
+  <!-- Legacy dark-scene DOM kept hidden (display:none via .cg-bg-layer
+       rule) so any remaining JS references resolve safely. -->
   <div class="cg-bg-layer" aria-hidden="true">
     <div class="cg-stars" id="cgStars"></div>
     <div class="cg-veil"></div>
   </div>
-
-  <!-- Scroll progress rail (sticky at top of viewport during section) -->
   <div class="cg-progress" id="cgProgress" aria-hidden="true"></div>
 
-  <!-- Two-column layout: sticky .cg-info (LEFT) spans full section
-       height; RIGHT column scrolls — video first, then sticky 3D scene. -->
-  <div class="cg-layout">
-    <!-- LEFT column: info panel — pinned with position: sticky so it
-         stays visible while the right column scrolls through video
-         then 3D rotation. Larger typography than before so the card
-         anchors both right-column elements. -->
-    <aside class="cg-info">
-      <span class="cg-eyebrow">A first look &middot; The CSOM Universe</span>
-      <h2 class="cg-title">Seven disciplines.<br>Two orbits. One sun.</h2>
-      <p class="cg-lede">Customer Value Realization at the centre. Scroll to orbit.</p>
-      <p class="cg-sub-lede">Sixty seconds to see the whole model above &mdash; then read each discipline on the right.</p>
+  <!-- Header: mirrors the "Three audiences. One operating model." split
+       pattern used in #audience — eyebrow + dark title + gradient italic
+       tagline on the left; body copy on the right. -->
+  <div class="split-intro reveal">
+    <div class="split-intro-left">
+      <span class="section-eyebrow">A first look &middot; The CSOM Universe</span>
+      <h2 class="section-title" id="planetsTitle">
+        Seven disciplines.<br/>Two orbits. One sun.
+      </h2>
+      <span class="serif-gradient">Customer Value Realization at the&nbsp;centre.</span>
+    </div>
+    <div class="split-intro-right section-body">
+      <p>
+        Sixty seconds to see the whole operating model in motion &mdash;
+        then meet each discipline that makes it run.
+      </p>
+      <p>
+        Two orbits bind the seven: Data &amp; Intelligence on the inside,
+        Continual Improvement on the outside. Every discipline is
+        accountable to Customer Value Realization at the centre.
+      </p>
+    </div>
+  </div>
 
-      <div class="cg-universe-list" role="list" aria-label="The seven CSOM disciplines">
-        <div class="cg-ul-head">The Seven Disciplines</div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p1);">
-          <span class="cg-ul-num">01</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body">
-            <span class="cg-ul-name">Leadership</span>
-            <span class="cg-ul-epithet">The compass of the system</span>
-          </span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p7);">
-          <span class="cg-ul-num">02</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body">
-            <span class="cg-ul-name">Organisation Design</span>
-            <span class="cg-ul-epithet">The human architecture</span>
-          </span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p2);">
-          <span class="cg-ul-num">03</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body">
-            <span class="cg-ul-name">Program Management</span>
-            <span class="cg-ul-epithet">The engine room</span>
-          </span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p3);">
-          <span class="cg-ul-num">04</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body">
-            <span class="cg-ul-name">Change Management</span>
-            <span class="cg-ul-epithet">The adoption force</span>
-          </span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p4);">
-          <span class="cg-ul-num">05</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body">
-            <span class="cg-ul-name">Service Management</span>
-            <span class="cg-ul-epithet">The delivery backbone</span>
-          </span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p6);">
-          <span class="cg-ul-num">06</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body">
-            <span class="cg-ul-name">Ecosystem Integration</span>
-            <span class="cg-ul-epithet">The orchestration layer</span>
-          </span>
-        </div>
-        <div class="cg-ul-row" role="listitem" style="--acc: var(--p5);">
-          <span class="cg-ul-num">07</span>
-          <span class="cg-ul-dot" aria-hidden="true"></span>
-          <span class="cg-ul-body">
-            <span class="cg-ul-name">Customer Success</span>
-            <span class="cg-ul-epithet">The human layer</span>
-          </span>
-        </div>
-      </div>
+  <!-- 60-second overview video — full-width framed below the header. -->
+  <div class="planets-video reveal">
+    <div class="model-video-frame">
+      <!-- Video is 6.5 MB so we defer loading until the user is
+           scrolling near it (IntersectionObserver in the JS below
+           swaps data-src -> src). Saves the download for visitors
+           who never reach this section. -->
+      <video class="model-video" muted loop playsinline preload="none" aria-hidden="true" data-lazy-video>
+        <source data-src="guide-avatar.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
 
-      <div class="cg-orbit-legend" aria-label="The two CSOM orbits">
-        <div class="cg-ol-row" style="--acc: var(--p8);">
-          <span class="cg-ol-eyebrow">Inner Orbit</span>
-          <span class="cg-ol-name">Data &amp; Intelligence</span>
-        </div>
-        <div class="cg-ol-row" style="--acc: var(--p9);">
-          <span class="cg-ol-eyebrow">Outer Orbit</span>
-          <span class="cg-ol-name">Continual Improvement</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- RIGHT column: video first (normal scroll flow), then 3D scene
-         pinned in its own sticky wrapper for scroll-driven rotation. -->
-    <div class="cg-right">
-      <!-- 60-second overview video, sits at top of right column. -->
-      <div class="cg-video-intro">
-        <div class="model-video-frame">
-          <!-- Video is 6.5 MB so we defer loading until the user is
-               scrolling near it (IntersectionObserver in the JS below
-               swaps data-src -> src). Saves the download for visitors
-               who never reach this section. -->
-          <video class="model-video" muted loop playsinline preload="none" aria-hidden="true" data-lazy-video>
-            <source data-src="guide-avatar.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <!-- 7 discipline cards — static grid replacing the former 3D
-           rotating ring. Each card carries icon, number, title, short
-           description, and three capability bullets in the discipline's
-           accent colour. Order matches the planets[] array in the JS
-           data block (Leadership → Customer Success). -->
-      <div class="discipline-grid">
+  <!-- 7 discipline cards — full-page-width responsive grid. Cards
+       stack left-to-right and wrap onto the next row as needed.
+       Each card carries icon, number, title, short description, and
+       three capability bullets in the discipline's accent colour.
+       Order matches the planets[] array in the JS data block
+       (Leadership → Customer Success). -->
+  <div class="discipline-band reveal">
+    <div class="discipline-grid">
         <article class="discipline-card" style="--acc: var(--p1);">
           <div class="dc-head">
             <div class="dc-icon" aria-hidden="true">
@@ -7999,7 +7945,6 @@
         </article>
       </div>
     </div>
-  </div>
 </section>
 </div>
 
