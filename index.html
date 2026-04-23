@@ -3057,8 +3057,31 @@
     margin: 0;
     max-width: none;
   }
-  .model-info .section-title { font-size: clamp(30px, 3.2vw, 44px); line-height: 1.06; }
-  .model-info .section-lede  { font-size: clamp(14px, 1.1vw, 16px); }
+  /* Match the practitioners section palette: orange-lt eyebrow, dark-ink
+     title, body-ink lede — instead of the global dark-theme white. */
+  .model-info .section-eyebrow {
+    color: var(--brand-orange-lt);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .model-info .section-title {
+    color: var(--ink-dark);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+    font-size: clamp(30px, 3.2vw, 44px);
+  }
+  .model-info .section-lede {
+    color: var(--ink-body);
+    font-size: clamp(14px, 1.1vw, 16px);
+    line-height: 1.65;
+  }
 
   /* Light-surface variant of the glass disciplines list + orbit legend
      (styled dark by default for use inside the sunset-gradient
