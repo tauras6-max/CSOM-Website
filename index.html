@@ -3200,11 +3200,175 @@
     top: 0;
     width: 100%;
     height: 100vh;
-    min-height: 700px;
-    display: flex;
+    min-height: 720px;
+    /* Two-column sticky stage: info panel on the LEFT, 3D orbit on the RIGHT.
+       Matches the split pattern used by the practitioners + manifesto sections
+       so the universe section stops living in a world of its own. */
+    display: grid;
+    grid-template-columns: minmax(340px, 460px) minmax(0, 1fr);
+    gap: clamp(24px, 3vw, 56px);
     align-items: center;
-    justify-content: center;
+    padding: 0 clamp(24px, 4vw, 56px);
     overflow: hidden;
+    box-sizing: border-box;
+  }
+  /* Info panel: static, centered in its column, stays readable against the
+     starfield + veil behind it. */
+  .cg-info {
+    position: relative;
+    z-index: 11;
+    color: #fff;
+    max-width: 460px;
+    justify-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .cg-info .cg-eyebrow,
+  .cg-info .cg-title,
+  .cg-info .cg-lede {
+    text-align: left;
+    max-width: none;
+    margin: 0;
+  }
+  .cg-info .cg-title { font-size: clamp(28px, 2.8vw, 40px); line-height: 1.08; }
+  .cg-info .cg-lede  { font-size: clamp(14px, 1.1vw, 16px); }
+
+  /* Seven-disciplines list — styled as a glass-rounded box, echoing the
+     skills-gap-table in the practitioners section so the universe feels
+     part of the same system. */
+  .cg-universe-list {
+    position: relative;
+    z-index: 5;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(4, 8, 18, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .cg-ul-head {
+    padding: 12px 18px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--brand-orange-lt);
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .cg-ul-row {
+    display: grid;
+    grid-template-columns: 28px 14px 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background .2s ease;
+  }
+  .cg-ul-row:last-child { border-bottom: 0; }
+  .cg-ul-row:hover { background: rgba(255, 255, 255, 0.04); }
+  .cg-ul-num {
+    font-family: 'Syne', 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.42);
+  }
+  .cg-ul-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--acc, #fff);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--acc, #fff) 70%, transparent);
+  }
+  .cg-ul-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .cg-ul-name {
+    font-family: 'Syne', 'Space Grotesk', sans-serif;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.15;
+  }
+  .cg-ul-epithet {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11.5px;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.62);
+    font-weight: 400;
+  }
+
+  /* Orbit legend — two callouts sitting BELOW the planet list,
+     replacing the old corner-positioned pill overlays. */
+  .cg-orbit-legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .cg-ol-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: rgba(4, 8, 18, 0.55);
+    border: 1px solid var(--acc, rgba(255,255,255,0.18));
+    box-shadow: 0 0 16px color-mix(in srgb, var(--acc, #fff) 25%, transparent);
+  }
+  .cg-ol-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--acc, #fff);
+  }
+  .cg-ol-name {
+    font-family: 'Syne', 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  /* Right column wrapping the 3D orbit. We scale the scene down so the
+     orbit (RADIUS 420 + 250-wide cards) fits cleanly inside a ~900px
+     column. Scaling at the wrapper level preserves perspective + the
+     transform-style: preserve-3d chain inside .cg-3d. */
+  .cg-stage-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    transform: scale(0.82);
+    transform-origin: center center;
+  }
+  @media (max-width: 1280px) {
+    .cg-stage-wrap { transform: scale(0.74); }
+  }
+  /* Below 980px: collapse to single column — info panel on top,
+     3D stage below (full width, slightly reduced height). */
+  @media (max-width: 980px) {
+    .cg-sticky {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+      padding: 24px 20px;
+      gap: 20px;
+    }
+    .cg-info { max-width: 720px; justify-self: center; }
+    .cg-stage-wrap { transform: scale(0.80); }
+    .cg-orbit-legend { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .cg-orbit-legend { grid-template-columns: 1fr; }
+    .cg-ul-epithet { display: none; }
   }
   .cg-veil {
     position: absolute; inset: 0;
@@ -3241,16 +3405,11 @@
     pointer-events: none;
   }
 
-  .cg-header {
-    position: absolute;
-    top: 48px;
-    left: 0; right: 0;
-    text-align: center;
-    color: #fff;
-    z-index: 10;
-    pointer-events: none;
-    padding: 0 24px;
-  }
+  /* Legacy: .cg-header used to be absolute-positioned at the top-centre
+     overlay. It's now a no-op — the header text lives inside .cg-info
+     on the left column. Retained as a safety net in case any stale
+     markup references it. */
+  .cg-header { display: none; }
   .cg-eyebrow {
     display: inline-block;
     font-family: 'Space Grotesk', sans-serif;
@@ -7167,55 +7326,106 @@
     <!-- Scroll progress rail (section-local; scales x on scroll) -->
     <div class="cg-progress" id="cgProgress" aria-hidden="true"></div>
 
-    <!-- Header overlay -->
-    <div class="cg-header">
+    <!-- LEFT column: info panel — header + planet list box + orbit legend.
+         Mirrors the split-layout pattern used by practitioners + manifesto. -->
+    <aside class="cg-info">
       <span class="cg-eyebrow">The CSOM Universe</span>
       <h2 class="cg-title">Seven disciplines.<br>Two orbits. One sun.</h2>
       <p class="cg-lede">Customer Value Realization at the centre. Scroll to orbit.</p>
-    </div>
 
-    <!-- Horizontal orbit pills — sit OUTSIDE the 3D ring so they don't rotate
-         with the cards. One above (Data), one below (Continual Improvement).
-         Content trimmed to eyebrow + name so the pill always fits on one line. -->
-    <div class="cg-orbit-strip cg-orbit-strip-top" style="--acc: var(--p8);">
-      <span class="cg-orbit-dot"></span>
-      <span class="cg-orbit-text">
-        <span class="cg-orbit-heading">
-          <span class="cg-orbit-eyebrow">Inner Orbit</span>
-          <span class="cg-orbit-name">Data &amp; Intelligence</span>
-        </span>
-        <span class="cg-orbit-sub">The sensing layer &mdash; telemetry, AI, and analytics surrounding every discipline, proving the Value Sun is shining.</span>
-      </span>
-    </div>
-    <div class="cg-orbit-strip cg-orbit-strip-bottom" style="--acc: var(--p9);">
-      <span class="cg-orbit-dot"></span>
-      <span class="cg-orbit-text">
-        <span class="cg-orbit-heading">
-          <span class="cg-orbit-eyebrow">Outer Orbit</span>
-          <span class="cg-orbit-name">Continual Improvement</span>
-        </span>
-        <span class="cg-orbit-sub">The force that never stops &mdash; feedback loops and maturity models that keep the whole system evolving with its customers.</span>
-      </span>
-    </div>
-
-    <!-- 3D stage: perspective wrapper → rotating ring → cards + sun
-         id="cgStage" = pointer-drag target for manual rotation. -->
-    <div class="cg-3d" id="cgStage">
-      <div class="cg-ring" id="cgRing">
-        <!-- The Sun — Value Realization -->
-        <div class="cg-sun" aria-hidden="true">
-          <div class="cg-sun-glow"></div>
-          <span>VALUE</span>
-          <span>REALIZATION</span>
+      <div class="cg-universe-list" role="list" aria-label="The seven CSOM disciplines">
+        <div class="cg-ul-head">The Seven Disciplines</div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p1);">
+          <span class="cg-ul-num">01</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body">
+            <span class="cg-ul-name">Leadership</span>
+            <span class="cg-ul-epithet">The compass of the system</span>
+          </span>
         </div>
-
-        <!-- 7 planet cards injected here by JS as .cg-card elements -->
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p7);">
+          <span class="cg-ul-num">02</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body">
+            <span class="cg-ul-name">Organisation Design</span>
+            <span class="cg-ul-epithet">The human architecture</span>
+          </span>
+        </div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p2);">
+          <span class="cg-ul-num">03</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body">
+            <span class="cg-ul-name">Program Management</span>
+            <span class="cg-ul-epithet">The engine room</span>
+          </span>
+        </div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p3);">
+          <span class="cg-ul-num">04</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body">
+            <span class="cg-ul-name">Change Management</span>
+            <span class="cg-ul-epithet">The adoption force</span>
+          </span>
+        </div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p4);">
+          <span class="cg-ul-num">05</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body">
+            <span class="cg-ul-name">Service Management</span>
+            <span class="cg-ul-epithet">The delivery backbone</span>
+          </span>
+        </div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p6);">
+          <span class="cg-ul-num">06</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body">
+            <span class="cg-ul-name">Ecosystem Integration</span>
+            <span class="cg-ul-epithet">The orchestration layer</span>
+          </span>
+        </div>
+        <div class="cg-ul-row" role="listitem" style="--acc: var(--p5);">
+          <span class="cg-ul-num">07</span>
+          <span class="cg-ul-dot" aria-hidden="true"></span>
+          <span class="cg-ul-body">
+            <span class="cg-ul-name">Customer Success</span>
+            <span class="cg-ul-epithet">The human layer</span>
+          </span>
+        </div>
       </div>
-    </div>
 
-    <!-- Scroll hint -->
-    <div class="cg-hint" aria-hidden="true">
-      SCROLL TO EXPLORE <span class="cg-hint-arrow">↓</span>
+      <div class="cg-orbit-legend" aria-label="The two CSOM orbits">
+        <div class="cg-ol-row" style="--acc: var(--p8);">
+          <span class="cg-ol-eyebrow">Inner Orbit</span>
+          <span class="cg-ol-name">Data &amp; Intelligence</span>
+        </div>
+        <div class="cg-ol-row" style="--acc: var(--p9);">
+          <span class="cg-ol-eyebrow">Outer Orbit</span>
+          <span class="cg-ol-name">Continual Improvement</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT column: the 3D orbit scene, scaled to fit its column. -->
+    <div class="cg-stage-wrap">
+      <!-- 3D stage: perspective wrapper → rotating ring → cards + sun
+           id="cgStage" = pointer-drag target for manual rotation. -->
+      <div class="cg-3d" id="cgStage">
+        <div class="cg-ring" id="cgRing">
+          <!-- The Sun — Value Realization -->
+          <div class="cg-sun" aria-hidden="true">
+            <div class="cg-sun-glow"></div>
+            <span>VALUE</span>
+            <span>REALIZATION</span>
+          </div>
+
+          <!-- 7 planet cards injected here by JS as .cg-card elements -->
+        </div>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="cg-hint" aria-hidden="true">
+        SCROLL TO EXPLORE <span class="cg-hint-arrow">↓</span>
+      </div>
     </div>
   </div>
 </section>
