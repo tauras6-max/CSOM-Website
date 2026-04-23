@@ -113,15 +113,15 @@
     --ease: cubic-bezier(.2,.7,.2,1);
     --max: 1240px;
 
-    /* ---- Light-surface tokens (Warm Bold Spectrum — paper base) ---- */
-    --light-bg:       #FAF7F2;   /* warm off-white paper (handoff --paper) */
-    --light-bg-soft:  #F4EFE7;   /* card shoulder / subtle surface (paper-2) */
-    --light-bg-alt:   #EBE4D7;   /* pressed / alt band (paper-3) */
-    --light-line:     #E8E2D8;   /* 1px borders on paper */
-    --light-line-strong: #D8CFBE;
-    --ink-dark:       #0E0E14;   /* titles on paper — near-black w/ blue tint */
-    --ink-body:       #5C564B;   /* body on paper (mute-2) */
-    --ink-muted:      #8C8578;   /* captions / meta on paper (mute-1) */
+    /* ---- Light-surface tokens (PPTX theme — pure white paper) ---- */
+    --light-bg:       #FFFFFF;   /* pure white — slide 2/3 background */
+    --light-bg-soft:  #F8F9FA;   /* faint grey card shoulder */
+    --light-bg-alt:   #F1F3F5;   /* pressed / alt band */
+    --light-line:     #E6E6EA;   /* 1px borders */
+    --light-line-strong: #D4D4D8;
+    --ink-dark:       #0E0E14;   /* titles — near-black w/ blue tint */
+    --ink-body:       #52525B;   /* body copy */
+    --ink-muted:      #71717A;   /* captions / meta */
   }
 
   * { box-sizing: border-box; }
@@ -190,13 +190,10 @@
     border-radius: 4px;
   }
   body {
-    /* Warm sunset backdrop — from the handoff design system.
-       Text containers (cards, panels, nav, fails table, narration, etc.)
-       carry their own dark-glass backgrounds so readability stays intact
-       even against the brighter midtones of the gradient. */
-    background: var(--brand-sunset);
-    background-attachment: fixed;
-    background-size: cover;
+    /* PPTX theme: pure white base. The hero section (`#top.gs`), ink
+       manifesto sections, and light-surface bands each carry their own
+       background, so the body backdrop is a neutral canvas behind them. */
+    background: #FFFFFF;
     min-height: 100vh;
   }
 
@@ -3934,15 +3931,22 @@
     .gs.align-center .gs-actions { margin: 0 auto; }
   }
 
-  /* ============== HERO — WARM SUNSET GRADIENT ==============
-     Steel-blue → dusty-rose → coral → peach, matching the handoff
-     hero background. Scoped to #top only; the manifesto still stays
-     dark so the contrast between the warm hero and reflective
-     manifesto carries. */
+  /* ============== HERO — BRAND SPECTRUM GRADIENT ==============
+     Blue → teal → green → olive → orange → yellow, sampled directly
+     from the PPTX slide 1 hero (2373D2 → 2891A8 → 2BB673 → 7CA161
+     → F67E43 → FD9442). Scoped to #top only; the manifesto below
+     keeps its dark glass so the transition between the hero and the
+     failures section stays crisp. */
   #top.gs {
     background:
-      radial-gradient(ellipse 60% 80% at 82% 50%, rgba(255, 230, 200, 0.14), transparent 65%),
-      var(--brand-sunset);
+      radial-gradient(ellipse 60% 80% at 78% 30%, rgba(255, 255, 255, 0.10), transparent 60%),
+      linear-gradient(95deg,
+        #1F6FD6 0%,
+        #2891A8 22%,
+        #2BB673 40%,
+        #7CA161 62%,
+        #F05A1E 82%,
+        #F5A623 100%);
     color: #fff;
   }
   /* Kill any inherited aurora/grid inside the hero */
@@ -4947,7 +4951,7 @@
 
   .two-worlds .section-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
   .two-worlds .section-eyebrow {
-    color: var(--brand-orange);
+    color: var(--brand-orange-lt);
     font-family: 'Space Grotesk', sans-serif;
     font-size: 12px;
     letter-spacing: .24em;
@@ -5094,7 +5098,7 @@
   }
   .signals .section-head { margin-bottom: clamp(1.8rem, 3vw, 2.4rem); }
   .signals .section-eyebrow {
-    color: var(--brand-orange);
+    color: var(--brand-orange-lt);
     font-family: 'Space Grotesk', sans-serif;
     font-size: 12px;
     letter-spacing: .24em;
@@ -5207,7 +5211,7 @@
   .light-surface::after  { bottom: 0; }
 
   .light-surface .section-eyebrow {
-    color: var(--brand-orange);
+    color: var(--brand-orange-lt);
     font-family: 'Space Grotesk', sans-serif;
     font-size: 12px;
     letter-spacing: .24em;
