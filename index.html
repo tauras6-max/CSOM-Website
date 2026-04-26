@@ -6665,6 +6665,45 @@
     .practitioner-benefits { padding-left: 1.3em; }
   }
 
+  /* Section 8 — Author & community sub-block.
+     Centered, narrow column below the .split-intro title row. The
+     sub-heading introduces the contribution invitation; a short
+     paragraph + a single-line emphasis line + a single CTA close
+     the section. No author photo, no bio links — by brief. */
+  .community-call {
+    max-width: 920px;
+    margin: clamp(40px, 6vw, 64px) auto 0;
+    padding: 0 28px;
+    text-align: center;
+  }
+  .community-call-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    color: var(--ink-dark);
+    margin: 0 0 clamp(18px, 2vw, 24px);
+  }
+  .community-call-body p {
+    font-size: clamp(15px, 1.05vw, 17px);
+    line-height: 1.65;
+    color: var(--ink-body);
+    margin: 0 0 1rem;
+  }
+  .community-call-line {
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(17px, 1.4vw, 20px);
+    color: var(--ink-dark);
+    margin: clamp(1.25rem, 2vw, 1.75rem) 0 clamp(1.5rem, 2.5vw, 2rem) !important;
+  }
+  .community-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .community-cta svg { width: 16px; height: 16px; }
+
   /* ---- Audience hairline cards ("Two audiences. One framework.") ---- */
   .audience-wrap {
     max-width: 1440px;
@@ -8837,6 +8876,59 @@
         industry can read, contribute to, and build on.
       </li>
     </ol>
+  </div>
+</section>
+
+<!-- =============== SECTION 8: AUTHOR & COMMUNITY — theme rebuild =============== -->
+<section class="light-surface alt" id="author-community" aria-labelledby="authorCommunityTitle">
+  <div class="split-intro reveal">
+    <div class="split-intro-left">
+      <span class="section-eyebrow">Author &amp; community</span>
+      <h2 class="section-title" id="authorCommunityTitle">
+        The author and the community.
+      </h2>
+      <span class="serif-gradient">A body of knowledge written from inside the work.</span>
+    </div>
+    <div class="split-intro-right section-body">
+      <p>
+        CSOM is authored by a senior practitioner with deep experience across
+        ITIL, SIAM, and Customer Success. The framework is shaped by years of
+        operating-model work in complex enterprise environments and by active
+        engagement with the practitioner community.
+      </p>
+      <p>
+        The full author profile, contributor list, and supporting Body of
+        Knowledge will be published with the launch of the
+        <em>Customer Success Body of Knowledge</em> book in 2026.
+      </p>
+      <p>
+        CSOM exists because the bridge between services-side rigour and
+        product-economy Value Realization needs a body of knowledge &mdash;
+        and because the practitioner community on both sides deserves a
+        vocabulary for the work that&rsquo;s already underway.
+      </p>
+    </div>
+  </div>
+
+  <div class="community-call reveal">
+    <h3 class="community-call-title">A community body of knowledge in development</h3>
+    <div class="community-call-body">
+      <p>
+        CSOM is being developed as a community body of knowledge. Senior
+        practitioners with deep ITIL, SIAM, and Customer Success experience
+        are invited to contribute as co-authors, reviewers, and case-study
+        contributors. The framework&rsquo;s strength comes from the breadth
+        of practitioners who shape it.
+      </p>
+      <p class="community-call-line">
+        If you&rsquo;ve spent a career building the disciplines CSOM names,
+        the door is open.
+      </p>
+      <a href="#contribute" class="btn btn-primary community-cta">
+        Express interest in contributing
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
   </div>
 </section>
 
