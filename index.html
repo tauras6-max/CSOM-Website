@@ -6188,6 +6188,118 @@
     .training-row { grid-template-columns: 1fr; gap: 4px; }
   }
 
+  /* ---- Body-of-knowledge training block (CoI/independence pass) ----
+     Replaces the Cohort 01/02 commercial cards with a single
+     paragraph + minimal email-capture form (#notify) that doubles
+     as the page-wide primary CTA target. Visual grammar matches
+     existing training section: max-width 1440, 28px gutter, light
+     surface tokens. */
+  .training-bok-lede {
+    max-width: 720px;
+    margin: 0 auto clamp(28px, 3.6vw, 40px);
+    padding: 0 28px;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(18px, 1.65vw, 22px);
+    line-height: 1.5;
+    color: var(--ink-body);
+    text-align: center;
+  }
+  .notify-form {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: start;
+    /* Anchor offset so #notify lands the form clear of the sticky nav. */
+    scroll-margin-top: 96px;
+  }
+  .notify-form .field {
+    display: block;
+    min-width: 0;
+  }
+  .notify-form .field-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    border-radius: 12px;
+    border: 1px solid var(--light-line, rgba(12, 16, 26, 0.14));
+    background: #ffffff;
+    color: var(--ink-dark);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .notify-form .field-input:focus {
+    outline: none;
+    border-color: var(--brand-orange);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-orange) 22%, transparent);
+  }
+  .notify-form .field.is-invalid .field-input {
+    border-color: var(--brand-red, #D64326);
+  }
+  .notify-form .field-error {
+    display: none;
+    margin-top: 6px;
+    font-size: 12.5px;
+    color: var(--brand-red, #D64326);
+  }
+  .notify-form .field.is-invalid .field-error { display: block; }
+  .notify-submit {
+    height: 48px;
+    padding: 0 22px;
+    white-space: nowrap;
+  }
+  .notify-fineprint {
+    max-width: 520px;
+    margin: 14px auto 0;
+    padding: 0 28px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    color: var(--ink-muted);
+    text-align: center;
+  }
+  .notify-fineprint-flag {
+    display: block;
+    margin-top: 4px;
+    font-style: italic;
+    color: var(--brand-orange);
+  }
+  /* Toast-style success state when submission completes. */
+  .notify-form.is-sent .field,
+  .notify-form.is-sent .notify-submit { display: none; }
+  .notify-form.is-sent::after {
+    content: "Thanks — we'll be in touch when cohorts open.";
+    grid-column: 1 / -1;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--brand-green) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--brand-green) 36%, transparent);
+    color: var(--ink-dark);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    text-align: center;
+  }
+  /* Visually-hidden label for the email field (the placeholder + form
+     context already make the purpose obvious; the SR-only label keeps
+     screen readers happy). */
+  .notify-form .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (max-width: 560px) {
+    .notify-form { grid-template-columns: 1fr; }
+    .notify-submit { width: 100%; }
+  }
+
   /* ---- Practitioners section (light-surface overrides) ---- */
   .light-surface .practitioner-quote {
     position: relative;
@@ -7495,7 +7607,7 @@
       <li><a href="#practitioners">For Practitioners</a></li>
       <li><a href="#bring">Training</a></li>
     </ul>
-    <a href="#contact" class="nav-cta">Talk to Us →</a>
+    <a href="#notify" class="nav-cta">Notify me →</a>
     <button class="menu-btn" aria-label="Open menu">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
@@ -7625,8 +7737,7 @@
     </div>
     <p class="hero-meta-note">
       <span class="dot" aria-hidden="true">●</span>
-      Accredited SIAM training cohorts now enrolling &mdash;
-      <a href="#bring">see training details →</a>
+      A Body of Knowledge in development. Book and community launching 2026.
     </p>
   </div>
 </header>
@@ -8117,7 +8228,7 @@
     <div class="audience-band">
       <article class="audience-hair ah-blue">
         <span class="ah-eyebrow">For product companies</span>
-        <h3>Build products your customers actually adopt.</h3>
+        <h3>How CSOM<span class="tm">&trade;</span> applies in product organisations.</h3>
         <p>
           You ship features. Your customers adopt a fraction of what they pay
           for. Churn follows. CSOM<span class="tm">&trade;</span> turns feature
@@ -8133,17 +8244,15 @@
       </article>
       <article class="audience-hair ah-green">
         <span class="ah-eyebrow">For services &amp; SI</span>
-        <h3>Deploy for go-live. Get paid for outcomes.</h3>
+        <h3>How CSOM<span class="tm">&trade;</span> applies in services and SI organisations.</h3>
         <p>
           Your SOW ends at go-live. Your customer&rsquo;s journey starts there.
-          CSOM<span class="tm">&trade;</span> turns implementation into value
-          realization &mdash; the only kind that commands margin and extends
-          engagements.
+          CSOM<span class="tm">&trade;</span> reframes implementation as value
+          realization &mdash; the dimension that lifts services work above
+          project delivery.
         </p>
         <ul>
           <li>Outcome-based SOWs, not deployment-based</li>
-          <li>Become the Product vendor&rsquo;s adoption partner</li>
-          <li>New service lines: CVR assessments, adoption accelerators</li>
           <li>Works across SI, consultancies, and managed services</li>
         </ul>
       </article>
@@ -8162,7 +8271,7 @@
           <li>Carry the model into any industry, at any scale</li>
           <li>Trained and taught by practitioners who&rsquo;ve built one</li>
         </ul>
-        <a class="ah-cta" href="#practitioners">See training &rarr;</a>
+        <a class="ah-cta" href="#notify">See training &rarr;</a>
       </article>
     </div>
   </div>
@@ -8284,72 +8393,36 @@
     </div>
   </div>
 
+  <!-- CoI/independence pass: the Cohort 01 / Cohort 02 commercial
+       block + apply CTAs + "Open enrolment quarterly..." footnote +
+       "Talk to the training team" link have been replaced with a
+       single body-of-knowledge paragraph and a minimal interest-
+       capture form. The form id="notify" doubles as the page anchor
+       primary CTAs ("Notify me →") now point to. -->
   <div class="training-wrap reveal">
-    <div class="training-band">
-      <article class="training-card tc-green">
-        <span class="training-step">Cohort 01</span>
-        <div class="training-meta">
-          <span class="training-chip duration">2 Days</span>
-          <span class="training-chip">Foundation</span>
-          <span class="training-chip">Accredited</span>
-        </div>
-        <h3 class="training-name">SIAM Foundation</h3>
-        <p class="training-lede">
-          The starting point. Two days on why multi-vendor environments fail,
-          what SIAM actually is (and isn&rsquo;t), and the operating-model
-          decisions you can&rsquo;t duck once the first vendor contract is signed.
-        </p>
-        <div class="training-rows">
-          <div class="training-row">
-            <span class="training-row-label">Who it&rsquo;s for</span>
-            <p class="training-row-text">Service managers, ITIL practitioners, and architects stepping into their first SIAM environment &mdash; and the leaders who need to hold their SIAM team to account.</p>
-          </div>
-          <div class="training-row">
-            <span class="training-row-label">You leave with</span>
-            <p class="training-row-text">A working map of your own service integration model against the CSOM<span class="tm">&trade;</span> seven disciplines and two orbits. Not a certificate sitting on a server &mdash; a plan you can open Monday morning.</p>
-          </div>
-        </div>
-        <a class="training-cta" href="#contact">
-          Apply to the next cohort
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-      </article>
+    <p class="training-bok-lede">
+      Accredited SIAM training, taught inside the CSOM<span class="tm">&trade;</span>
+      operating model, will be available through CSOM<span class="tm">&trade;</span>
+      Global. Register interest to be notified when cohorts open.
+    </p>
 
-      <article class="training-card tc-orange">
-        <span class="training-step">Cohort 02</span>
-        <div class="training-meta">
-          <span class="training-chip duration">3 Days</span>
-          <span class="training-chip">Professional</span>
-          <span class="training-chip">Accredited</span>
-        </div>
-        <h3 class="training-name">SIAM Professional</h3>
-        <p class="training-lede">
-          The working level. Three days on implementation patterns, governance
-          layers, measurement, and the messy reality of integrators, providers
-          and customers all pulling in different directions.
-        </p>
-        <div class="training-rows">
-          <div class="training-row">
-            <span class="training-row-label">Who it&rsquo;s for</span>
-            <p class="training-row-text">Programme leads, service integration managers, and enterprise architects &mdash; people about to run, or already running, a live SIAM model under pressure.</p>
-          </div>
-          <div class="training-row">
-            <span class="training-row-label">You leave with</span>
-            <p class="training-row-text">A tailored operating-model baseline for your own organisation, mapped to the CSOM<span class="tm">&trade;</span> seven disciplines and two orbits, reviewed by a practitioner who has built one before. And the pattern book for the next twelve months of governance decisions.</p>
-          </div>
-        </div>
-        <a class="training-cta" href="#contact">
-          Apply to the next cohort
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-      </article>
-    </div>
+    <form class="notify-form" id="notify" novalidate aria-label="Register interest in CSOM training and the body of knowledge">
+      <label class="field" data-field="notifyEmail">
+        <span class="field-label sr-only">Email</span>
+        <input class="field-input notify-email" type="email" name="email" required autocomplete="email" placeholder="you@company.com" inputmode="email" />
+        <span class="field-error">Please enter a valid email address (e.g. you@company.com).</span>
+      </label>
+      <button type="submit" class="btn btn-primary notify-submit">
+        Notify me
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </form>
+
+    <p class="notify-fineprint">
+      Mailing list only. No marketing. Unsubscribe whenever.
+      <span class="notify-fineprint-flag" hidden>(Backend pending — submissions currently open the user's mail client.)</span>
+    </p>
   </div>
-
-  <p class="training-footnote reveal">
-    Open enrolment quarterly &middot; virtual &middot; in-house runs for teams of 10+.
-    <a href="#contact">Talk to the training team &rarr;</a>
-  </p>
 </section>
 
 <!-- Three Missions section removed per consolidated revision -->
@@ -8361,10 +8434,10 @@
       <span class="section-eyebrow">In the same orbit</span>
       <h2 class="section-title" id="contactTitle">One real <span class="accent">conversation.</span></h2>
       <p class="section-lede">
-        Three ways in. Whichever is least friction &mdash; a practitioner writes back within two working days.
+        Two ways in. Whichever is least friction &mdash; a practitioner writes back within two working days.
       </p>
       <p class="contact-note">
-        Not as a consultancy with a deck &mdash; as practitioners who&rsquo;ve lived the work. Conversations first. Engagements only if the fit is right.
+        This is a body of knowledge, not a consultancy. Reach out for research conversations, contribution, or to be notified when the book and training launch.
       </p>
     </div>
 
@@ -8375,14 +8448,11 @@
         <p class="pick-desc">Email a practitioner direct. No deck, no pitch.</p>
         <span class="pick-go"><span class="pick-go-label">contact@csom.global</span> <span aria-hidden="true">→</span></span>
       </a>
-      <a class="pick-tile" href="https://calendar.app.google/thqqvcQyunDvD3pD7" target="_blank" rel="noopener">
-        <span class="pick-num">02</span>
-        <h3 class="pick-name">Book</h3>
-        <p class="pick-desc">Thirty minutes with someone who has actually built one.</p>
-        <span class="pick-go"><span class="pick-go-label">Book a slot</span> <span aria-hidden="true">→</span></span>
-      </a>
+      <!-- "02 Book" calendar tile removed (CoI/independence pass): no
+           consulting funnel, no live booking link. Tiles renumber to
+           01 Write / 02 Send a note. -->
       <button class="pick-tile pick-tile-compose" type="button" id="composeTile" aria-expanded="false" aria-controls="composeForm">
-        <span class="pick-num">03</span>
+        <span class="pick-num">02</span>
         <h3 class="pick-name">Send a note</h3>
         <p class="pick-desc">Three fields. Reply within two working days.</p>
         <span class="pick-go"><span class="pick-go-label">Open the form</span> <span aria-hidden="true">→</span></span>
@@ -8459,9 +8529,9 @@
   </div>
   <!-- Founding attribution — anonymous by design (conflict-of-interest guardrails). -->
   <p class="foot-attribution">
-    Built by a practitioner with <span class="foot-attribution-name">25+ years</span>
-    leading ITIL, SIAM and service-integration programs across Fortune 500 enterprises,
-    with contributors from service management, customer success, and operating-model design.
+    Authored by a practitioner with <span class="foot-attribution-name">25+ years</span>
+    in ITIL, SIAM and service integration. CSOM<span class="tm">&trade;</span>
+    is independent research, not a consultancy. Contributors welcome.
   </p>
   <p class="foot-attribution foot-attribution-disclosure">
     CSOM<span class="tm" style="color:#FFD054;">™</span> is an independent body of work.
@@ -8878,6 +8948,64 @@
       `;
     });
   }
+
+  /* =============== NOTIFY FORM (Body of Knowledge / training waitlist) ===============
+     Minimal email-capture. Mailto fallback — no backend required.
+     Validates email, opens user's mail client, then shows success toast. */
+  (function(){
+    const notifyForm = document.getElementById('notify');
+    if (!notifyForm) return;
+    const NOTIFY_EMAIL_RE = /^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/;
+    const field = notifyForm.querySelector('[data-field="notifyEmail"]');
+    const input = notifyForm.querySelector('.notify-email');
+    const errEl = field && field.querySelector('.field-error');
+
+    const clearError = () => { if (field) field.classList.remove('is-invalid'); };
+    const showError  = (msg) => {
+      if (!field) return;
+      if (errEl && msg) errEl.textContent = msg;
+      field.classList.add('is-invalid');
+    };
+
+    if (input) {
+      input.addEventListener('input', clearError);
+      input.addEventListener('blur', () => {
+        const v = input.value.trim();
+        if (v && !NOTIFY_EMAIL_RE.test(v)) {
+          showError('Please enter a valid email address (e.g. you@company.com).');
+        }
+      });
+    }
+
+    notifyForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearError();
+      const email = (input && input.value || '').trim();
+      if (!email) {
+        showError('An email address helps us reach you.');
+        if (input) input.focus();
+        return;
+      }
+      if (!NOTIFY_EMAIL_RE.test(email)) {
+        showError('That doesn\u2019t look right. Try you@company.com.');
+        if (input) input.focus();
+        return;
+      }
+
+      const subject = 'CSOM\u2122 \u00b7 Notify me when training and the BoK launch';
+      const body = `Please add me to the CSOM\u2122 mailing list.\n\nEmail: ${email}\n\n\u2014 Sent from csom.global`;
+      const href = `mailto:contact@csom.global?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = href;
+
+      notifyForm.classList.add('is-sent');
+      if (input) {
+        input.value = '';
+        input.disabled = true;
+      }
+      const submitBtn = notifyForm.querySelector('.notify-submit');
+      if (submitBtn) submitBtn.disabled = true;
+    });
+  })();
 
   /* =============== SCROLL PROGRESS BAR ============== */
   const progressBar = document.querySelector('.scroll-progress');
