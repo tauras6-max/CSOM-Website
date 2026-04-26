@@ -7298,89 +7298,132 @@
   }
 
   /* ─── §2 Why now (theme rebuild) ─────────────────────────────
-     Single linear column. No cards, no boxed elements.
-     Italic deck + three-beat metaphor + principle + bold-led
-     audience paragraphs + italic close. */
-  #diagnosis.light-surface .why-now-wrap {
-    max-width: 820px;
+     Mirrors the .two-worlds visual treatment: light background
+     with brand-gradient hairlines top/bottom, centered display
+     title with italic-gradient accent phrase, then a single
+     reading column for body content. */
+  .why-now {
+    position: relative;
+    z-index: 2;
+    padding: clamp(5rem, 8vw, 7rem) 0;
+    background:
+      radial-gradient(ellipse 65% 55% at 15% 20%, rgba(39, 184, 179, 0.06), transparent 65%),
+      radial-gradient(ellipse 65% 55% at 85% 80%, rgba(245, 160, 46, 0.06), transparent 65%),
+      var(--light-bg);
+    color: var(--ink-dark);
+  }
+  .why-now::before,
+  .why-now::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--brand-gradient);
+    opacity: 0.9;
+  }
+  .why-now::before { top: 0; }
+  .why-now::after  { bottom: 0; }
+
+  .why-now .wrap {
+    max-width: 1080px;
     margin: 0 auto;
     padding: 0 28px;
-    text-align: left;
   }
-  #diagnosis.light-surface .why-now-title {
+
+  /* Centered display title — bold black + italic gradient accent,
+     same pattern as .two-worlds .section-title */
+  .why-now .section-head {
+    margin-bottom: clamp(2.4rem, 4vw, 3.4rem);
+    text-align: center;
+  }
+  .why-now .section-title {
     color: var(--ink-dark);
-    text-align: left;
-    margin: 0 0 28px;
     text-shadow: none;
+    max-width: 22ch;
+    margin: 0 auto;
   }
-  #diagnosis.light-surface .why-now-deck {
+  .why-now .section-title .accent {
+    display: inline;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .why-now .tm { color: var(--brand-orange) !important; }
+
+  /* Three-beat italic metaphor block — single visual unit, not cards.
+     Hairline-bordered, centered. */
+  .why-now-metaphors {
+    max-width: 760px;
+    margin: 0 auto clamp(2rem, 3vw, 2.6rem);
+    padding: clamp(1.6rem, 2.5vw, 2.2rem) 0;
+    border-top: 1px solid var(--light-line);
+    border-bottom: 1px solid var(--light-line);
+    text-align: center;
+  }
+  .why-now-metaphors p {
     font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(22px, 2.2vw, 30px);
-    line-height: 1.35;
-    color: var(--ink-dark);
-    margin: 0 0 40px;
-    max-width: 32ch;
-    text-shadow: none;
-  }
-  #diagnosis.light-surface .why-now-metaphors {
-    margin: 0 0 36px;
-    padding: 28px 0;
-    border-top: 1px solid var(--light-line);
-    border-bottom: 1px solid var(--light-line);
-  }
-  #diagnosis.light-surface .why-now-metaphors p {
-    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
-    font-style: italic;
     font-size: clamp(19px, 1.7vw, 24px);
-    line-height: 1.55;
+    line-height: 1.6;
     color: var(--ink-body);
     margin: 0;
-    padding: 4px 0;
-    text-shadow: none;
+    padding: 5px 0;
   }
-  #diagnosis.light-surface .why-now-principle {
-    font-size: clamp(17px, 1.4vw, 20px);
-    line-height: 1.55;
-    color: var(--ink-dark);
-    margin: 36px 0;
-    max-width: 60ch;
-    font-weight: 500;
-    text-shadow: none;
-  }
-  #diagnosis.light-surface .why-now-body p {
-    font-size: 17px;
+
+  /* Principle paragraph — centered lede treatment */
+  .why-now-principle {
+    max-width: 760px;
+    margin: 0 auto clamp(2.4rem, 4vw, 3.2rem);
+    text-align: center;
+    font-size: clamp(16px, 1.5vw, 19px);
     line-height: 1.65;
+    color: var(--ink-dark);
+    font-weight: 500;
+  }
+
+  /* Body prose — left-aligned reading column */
+  .why-now-body {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .why-now-body p {
+    font-size: 17px;
+    line-height: 1.7;
     color: var(--ink-body);
     margin: 0 0 22px;
-    max-width: 62ch;
-    text-shadow: none;
   }
-  #diagnosis.light-surface .why-now-body strong {
+  .why-now-body strong {
     color: var(--ink-dark);
     font-weight: 700;
   }
-  #diagnosis.light-surface .why-now-bold-led {
-    margin-top: 18px;
+  .why-now-bold-led {
+    margin-top: 22px !important;
   }
-  #diagnosis.light-surface .why-now-close {
+
+  /* Closing italic line — centered, gradient flourish on CSOM */
+  .why-now-close {
+    max-width: 760px;
+    margin: clamp(2.4rem, 4vw, 3.2rem) auto 0;
+    text-align: center;
     font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
-    font-size: clamp(20px, 1.7vw, 24px);
-    line-height: 1.4;
+    font-weight: 500;
+    font-size: clamp(20px, 1.9vw, 26px);
+    line-height: 1.5;
     color: var(--ink-dark);
-    margin: 44px 0 0;
-    max-width: 60ch;
-    text-shadow: none;
   }
+  .why-now-close .tm { color: var(--brand-orange); font-style: normal; }
+
   @media (max-width: 720px) {
-    #diagnosis.light-surface .why-now-wrap {
-      padding: 0 22px;
-    }
-    #diagnosis.light-surface .why-now-deck {
-      max-width: none;
-    }
+    .why-now .wrap { padding: 0 22px; }
+    .why-now .section-title { max-width: none; }
+    .why-now-metaphors p { font-size: 19px; }
   }
 
   /* ---- Slide-3 pillar card grid ---- */
@@ -7931,29 +7974,30 @@
 </header>
 
 <!-- =============== SECTION 2: WHY NOW — theme rebuild =============== -->
-<section class="gs light-surface reveal" id="diagnosis" aria-labelledby="diagnosisTitle">
+<section class="why-now" id="diagnosis" aria-labelledby="diagnosisTitle">
   <!-- Legacy anchors: preserve inbound deep-links to former section ids. -->
   <a id="fails" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
   <a id="rewritten" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
 
-  <div class="why-now-wrap reveal">
-    <h2 class="section-title why-now-title" id="diagnosisTitle">Why now</h2>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title" id="diagnosisTitle">
+        Why now.
+        <span class="accent">Value Realization is becoming the centre of how the product economy works.</span>
+      </h2>
+    </div>
 
-    <p class="why-now-deck">
-      Value Realization is becoming the centre of how the product economy works.
-    </p>
-
-    <div class="why-now-metaphors" role="presentation">
+    <div class="why-now-metaphors reveal" role="presentation">
       <p>A patient comes for the recovery, not the procedure.</p>
       <p>A traveller comes for the journey, not the flight.</p>
       <p>A business buys software for the outcome, not the licence.</p>
     </div>
 
-    <p class="why-now-principle">
+    <p class="why-now-principle reveal">
       Across every industry, customers reward the value they realize &mdash; not the output that was produced.
     </p>
 
-    <div class="why-now-body section-body">
+    <div class="why-now-body reveal">
       <p>
         For the last decade, product companies built Customer Success as a
         discipline. Services companies built ITIL and SIAM as the foundations
@@ -7985,7 +8029,7 @@
       </p>
     </div>
 
-    <p class="why-now-close">
+    <p class="why-now-close reveal">
       CSOM<span class="tm">&trade;</span> is the operating model for that shift.
     </p>
   </div>
