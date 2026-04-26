@@ -7426,6 +7426,109 @@
     .why-now-metaphors p { font-size: 19px; }
   }
 
+  /* ─── §3 The hidden asset (theme rebuild) ─────────────────────
+     Visual restraint — typography and spacing carry the section.
+     No icons, no boxes, no cards, no hairlines. Plain white surface.
+     Display title pattern echoes §2 (.why-now) for theme cohesion. */
+  .hidden-asset {
+    position: relative;
+    z-index: 2;
+    padding: clamp(5rem, 8vw, 7rem) 0;
+    background: var(--light-bg);
+    color: var(--ink-dark);
+  }
+  .hidden-asset .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  .hidden-asset .section-head {
+    margin-bottom: clamp(2.4rem, 4vw, 3.4rem);
+    text-align: center;
+  }
+  .hidden-asset .section-title {
+    color: var(--ink-dark);
+    text-shadow: none;
+    max-width: 28ch;
+    margin: 0 auto;
+  }
+  .hidden-asset .section-title .accent {
+    display: inline;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Five-beat inventory — five short lines, breathing room.
+     Not bullets, not boxes. Centered text rhythm. */
+  .hidden-asset-inventory {
+    max-width: 760px;
+    margin: 0 auto clamp(2.4rem, 4vw, 3.4rem);
+    text-align: center;
+  }
+  .hidden-asset-inventory p {
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(18px, 1.55vw, 22px);
+    line-height: 1.55;
+    color: var(--ink-body);
+    margin: 0;
+    padding: 10px 0;
+  }
+
+  /* Two parallel mirror sentences — visually paired,
+     centred, same indentation/spacing. The rhetorical centrepiece. */
+  .hidden-asset-mirror {
+    max-width: 720px;
+    margin: 0 auto clamp(2.4rem, 4vw, 3.4rem);
+    text-align: center;
+  }
+  .hidden-asset-mirror-line {
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.6;
+    color: var(--ink-dark);
+    font-weight: 500;
+    margin: 0 0 14px;
+  }
+  .hidden-asset-mirror-line:last-child { margin-bottom: 0; }
+
+  /* Bridge paragraph — standard prose, left-aligned reading column */
+  .hidden-asset-bridge {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-body);
+  }
+
+  /* Closing single-line declaration — italic, distinct from body
+     but not heading-level */
+  .hidden-asset-close {
+    max-width: 720px;
+    margin: clamp(2.2rem, 3.5vw, 2.8rem) auto 0;
+    text-align: center;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(20px, 1.9vw, 26px);
+    line-height: 1.5;
+    color: var(--ink-dark);
+  }
+  .hidden-asset-close .tm { color: var(--brand-orange); font-style: normal; }
+
+  @media (max-width: 720px) {
+    .hidden-asset .wrap { padding: 0 22px; }
+    .hidden-asset .section-title { max-width: none; }
+    .hidden-asset-inventory p { font-size: 18px; }
+  }
+
   /* ---- Slide-3 pillar card grid ---- */
   .pillar-grid-wrap {
     max-width: 1440px;
@@ -8035,7 +8138,45 @@
   </div>
 </section>
 
-<!-- Film section removed per request -->
+<!-- =============== SECTION 3: THE HIDDEN ASSET — theme rebuild =============== -->
+<section class="hidden-asset" id="hidden-asset" aria-labelledby="hiddenAssetTitle">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title" id="hiddenAssetTitle">
+        The expertise hiding in plain sight.
+        <span class="accent">Value Realization at scale isn&rsquo;t a new craft. It&rsquo;s an existing craft, being asked to do new work.</span>
+      </h2>
+    </div>
+
+    <div class="hidden-asset-inventory reveal" role="presentation">
+      <p>Governance across complex ecosystems.</p>
+      <p>Outcome measurement that holds up at portfolio scale.</p>
+      <p>Multi-stakeholder coordination when nobody has full authority.</p>
+      <p>Service integration when the value chain crosses ten organisations.</p>
+      <p>Continual improvement as a working discipline, not a slogan.</p>
+    </div>
+
+    <div class="hidden-asset-mirror reveal">
+      <p class="hidden-asset-mirror-line">
+        Every one of those is what product companies now need to operationalise Customer Success at scale.
+      </p>
+      <p class="hidden-asset-mirror-line">
+        Every one of those is what senior ITIL and SIAM practitioners have spent careers building.
+      </p>
+    </div>
+
+    <p class="hidden-asset-bridge reveal">
+      The match is real. What&rsquo;s been missing is the bridge &mdash; a
+      body of knowledge that names this expertise in product-economy
+      language, gives practitioners a path into the work, and gives
+      product companies a way to recognise the people who can do it.
+    </p>
+
+    <p class="hidden-asset-close reveal">
+      CSOM<span class="tm">&trade;</span> is that bridge.
+    </p>
+  </div>
+</section>
 
 <!-- =============== THE FENCE — split-intro + NOT/IS pair list =============== -->
 <section class="light-surface fence has-pillar-grid" id="fence" aria-labelledby="fenceTitle">
