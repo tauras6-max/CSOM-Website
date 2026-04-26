@@ -2490,6 +2490,70 @@
     border-color: #ff9a8a;
     box-shadow: 0 0 0 3px rgba(255, 120, 100, 0.22);
   }
+  /* Fieldset variant of .field — used for the optional background
+     chip group inside the contact form. Resets browser defaults so
+     it behaves like the other .field rows. */
+  .field-fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+  }
+  .field-label-optional {
+    color: rgba(255, 255, 255, 0.45);
+    font-weight: 400;
+    letter-spacing: .12em;
+    margin-left: 4px;
+  }
+  /* ---- Pill-chip multi-select for "Where have you worked?" ----
+     Dark theme to match the contact form's glass panel. */
+  .contact-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .contact-chip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .contact-chip input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+  }
+  .contact-chip span {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(0, 0, 0, 0.32);
+    color: rgba(255, 255, 255, 0.86);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    line-height: 1;
+    transition: border-color .18s var(--ease), background .18s var(--ease), color .18s var(--ease), box-shadow .18s var(--ease);
+  }
+  .contact-chip:hover span {
+    border-color: rgba(255, 207, 84, 0.55);
+    color: #ffffff;
+  }
+  .contact-chip input:checked ~ span {
+    background: rgba(255, 207, 84, 0.18);
+    border-color: #ffd166;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 0 18px rgba(255, 207, 84, 0.18);
+  }
+  .contact-chip input:focus-visible ~ span {
+    box-shadow: 0 0 0 3px rgba(255, 207, 84, 0.32);
+  }
 
   /* Direct reach-out options */
   .reach-list {
@@ -6265,13 +6329,12 @@
     text-align: center;
   }
   .notify-form {
-    max-width: 640px;
+    max-width: 520px;
     margin: 0 auto;
     padding: 0 28px;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: 10px;
-    row-gap: 18px;
+    gap: 10px;
     align-items: start;
     /* Anchor offset so #notify lands the form clear of the sticky nav. */
     scroll-margin-top: 96px;
@@ -6279,78 +6342,6 @@
   .notify-form .field {
     display: block;
     min-width: 0;
-    border: 0;
-    padding: 0;
-    margin: 0;
-  }
-  /* The email field sits in column 1, the submit button in column 2.
-     The optional role + background fields span both columns below. */
-  .notify-form .notify-field-role,
-  .notify-form .notify-field-background {
-    grid-column: 1 / -1;
-  }
-  .notify-form .notify-field-label {
-    display: block;
-    margin-bottom: 8px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 12.5px;
-    letter-spacing: .04em;
-    color: var(--ink-muted, #6b6f78);
-    font-weight: 600;
-    text-transform: none;
-    padding: 0;
-  }
-  .notify-form .notify-optional {
-    color: var(--ink-muted, #9aa0aa);
-    font-weight: 400;
-  }
-  /* ---- Pill-chip multi-select for "Where have you worked?" ---- */
-  .notify-form .notify-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .notify-form .notify-chip {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-  }
-  /* Visually hide the actual checkbox; keep it focusable */
-  .notify-form .notify-chip input {
-    position: absolute;
-    opacity: 0;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    cursor: pointer;
-  }
-  .notify-form .notify-chip span {
-    display: inline-block;
-    padding: 8px 14px;
-    border-radius: 999px;
-    border: 1px solid var(--light-line, rgba(12, 16, 26, 0.18));
-    background: #ffffff;
-    color: var(--ink-body, #2a2e36);
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
-    line-height: 1;
-    transition: border-color .15s var(--ease), background .15s var(--ease), color .15s var(--ease), box-shadow .15s var(--ease);
-  }
-  .notify-form .notify-chip:hover span {
-    border-color: var(--brand-orange);
-    color: var(--ink-dark);
-  }
-  .notify-form .notify-chip input:checked ~ span {
-    background: color-mix(in srgb, var(--brand-orange) 16%, #ffffff);
-    border-color: var(--brand-orange);
-    color: var(--ink-dark);
-    font-weight: 600;
-  }
-  .notify-form .notify-chip input:focus-visible ~ span {
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-orange) 22%, transparent);
   }
   .notify-form .field-input {
     width: 100%;
@@ -6401,7 +6392,6 @@
   }
   /* Toast-style success state when submission completes. */
   .notify-form.is-sent .field,
-  .notify-form.is-sent fieldset.field,
   .notify-form.is-sent .notify-submit { display: none; }
   .notify-form.is-sent::after {
     content: "Thanks — we'll be in touch when cohorts open.";
@@ -8539,8 +8529,7 @@
     </p>
 
     <form class="notify-form" id="notify" novalidate aria-label="Register interest in CSOM training and the body of knowledge">
-      <!-- Row 1: email + submit button (the only required field) -->
-      <label class="field notify-field-email" data-field="notifyEmail">
+      <label class="field" data-field="notifyEmail">
         <span class="field-label sr-only">Email</span>
         <input class="field-input notify-email" type="email" name="email" required autocomplete="email" placeholder="you@company.com" inputmode="email" />
         <span class="field-error">Please enter a valid email address (e.g. you@company.com).</span>
@@ -8549,25 +8538,6 @@
         Notify me
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </button>
-
-      <!-- Row 2: optional current role -->
-      <label class="field notify-field-role">
-        <span class="field-label notify-field-label">Your current role <span class="notify-optional">(optional)</span></span>
-        <input class="field-input notify-role" type="text" name="role" autocomplete="organization-title" placeholder="e.g. Service Architect, Programme Manager, Head of CS" />
-      </label>
-
-      <!-- Row 3: optional background — multi-select pill chips -->
-      <fieldset class="field notify-field-background">
-        <legend class="field-label notify-field-label">Where have you worked? <span class="notify-optional">(optional, select any)</span></legend>
-        <div class="notify-chips" role="group" aria-label="Background experience">
-          <label class="notify-chip"><input type="checkbox" name="background" value="ITIL" /><span>ITIL</span></label>
-          <label class="notify-chip"><input type="checkbox" name="background" value="SIAM" /><span>SIAM</span></label>
-          <label class="notify-chip"><input type="checkbox" name="background" value="Business Transformation" /><span>Business Transformation</span></label>
-          <label class="notify-chip"><input type="checkbox" name="background" value="Customer Success" /><span>Customer Success</span></label>
-          <label class="notify-chip"><input type="checkbox" name="background" value="Service Integration" /><span>Service Integration</span></label>
-          <label class="notify-chip"><input type="checkbox" name="background" value="Other" /><span>Other</span></label>
-        </div>
-      </fieldset>
     </form>
 
     <p class="notify-fineprint">
@@ -8632,6 +8602,21 @@
               <span class="field-error">Please enter a valid email address (e.g. you@company.com).</span>
             </label>
           </div>
+          <label class="field" data-field="role">
+            <span class="field-label">Your current role <span class="field-label-optional">(optional)</span></span>
+            <input class="field-input" type="text" name="role" autocomplete="organization-title" placeholder="e.g. Service Architect, Programme Manager, Head of CS" />
+          </label>
+          <fieldset class="field field-fieldset" data-field="background">
+            <legend class="field-label">Where have you worked? <span class="field-label-optional">(optional, select any)</span></legend>
+            <div class="contact-chips" role="group" aria-label="Background experience">
+              <label class="contact-chip"><input type="checkbox" name="background" value="ITIL" /><span>ITIL</span></label>
+              <label class="contact-chip"><input type="checkbox" name="background" value="SIAM" /><span>SIAM</span></label>
+              <label class="contact-chip"><input type="checkbox" name="background" value="Business Transformation" /><span>Business Transformation</span></label>
+              <label class="contact-chip"><input type="checkbox" name="background" value="Customer Success" /><span>Customer Success</span></label>
+              <label class="contact-chip"><input type="checkbox" name="background" value="Service Integration" /><span>Service Integration</span></label>
+              <label class="contact-chip"><input type="checkbox" name="background" value="Other" /><span>Other</span></label>
+            </div>
+          </fieldset>
           <label class="field" data-field="message">
             <span class="field-label">What&rsquo;s on your mind?</span>
             <textarea class="field-textarea" name="message" rows="3" required placeholder="A sentence or two is enough. We&rsquo;ll follow up with the right questions."></textarea>
@@ -9048,7 +9033,9 @@
       const name    = (fd.get('name')    || '').toString().trim();
       const email   = (fd.get('email')   || '').toString().trim();
       const reason  = (fd.get('reason')  || '').toString().trim();
+      const role    = (fd.get('role')    || '').toString().trim();
       const message = (fd.get('message') || '').toString().trim();
+      const backgrounds = fd.getAll('background').map((v) => v.toString());
 
       const reasonLabels = {
         cohort:       'Join a SIAM cohort',
@@ -9095,8 +9082,12 @@
       // All good — compose mail
       const subjectSuffix = reasonLabel ? ` \u00b7 ${reasonLabel}` : '';
       const subject = `CSOM\u2122 \u00b7 Signal from ${name}${subjectSuffix}`;
-      const reasonLine = reasonLabel ? `Reason: ${reasonLabel}\n\n` : '';
-      const body = `From: ${name} <${email}>\n\n${reasonLine}${message}\n\n\u2014 Sent from csom.global`;
+      const meta = [];
+      if (reasonLabel)        meta.push(`Reason: ${reasonLabel}`);
+      if (role)               meta.push(`Current role: ${role}`);
+      if (backgrounds.length) meta.push(`Background: ${backgrounds.join(', ')}`);
+      const metaBlock = meta.length ? `${meta.join('\n')}\n\n` : '';
+      const body = `From: ${name} <${email}>\n\n${metaBlock}${message}\n\n\u2014 Sent from csom.global`;
       const href = `mailto:contact@csom.global?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = href;
 
@@ -9153,25 +9144,8 @@
         return;
       }
 
-      // Optional fields — gathered if filled, omitted from the mail
-      // body otherwise so submissions stay clean.
-      const roleInput = notifyForm.querySelector('.notify-role');
-      const role = (roleInput && roleInput.value || '').trim();
-      const backgrounds = Array.from(
-        notifyForm.querySelectorAll('input[name="background"]:checked')
-      ).map((cb) => cb.value);
-
       const subject = 'CSOM\u2122 \u00b7 Notify me when training and the BoK launch';
-      const lines = [
-        'Please add me to the CSOM\u2122 mailing list.',
-        '',
-        `Email: ${email}`,
-      ];
-      if (role) lines.push(`Current role: ${role}`);
-      if (backgrounds.length) lines.push(`Background: ${backgrounds.join(', ')}`);
-      lines.push('', '\u2014 Sent from csom.global');
-      const body = lines.join('\n');
-
+      const body = `Please add me to the CSOM\u2122 mailing list.\n\nEmail: ${email}\n\n\u2014 Sent from csom.global`;
       const href = `mailto:contact@csom.global?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = href;
 
@@ -9180,10 +9154,6 @@
         input.value = '';
         input.disabled = true;
       }
-      if (roleInput) roleInput.disabled = true;
-      notifyForm.querySelectorAll('input[name="background"]').forEach((cb) => {
-        cb.disabled = true;
-      });
       const submitBtn = notifyForm.querySelector('.notify-submit');
       if (submitBtn) submitBtn.disabled = true;
     });
