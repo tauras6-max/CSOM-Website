@@ -5184,7 +5184,9 @@
   #practitioners .gives-wrap,
   #practitioners .gives-wrap-title,
   #practitioners .gives-band,
-  #practitioners .gives-card { position: relative; z-index: 5; }
+  #practitioners .gives-card,
+  #practitioners .practitioner-table-heading,
+  #practitioners .practitioner-benefits { position: relative; z-index: 5; }
   .practitioner-quote {
     position: relative;
     z-index: 5;
@@ -6607,6 +6609,60 @@
   }
   @media (max-width: 620px) {
     .gives-band { grid-template-columns: 1fr; gap: 14px; }
+  }
+
+  /* Section 5 — practitioner table heading + numbered benefits list.
+     Theme-rebuild replacement for the legacy 4-card .gives-band layout
+     within #practitioners. The mapping table is preceded by an H3
+     introducing it; the benefits below render as a clean numbered list
+     with bold lead phrases (per brief: "not cards, not boxes"). */
+  .practitioner-table-heading {
+    max-width: 1440px;
+    margin: clamp(40px, 6vw, 64px) auto clamp(18px, 2vw, 24px);
+    padding: 0 28px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    color: var(--ink-dark);
+  }
+  .practitioner-table-heading .tm {
+    font-size: 0.55em;
+    vertical-align: super;
+    font-weight: 600;
+    opacity: 0.7;
+  }
+  .practitioner-benefits {
+    list-style: decimal;
+    list-style-position: outside;
+    max-width: 920px;
+    margin: 0;
+    padding: 0 0 0 1.6em;
+    counter-reset: pb;
+    color: var(--ink-body);
+  }
+  .practitioner-benefits li {
+    margin: 0 0 clamp(18px, 2vw, 26px);
+    padding-left: 6px;
+    font-size: clamp(15px, 1.05vw, 17px);
+    line-height: 1.6;
+  }
+  .practitioner-benefits li::marker {
+    color: var(--brand-orange-lt);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+  }
+  .practitioner-benefits li strong {
+    display: block;
+    margin: 0 0 4px;
+    color: var(--ink-dark);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .practitioner-benefits li:last-child { margin-bottom: 0; }
+  @media (max-width: 620px) {
+    .practitioner-benefits { padding-left: 1.3em; }
   }
 
   /* ---- Audience hairline cards ("Two audiences. One framework.") ---- */
@@ -8574,38 +8630,37 @@
 
 <!-- Signals section removed -->
 
-<!-- =============== FOR PRACTITIONERS — split-intro + hairline cards =============== -->
+<!-- =============== SECTION 5: FOR ITIL & SIAM PRACTITIONERS — theme rebuild =============== -->
 <section class="light-surface" id="practitioners" aria-labelledby="practitionersTitle">
+  <a id="for-practitioners" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
   <div class="split-intro reveal">
     <div class="split-intro-left">
-      <span class="section-eyebrow">For ITIL &middot; SIAM &middot; Customer Success practitioners</span>
+      <span class="section-eyebrow">The primary audience</span>
       <h2 class="section-title" id="practitionersTitle">
-        You&rsquo;ve mastered the frameworks.<br/>Now lead the model.
+        For ITIL and SIAM practitioners.
       </h2>
-      <span class="serif-gradient">The career-defining&nbsp;skill of the Value era.</span>
+      <span class="serif-gradient">The next chapter for the craft you&rsquo;ve already built.</span>
     </div>
     <div class="split-intro-right section-body">
       <p>
-        You&rsquo;ve built deep craft inside these frameworks. The next skill &mdash;
-        the career-defining one &mdash; is stitching what you&rsquo;ve learned into
-        one model the customer can feel.
+        ITIL and SIAM gave the industry the rigour it needed for service
+        management at scale. Customer Success added the relationship and
+        adoption craft on the product side. Each one solved real problems &mdash;
+        and each one carries forward into the work product companies and
+        services firms now have to do together.
       </p>
-
-      <blockquote class="practitioner-quote">
-        <p>
-          &ldquo;Certified in ITIL. Accredited in SIAM. Trained in Customer Success.
-          The next skill is <em>stitching all three into a model the customer can feel.</em>
-          CSOM<span class="tm">&trade;</span> is that stitch.&rdquo;
-        </p>
-      </blockquote>
-
-      <p class="practitioner-bridge">
-        That&rsquo;s a career-defining capability, not just an organisational one.
-        <strong>CSOM<span class="tm">&trade;</span> is the craft upgrade &mdash;
-        how practitioners claim it.</strong>
+      <p>
+        CSOM<span class="tm">&trade;</span> is where that work compounds. It
+        builds on what ITIL, SIAM, and Customer Success already do well, adds
+        the dimensions Value Realization needs at scale, and gives senior
+        practitioners a body of knowledge to anchor what comes next &mdash;
+        whether they lead from a services firm, cross into a product company,
+        or build the bridge between the two.
       </p>
     </div>
   </div>
+
+  <h3 class="practitioner-table-heading reveal">What CSOM<span class="tm">&trade;</span> adds to what you already know</h3>
 
   <div class="skills-gap-wrap reveal">
     <div class="skills-gap-table" role="table" aria-label="What CSOM adds to each practitioner background">
@@ -8639,28 +8694,30 @@
 
   <div class="gives-wrap reveal">
     <h3 class="gives-wrap-title">What CSOM<span class="tm">&trade;</span> gives you as a practitioner</h3>
-    <div class="gives-band">
-      <article class="gives-card">
-        <span class="g-num">01</span>
-        <h4>The missing connection</h4>
-        <p>ITIL, SIAM, and CS are powerful alone. Together &mdash; structured around Customer Value Realization &mdash; they become an operating model.</p>
-      </article>
-      <article class="gives-card">
-        <span class="g-num">02</span>
-        <h4>A framework you can take anywhere</h4>
-        <p>An operating model you can carry into any industry, at any scale.</p>
-      </article>
-      <article class="gives-card">
-        <span class="g-num">03</span>
-        <h4>A career differentiator</h4>
-        <p>The market is crowded with certified practitioners. CSOM makes you the one who can build the whole model.</p>
-      </article>
-      <article class="gives-card">
-        <span class="g-num">04</span>
-        <h4>A bridge to product</h4>
-        <p>CSOM<span class="tm">&trade;</span> gives ITIL and SIAM practitioners a credible path into Customer Success and Value Engineering roles at product companies &mdash; without setting aside the discipline they&rsquo;ve spent a career building.</p>
-      </article>
-    </div>
+    <ol class="practitioner-benefits">
+      <li>
+        <strong>A body of knowledge for the work ahead.</strong>
+        ITIL, SIAM, and CS each addressed a part of the picture.
+        CSOM names the operating model that brings them together for
+        Value Realization.
+      </li>
+      <li>
+        <strong>A framework you can carry across industries and scales.</strong>
+        Services firms, product companies, hybrid environments &mdash;
+        the same model, applied where the work is.
+      </li>
+      <li>
+        <strong>Recognition for craft you already have.</strong>
+        CSOM names what senior practitioners have been doing for years
+        and gives it a vocabulary the product economy can hire and
+        budget for.
+      </li>
+      <li>
+        <strong>A path that doesn&rsquo;t require leaving where you are.</strong>
+        Lead Value Realization from a services firm, a product company,
+        or anywhere the bridge between the two needs to be built.
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -9486,7 +9543,7 @@
     const splitIntro       = practitionerSec.querySelector('.split-intro');
     const splitIntroLeft   = practitionerSec.querySelector('.split-intro-left');
     const skillsTable      = practitionerSec.querySelector('.skills-gap-table');
-    const givesBand        = practitionerSec.querySelector('.gives-band');
+    const givesBand        = practitionerSec.querySelector('.practitioner-benefits') || practitionerSec.querySelector('.gives-band');
     const bringSec         = document.getElementById('bring');
     if (!splitIntro || !skillsTable) return;
 
@@ -9499,21 +9556,22 @@
 
     /* Three stops within #practitioners — the butterfly's flight path:
        1. Emergence (split-intro-left): butterfly APPEARS FROM the
-          section title "You've mastered the frameworks. / Now lead the
-          model. / The career-defining skill of the Value era." Sits
-          over the left column at scale 1.25, op 0.85 so the title copy
+          section title "For ITIL and SIAM practitioners. / The next
+          chapter for the craft you've already built." Sits over the
+          left column at scale 1.25, op 0.85 so the title copy
           (z-index:5) still reads cleanly.
        2. Skills-gap-table: mid-travel, drifts diagonally toward centre
           at scale 2.40, dimmed to op: 0.55 so wing tips frame the
           table without fighting the cells.
-       3. Gives-band: lands centred behind the 4-card "What CSOM gives
-          you as a practitioner" grid at scale 3.0, op: 0.60 — the
-          emergence pose from the annotated picture 2 reference.
-       All section copy (split-intro, practitioner-quote, practitioner-
-       bridge, skills-gap cells, gives-wrap / gives-card) carries
-       z-index:5 so it paints over the z-index:3 butterfly-stage; only
-       the parts of the butterfly outside those footprints remain
-       visible. */
+       3. Practitioner-benefits: lands centred behind the numbered
+          "What CSOM gives you as a practitioner" benefits list at
+          scale 3.0, op: 0.60 — the emergence pose from the annotated
+          picture 2 reference. (Falls back to legacy .gives-band if
+          present.)
+       All section copy (split-intro, skills-gap cells, gives-wrap /
+       practitioner-benefits) carries z-index:5 so it paints over the
+       z-index:3 butterfly-stage; only the parts of the butterfly
+       outside those footprints remain visible. */
     const stops = [
       { el: splitIntroLeft || splitIntro, top: 38, left: 26, scale: 1.25, op: 0.85 },
       { el: skillsTable,                  top: 55, left: 55, scale: 2.40, op: 0.55 },
