@@ -3702,6 +3702,34 @@
     -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 12 10 18 20 6'/></svg>") center/contain no-repeat;
             mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 12 10 18 20 6'/></svg>") center/contain no-repeat;
   }
+  /* Italic summary line under each discipline's three bullets — adds
+     the "in the operating model" framing the brief asks for. Separated
+     from the bullets above with a hairline + breathing room. */
+  .dc-summary {
+    margin: 14px 0 0;
+    padding: 12px 0 0;
+    border-top: 1px solid var(--light-line);
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-size: clamp(13px, 0.95vw, 14.5px);
+    line-height: 1.5;
+    color: var(--ink-body);
+  }
+  .dc-summary em { font-style: italic; }
+
+  /* End-of-section transition line — bridges the model section into
+     the audience sections that follow. Italic, large breathing room. */
+  .model-transition {
+    max-width: 920px;
+    margin: clamp(3.5rem, 6vw, 5rem) auto clamp(1rem, 2vw, 1.5rem);
+    padding: 0 28px;
+    text-align: center;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-size: clamp(17px, 1.5vw, 21px);
+    line-height: 1.55;
+    color: var(--ink-body);
+  }
+  .model-transition em { font-style: italic; }
+
   /* Hide the scroll-progress rail: it was driven by the 3D ring scroll
      calc, which no longer exists. Left in the DOM so any JS reference
      stays safe; just invisible. */
@@ -8250,7 +8278,7 @@
        tagline on the left; body copy on the right. -->
   <div class="split-intro reveal">
     <div class="split-intro-left">
-      <span class="section-eyebrow">A first look &middot; The CSOM Universe</span>
+      <span class="section-eyebrow">The model</span>
       <h2 class="section-title" id="planetsTitle">
         Seven disciplines.<br/>Two orbits. One sun.
       </h2>
@@ -8258,8 +8286,9 @@
     </div>
     <div class="split-intro-right section-body">
       <p>
-        Sixty seconds to see the whole operating model in motion &mdash;
-        then meet each discipline that makes it run.
+        The seven disciplines that make up an operating model for Value
+        Realization, the two orbits that bind them, and the outcome they
+        all serve.
       </p>
       <p>
         Two orbits bind the seven: Data &amp; Intelligence on the inside,
@@ -8304,6 +8333,7 @@
             <li>Outcome accountability</li>
             <li>Cross-domain direction</li>
           </ul>
+          <p class="dc-summary"><em>In the operating model: the discipline that holds the organisation accountable to outcomes, not just outputs.</em></p>
         </article>
 
         <article class="discipline-card" style="--acc: var(--p7);">
@@ -8320,6 +8350,7 @@
             <li>Capability architecture</li>
             <li>Role &amp; accountability clarity</li>
           </ul>
+          <p class="dc-summary"><em>In the operating model: the discipline that structures roles and capabilities around the customer&rsquo;s journey, not the internal org chart.</em></p>
         </article>
 
         <article class="discipline-card" style="--acc: var(--p2);">
@@ -8336,6 +8367,7 @@
             <li>Cross-team coordination</li>
             <li>Complexity management</li>
           </ul>
+          <p class="dc-summary"><em>In the operating model: the discipline that delivers against outcomes the customer recognises, not milestones the team can tick.</em></p>
         </article>
 
         <article class="discipline-card" style="--acc: var(--p3);">
@@ -8352,6 +8384,7 @@
             <li>Adoption across lifecycles</li>
             <li>Ongoing culture work</li>
           </ul>
+          <p class="dc-summary"><em>In the operating model: the discipline that makes adoption stick &mdash; across people, process, and culture &mdash; long after the launch.</em></p>
         </article>
 
         <article class="discipline-card" style="--acc: var(--p4);">
@@ -8368,6 +8401,7 @@
             <li>Service design &amp; delivery</li>
             <li>Support at scale</li>
           </ul>
+          <p class="dc-summary"><em>In the operating model: the discipline that ensures every service interaction contributes to value realised, not just service-level met.</em></p>
         </article>
 
         <article class="discipline-card" style="--acc: var(--p6);">
@@ -8384,6 +8418,7 @@
             <li>Multi-vendor orchestration</li>
             <li>Partner &amp; platform fit</li>
           </ul>
+          <p class="dc-summary"><em>In the operating model: the discipline that turns a multi-vendor environment into one coherent experience for the customer.</em></p>
         </article>
 
         <article class="discipline-card" style="--acc: var(--p5);">
@@ -8400,6 +8435,7 @@
             <li>Retention &amp; expansion</li>
             <li>Transaction &rarr; relationship</li>
           </ul>
+          <p class="dc-summary"><em>In the operating model: the discipline that turns a transaction into a relationship, and a product into a result.</em></p>
         </article>
       </div>
     </div>
@@ -8447,6 +8483,11 @@
         </article>
       </div>
     </div>
+
+    <!-- End-of-section transition: bridges into the audience sections that follow -->
+    <p class="model-transition reveal">
+      <em>Seven disciplines. Two orbits. One outcome. The next question is who carries the model &mdash; and why three audiences each find a different path through it.</em>
+    </p>
 </section>
 </div>
 
