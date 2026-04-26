@@ -1877,7 +1877,7 @@
     font-style: italic;
   }
 
-  /* ============== BRINGING THE CHANGE ============== */
+  /* ============== TRAINING SECTION (#bring) ============== */
   .bring-bridge {
     margin-top: 20px;
     max-width: 62ch;
@@ -6310,24 +6310,9 @@
     .training-row { grid-template-columns: 1fr; gap: 4px; }
   }
 
-  /* ---- Body-of-knowledge training block (CoI/independence pass) ----
-     Replaces the Cohort 01/02 commercial cards with a single
-     paragraph + minimal email-capture form (#notify) that doubles
-     as the page-wide primary CTA target. Visual grammar matches
-     existing training section: max-width 1440, 28px gutter, light
-     surface tokens. */
-  .training-bok-lede {
-    max-width: 720px;
-    margin: 0 auto clamp(28px, 3.6vw, 40px);
-    padding: 0 28px;
-    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
-    font-style: italic;
-    font-weight: 500;
-    font-size: clamp(18px, 1.65vw, 22px);
-    line-height: 1.5;
-    color: var(--ink-body);
-    text-align: center;
-  }
+  /* ---- Training section: email-capture form (#notify) ----
+     The form id="notify" is the page-wide primary CTA target.
+     Light surface tokens, centred, max-width matches the lede. */
   .notify-form {
     max-width: 520px;
     margin: 0 auto;
@@ -6383,12 +6368,6 @@
     font-size: 12px;
     color: var(--ink-muted);
     text-align: center;
-  }
-  .notify-fineprint-flag {
-    display: block;
-    margin-top: 4px;
-    font-style: italic;
-    color: var(--brand-orange);
   }
   /* Toast-style success state when submission completes. */
   .notify-form.is-sent .field,
@@ -8491,43 +8470,27 @@
   </div>
 </section>
 
-<!-- =============== BRINGING THE CHANGE — split-intro + step-card hairlines =============== -->
+<!-- =============== TRAINING (in development) =============== -->
 <section class="light-surface" id="bring" aria-labelledby="bringTitle">
   <div class="split-intro reveal">
     <div class="split-intro-left">
-      <span class="section-eyebrow">Bringing the Change</span>
-      <h2 class="section-title" id="bringTitle">
-        Ready to adopt.<br/>Ready to change.
-      </h2>
-      <span class="serif-gradient">SIAM, taught inside the&nbsp;model.</span>
+      <h2 class="section-title" id="bringTitle">Training (in development)</h2>
     </div>
     <div class="split-intro-right section-body">
       <p>
-        Rolling out a plan is easy. Making the change stick &mdash; across vendors,
-        services, and the people behind them &mdash; is where programmes quietly
-        lose. We teach SIAM inside the full CSOM<span class="tm">&trade;</span>
-        operating model, so the framework arrives with the context to actually use it.
+        Accredited SIAM training, taught within the CSOM<span class="tm">&trade;</span>
+        operating model, is being developed for delivery through CSOM Global.
+        First cohorts are planned for 2026.
       </p>
       <p>
-        Two cohorts. Both accredited. Both taught as part of
-        CSOM<span class="tm">&trade;</span> &mdash; not instead of it.
+        If you would like to be notified when training becomes available,
+        leave your email below. No marketing &mdash; a single notification
+        when cohorts open.
       </p>
     </div>
   </div>
 
-  <!-- CoI/independence pass: the Cohort 01 / Cohort 02 commercial
-       block + apply CTAs + "Open enrolment quarterly..." footnote +
-       "Talk to the training team" link have been replaced with a
-       single body-of-knowledge paragraph and a minimal interest-
-       capture form. The form id="notify" doubles as the page anchor
-       primary CTAs ("Notify me →") now point to. -->
   <div class="training-wrap reveal">
-    <p class="training-bok-lede">
-      Accredited SIAM training, taught inside the CSOM<span class="tm">&trade;</span>
-      operating model, will be available through CSOM<span class="tm">&trade;</span>
-      Global. Register interest to be notified when cohorts open.
-    </p>
-
     <form class="notify-form" id="notify" novalidate aria-label="Register interest in CSOM training and the body of knowledge">
       <label class="field" data-field="notifyEmail">
         <span class="field-label sr-only">Email</span>
@@ -8541,8 +8504,7 @@
     </form>
 
     <p class="notify-fineprint">
-      Mailing list only. No marketing. Unsubscribe whenever.
-      <span class="notify-fineprint-flag" hidden>(Backend pending — submissions currently open the user's mail client.)</span>
+      One email when training is available. Nothing else.
     </p>
   </div>
 </section>
