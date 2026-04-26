@@ -2173,6 +2173,64 @@
     color: #ffffff;
   }
 
+  /* ---- Two-column split: heading-left / tiles-right ----
+     Triggered when the head + tiles live inside .contact-split.
+     Below 900px we collapse back to a single centred column so
+     the tiles don't get squeezed and the head re-centres. */
+  .contact-split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+    gap: clamp(28px, 4vw, 56px);
+    align-items: center;
+    max-width: 1160px;
+    margin: 0 auto;
+  }
+  /* Override the centred head when it's inside a split */
+  .contact-section .contact-split .section-head {
+    text-align: left;
+    max-width: none;
+    margin: 0;
+  }
+  .contact-section .contact-split .section-lede {
+    margin: 0;
+    text-align: left;
+  }
+  .contact-section .contact-split .contact-note {
+    margin: clamp(14px, 1.6vw, 20px) 0 0;
+    max-width: 560px;
+    text-align: left;
+  }
+  /* Tiles inside the split: stack vertically, fill the right column */
+  .contact-split .contact-split-tiles {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+    max-width: none;
+    margin-inline: 0;
+    align-self: stretch;
+  }
+  /* Each tile breathes a little more vertically now that it has the
+     full right-column width to itself. */
+  .contact-split .contact-split-tiles .pick-tile {
+    padding: 28px 28px 24px;
+  }
+  @media (max-width: 900px) {
+    .contact-split {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      align-items: stretch;
+    }
+    .contact-section .contact-split .section-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .contact-section .contact-split .section-lede,
+    .contact-section .contact-split .contact-note {
+      text-align: center;
+      margin-inline: auto;
+    }
+  }
+
   .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;   /* even columns */
@@ -8430,33 +8488,39 @@
 <!-- =============== CONTACT — consolidated: 3 tiles + collapsible form + salute =============== -->
 <section id="contact" class="contact-section" aria-labelledby="contactTitle">
   <div class="wrap">
-    <div class="section-head reveal">
-      <span class="section-eyebrow">In the same orbit</span>
-      <h2 class="section-title" id="contactTitle">One real <span class="accent">conversation.</span></h2>
-      <p class="section-lede">
-        Two ways in. Whichever is least friction &mdash; a practitioner writes back within two working days.
-      </p>
-      <p class="contact-note">
-        This is a body of knowledge, not a consultancy. Reach out for research conversations, contribution, or to be notified when the book and training launch.
-      </p>
-    </div>
+    <!-- CoI/independence pass: with only two tiles (Book removed),
+         the old centered head + 3-col grid wasted horizontal space.
+         New layout splits the row in two: heading-left, tiles-right.
+         The collapsible form and salute below stay full-width. -->
+    <div class="contact-split reveal">
+      <div class="section-head contact-split-head">
+        <span class="section-eyebrow">In the same orbit</span>
+        <h2 class="section-title" id="contactTitle">One real <span class="accent">conversation.</span></h2>
+        <p class="section-lede">
+          Two ways in. Whichever is least friction &mdash; a practitioner writes back within two working days.
+        </p>
+        <p class="contact-note">
+          This is a body of knowledge, not a consultancy. Reach out for research conversations, contribution, or to be notified when the book and training launch.
+        </p>
+      </div>
 
-    <div class="pick-grid contact-tiles reveal">
-      <a class="pick-tile" href="mailto:contact@csom.global">
-        <span class="pick-num">01</span>
-        <h3 class="pick-name">Write</h3>
-        <p class="pick-desc">Email a practitioner direct. No deck, no pitch.</p>
-        <span class="pick-go"><span class="pick-go-label">contact@csom.global</span> <span aria-hidden="true">→</span></span>
-      </a>
-      <!-- "02 Book" calendar tile removed (CoI/independence pass): no
-           consulting funnel, no live booking link. Tiles renumber to
-           01 Write / 02 Send a note. -->
-      <button class="pick-tile pick-tile-compose" type="button" id="composeTile" aria-expanded="false" aria-controls="composeForm">
-        <span class="pick-num">02</span>
-        <h3 class="pick-name">Send a note</h3>
-        <p class="pick-desc">Three fields. Reply within two working days.</p>
-        <span class="pick-go"><span class="pick-go-label">Open the form</span> <span aria-hidden="true">→</span></span>
-      </button>
+      <div class="pick-grid contact-tiles contact-split-tiles">
+        <a class="pick-tile" href="mailto:contact@csom.global">
+          <span class="pick-num">01</span>
+          <h3 class="pick-name">Write</h3>
+          <p class="pick-desc">Email a practitioner direct. No deck, no pitch.</p>
+          <span class="pick-go"><span class="pick-go-label">contact@csom.global</span> <span aria-hidden="true">→</span></span>
+        </a>
+        <!-- "02 Book" calendar tile removed (CoI/independence pass): no
+             consulting funnel, no live booking link. Tiles renumber to
+             01 Write / 02 Send a note. -->
+        <button class="pick-tile pick-tile-compose" type="button" id="composeTile" aria-expanded="false" aria-controls="composeForm">
+          <span class="pick-num">02</span>
+          <h3 class="pick-name">Send a note</h3>
+          <p class="pick-desc">Three fields. Reply within two working days.</p>
+          <span class="pick-go"><span class="pick-go-label">Open the form</span> <span aria-hidden="true">→</span></span>
+        </button>
+      </div>
     </div>
 
     <div class="contact-form-wrap" id="composeForm">
