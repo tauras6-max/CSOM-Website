@@ -7349,25 +7349,163 @@
   .why-now .split-intro { padding-bottom: 0; }
   .why-now .section-title { max-width: 14ch; }
 
-  /* Three-beat metaphor block — single visual unit, not cards.
-     Hairline-bordered, centered, italic Fraunces. */
-  .why-now-metaphors {
-    max-width: 760px;
-    margin: clamp(3rem, 5vw, 4rem) auto clamp(2rem, 3vw, 2.6rem);
-    padding: clamp(1.6rem, 2.5vw, 2.2rem) 0;
+  /* Three-industry metaphor grid — replaces the prior centered
+     hairline-bordered single-unit block. Three cards each carry one
+     of the brief's locked metaphors (recovery / journey / outcome)
+     paired with an industry chip + line-icon + single-word serif-
+     gradient italic verb. Coloured top-bar (slide-3 pattern shared
+     with the former .tw-card system), hairline divider above the
+     caption, hover lift, staggered reveal. */
+  .why-now-grid-eyebrow {
+    display: block;
+    max-width: 1160px;
+    margin: clamp(3.2rem, 5vw, 4.4rem) auto clamp(0.8rem, 1.5vw, 1.2rem);
+    padding: 0 28px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
     border-top: 1px solid var(--light-line);
-    border-bottom: 1px solid var(--light-line);
-    text-align: center;
+    padding-top: clamp(0.9rem, 1.5vw, 1.2rem);
   }
-  .why-now-metaphors p {
+  .why-now-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    max-width: 1160px;
+    margin: 0 auto clamp(2.4rem, 4vw, 3.2rem);
+    padding: 0 28px;
+  }
+  .why-now-card {
+    position: relative;
+    padding: 30px 26px 24px;
+    border: 1px solid var(--light-line);
+    border-radius: 16px;
+    background: var(--light-bg);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    transition: transform .35s var(--ease),
+                box-shadow .35s var(--ease),
+                border-color .25s var(--ease);
+  }
+  .why-now-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.10);
+    border-color: var(--light-line-strong, #d8d8df);
+  }
+  /* Coloured top-bar — animated wipe on .reveal.show to give the
+     card grid a subtle entrance even before hover. Uses the
+     codebase's existing scroll-reveal pattern (.reveal toggles
+     .show via IntersectionObserver). */
+  .why-now-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform .9s cubic-bezier(.22,.61,.36,1);
+  }
+  .why-now-grid.show .why-now-card::before { transform: scaleX(1); }
+  .why-now-grid.show .why-now-card-recovery::before { transition-delay: .05s; }
+  .why-now-grid.show .why-now-card-journey::before  { transition-delay: .20s; }
+  .why-now-grid.show .why-now-card-outcome::before  { transition-delay: .35s; }
+  .why-now-card-recovery::before { background: var(--brand-green); }
+  .why-now-card-journey::before  { background: var(--brand-orange); }
+  .why-now-card-outcome::before  { background: var(--brand-blue, #1F6FD6); }
+
+  /* Industry chip — small uppercase label keyed to the card's brand colour */
+  .wn-chip {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 4px 0;
+    color: var(--ink-muted);
+  }
+  .why-now-card-recovery .wn-chip { color: var(--brand-green); }
+  .why-now-card-journey  .wn-chip { color: var(--brand-orange); }
+  .why-now-card-outcome  .wn-chip { color: var(--brand-blue, #1F6FD6); }
+
+  /* Icon — line-art SVG, currentColor so the brand colour cascades
+     from the card's :root variant. Subtle drift on hover. */
+  .wn-icon {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 4px;
+    transition: transform .45s var(--ease);
+  }
+  .wn-icon svg { width: 100%; height: 100%; }
+  .why-now-card-recovery .wn-icon { color: var(--brand-green); }
+  .why-now-card-journey  .wn-icon { color: var(--brand-orange); }
+  .why-now-card-outcome  .wn-icon { color: var(--brand-blue, #1F6FD6); }
+  .why-now-card:hover .wn-icon { transform: translateY(-2px) scale(1.05); }
+  .why-now-card-journey:hover .wn-icon { transform: translate(2px, -2px) rotate(-6deg); }
+
+  /* The verb — single italic Fraunces word, brand-coloured, large.
+     Visual focal point of each card. */
+  .wn-verb {
+    margin: 6px 0 0;
     font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(19px, 1.7vw, 24px);
-    line-height: 1.6;
-    color: var(--ink-body);
-    margin: 0;
-    padding: 5px 0;
+    font-size: clamp(34px, 3.6vw, 46px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .wn-verb em { font-style: italic; }
+  .why-now-card-recovery .wn-verb { color: var(--brand-green); }
+  .why-now-card-journey  .wn-verb { color: var(--brand-orange); }
+  .why-now-card-outcome  .wn-verb { color: var(--brand-blue, #1F6FD6); }
+
+  /* Caption — small uppercase line beneath a hairline divider, paired
+     with the verb to complete the brief's "X, not Y" rhetoric. */
+  .wn-caption {
+    margin: 14px 0 0;
+    padding-top: 14px;
+    border-top: 1px dashed var(--light-line);
+    width: 100%;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--ink-muted);
+  }
+  /* Hidden full-sentence for screen readers — preserves the brief's
+     locked metaphor copy for assistive tech without crowding the
+     visual card. (Self-contained: codebase has no global .sr-only
+     rule — only a scoped .notify-form .sr-only — so .wn-sr does
+     its own off-screen hiding.) */
+  .wn-sr {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 900px) {
+    .why-now-grid { grid-template-columns: 1fr; gap: 16px; }
+    .why-now-card { padding: 26px 22px 20px; }
+    .wn-verb { font-size: clamp(32px, 7vw, 40px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .why-now-card,
+    .why-now-card::before,
+    .wn-icon { transition: none !important; }
+    .why-now-card:hover { transform: none; }
+    .why-now-grid.show .why-now-card::before { transform: scaleX(1); }
   }
 
   /* Principle paragraph — centered standalone lede */
@@ -8074,11 +8212,54 @@
     </div>
   </div>
 
-  <!-- Three-beat metaphor block: italic Fraunces, hairline-bordered, no cards -->
-  <div class="why-now-metaphors reveal" role="presentation">
-    <p>A patient comes for the recovery, not the procedure.</p>
-    <p>A traveller comes for the journey, not the flight.</p>
-    <p>A business buys software for the outcome, not the licence.</p>
+  <!-- Three-industry metaphor grid: each card pairs the locked metaphor
+       sentence with an industry chip + icon + single-word serif-gradient
+       italic verb (Recovery / Journey / Outcome). Coloured top-bars,
+       hairline-divided caption, hover lift. The three cards together
+       carry the brief's three-beat metaphor copy verbatim while giving
+       the section the visual rhythm previously absent. -->
+  <span class="why-now-grid-eyebrow reveal">The same shift, three industries</span>
+  <div class="why-now-grid reveal" role="list" aria-label="The same shift across three industries">
+    <article class="why-now-card why-now-card-recovery" role="listitem">
+      <span class="wn-chip">Hospital</span>
+      <span class="wn-icon" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 28V13l11-8 11 8v15"/>
+          <path d="M12 28V19h8v9"/>
+          <path d="M16 9v6M13 12h6"/>
+        </svg>
+      </span>
+      <p class="wn-verb"><em>Recovery.</em></p>
+      <p class="wn-caption">Not the procedure.</p>
+      <p class="wn-sr sr-only">A patient comes for the recovery, not the procedure.</p>
+    </article>
+
+    <article class="why-now-card why-now-card-journey" role="listitem">
+      <span class="wn-chip">Airline</span>
+      <span class="wn-icon" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 18l22-9-7 18-4-7-7-2-4 0z"/>
+          <path d="M16 16l4-4"/>
+        </svg>
+      </span>
+      <p class="wn-verb"><em>Journey.</em></p>
+      <p class="wn-caption">Not the flight.</p>
+      <p class="wn-sr sr-only">A traveller comes for the journey, not the flight.</p>
+    </article>
+
+    <article class="why-now-card why-now-card-outcome" role="listitem">
+      <span class="wn-chip">Business</span>
+      <span class="wn-icon" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 12L16 5l12 7"/>
+          <path d="M6 12v15M26 12v15M3 27h26"/>
+          <path d="M11 27V16M16 27V16M21 27V16"/>
+        </svg>
+      </span>
+      <p class="wn-verb"><em>Outcome.</em></p>
+      <p class="wn-caption">Not the licence.</p>
+      <p class="wn-sr sr-only">A business buys software for the outcome, not the licence.</p>
+    </article>
   </div>
 
   <!-- Principle paragraph: standalone, centered lede -->
