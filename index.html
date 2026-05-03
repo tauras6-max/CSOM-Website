@@ -4719,6 +4719,7 @@
     line-height: 1.06;
     letter-spacing: -0.022em;
     color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.55);
   }
 
   /* Inline centred globe — bigger than the old fixed-position one. */
@@ -4788,9 +4789,10 @@
     margin: 0 auto clamp(18px, 2.5vh, 28px);
     font-size: clamp(15px, 1.3vw, 18px);
     line-height: 1.65;
-    color: var(--ink-2);
+    color: rgba(255, 255, 255, 0.94);
     max-width: 1080px;
     padding: 0 clamp(8px, 2vw, 24px);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   }
   .gsc-lede .tm { font-size: 0.7em; vertical-align: super; color: var(--gold); margin-left: 1px; }
 
@@ -4872,12 +4874,15 @@
     margin-top: clamp(24px, 3vw, 36px);
     max-width: 980px;
   }
+  /* Hero bridge cards - dark glass + bright tinted titles + glowing rails */
   .hero-bridge {
     position: relative;
-    padding: 16px 20px 16px 24px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 22px 26px 22px 34px;
+    border-radius: 14px;
+    background: rgba(8, 12, 24, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     overflow: hidden;
     text-decoration: none;
     transition: background .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease);
@@ -4886,16 +4891,17 @@
     content: "";
     position: absolute;
     top: 0; bottom: 0; left: 0;
-    width: 3px;
+    width: 5px;
+    box-shadow: 0 0 14px currentColor;
   }
-  .hero-bridge-product::before  { background: var(--brand-blue, #1F6FD6); }
-  .hero-bridge-services::before { background: var(--brand-green, #2BB673); }
-  .hero-bridge-pract::before    { background: var(--brand-orange, #F05A1E); }
+  .hero-bridge-product::before  { background: var(--brand-blue, #1F6FD6);   color: var(--brand-blue, #1F6FD6); }
+  .hero-bridge-services::before { background: var(--brand-green, #2BB673);  color: var(--brand-green, #2BB673); }
+  .hero-bridge-pract::before    { background: var(--brand-orange, #F05A1E); color: var(--brand-orange, #F05A1E); }
 
   .hero-bridge:hover {
-    background: rgba(255, 255, 255, 0.07);
-    border-color: rgba(255, 255, 255, 0.22);
-    transform: translateY(-2px);
+    background: rgba(8, 12, 24, 0.75);
+    border-color: rgba(255, 255, 255, 0.32);
+    transform: translateY(-3px);
   }
   .hero-bridge:focus-visible {
     outline: 2px solid var(--gold);
@@ -4903,22 +4909,24 @@
   }
 
   .hero-bridge-title {
-    margin: 0 0 6px;
+    margin: 0 0 8px;
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     letter-spacing: -0.005em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
   }
-  .hero-bridge-product  .hero-bridge-title { color: var(--brand-blue-lt, #3A8BE8); }
-  .hero-bridge-services .hero-bridge-title { color: var(--brand-green-lt, #4BD48E); }
-  .hero-bridge-pract    .hero-bridge-title { color: var(--brand-orange-lt, #FF7A3E); }
+  .hero-bridge-product  .hero-bridge-title { color: #BBD8F8; }
+  .hero-bridge-services .hero-bridge-title { color: #B8E8CE; }
+  .hero-bridge-pract    .hero-bridge-title { color: #FFC9A8; }
 
   .hero-bridge-tagline {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.88);
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   }
 
   @media (max-width: 740px) {
