@@ -7742,6 +7742,22 @@
     .why-now-grid.show .why-now-card::before { transform: scaleX(1); }
   }
 
+  /* Closing line for merged #shift section - sits below the 3
+     industry cards as the visual hinge between macro analogy and
+     the argument in the right-column prose above. */
+  .shift-close {
+    max-width: 1080px;
+    margin: clamp(36px, 4.5vw, 56px) auto 0;
+    padding: 0 28px;
+    text-align: center;
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(17px, 1.4vw, 22px);
+    line-height: 1.55;
+    color: var(--ink-dark);
+  }
+
   /* Principle paragraph — centered standalone lede */
   .why-now-principle {
     max-width: 760px;
@@ -8795,11 +8811,17 @@
 
 <!-- =============== SECTION 2: THE SHIFT — three industries =============== -->
 <section class="light-surface" id="shift" aria-labelledby="shiftTitle">
-  <!-- Legacy anchors: preserve inbound deep-links to former diagnosis section. -->
+  <!-- Legacy anchors: preserve inbound deep-links. #parallel-tracks
+       added when §3 was merged into this section per the consolidate
+       brief. -->
   <a id="diagnosis" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
   <a id="fails" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
   <a id="rewritten" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
+  <a id="parallel-tracks" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
 
+  <!-- Merged section header: 2-column layout. LEFT carries the
+       section identity (eyebrow + H2 + italic deck). RIGHT carries
+       the parallel-tracks body prose promoted from the deleted §3. -->
   <div class="split-intro reveal">
     <div class="split-intro-left">
       <span class="section-eyebrow">The shift</span>
@@ -8808,9 +8830,25 @@
       </h2>
       <span class="serif-gradient">Across every industry, customers reward the value they realize &mdash; not the output.</span>
     </div>
+    <div class="split-intro-right section-body">
+      <p>
+        Customer Success grew up inside product companies &mdash; a discipline
+        of adoption, retention, and value proven inside the product. ITIL and
+        SIAM grew up inside enterprise IT and services &mdash; disciplines of
+        governance, integration, and service quality across complex supplier
+        ecosystems. They evolved on parallel tracks, solving different halves
+        of the same problem: how customers actually realise value from what
+        they buy.
+      </p>
+      <p>
+        CSOM<span class="tm">&trade;</span> is the operating model that joins
+        those tracks &mdash; pairing the outcome lens of Customer Success with
+        the operational rigour of ITIL and SIAM to make end-to-end Customer
+        Value Realization a repeatable practice.
+      </p>
+    </div>
   </div>
 
-  <span class="why-now-grid-eyebrow reveal">The shift</span>
   <div class="why-now-grid reveal" role="list" aria-label="The same shift across industries">
     <article class="why-now-card why-now-card-recovery" role="listitem">
       <span class="wn-chip">Hospital</span>
@@ -8853,38 +8891,16 @@
       <p class="wn-prose">A business buys software for the outcome. The deployment is just the start.</p>
     </article>
   </div>
+
+  <!-- Closing line: visual hinge between the macro analogy (cards
+       above) and the specific argument (right-column prose in the
+       header). Repurposed from the deleted §3 italic deck. -->
+  <p class="shift-close reveal">
+    This is that same shift, in the world product companies and services firms share.
+  </p>
 </section>
 
-<!-- =============== SECTION 3: PARALLEL TRACKS — promoted from hero body =============== -->
-<section class="light-surface alt" id="parallel-tracks" aria-labelledby="parallelTracksTitle">
-  <div class="split-intro reveal">
-    <div class="split-intro-left">
-      <span class="section-eyebrow">The disciplines</span>
-      <h2 class="section-title" id="parallelTracksTitle">
-        Parallel tracks,<br/>one operating model.
-      </h2>
-      <span class="serif-gradient">That same shift, in the world product companies and services firms share.</span>
-    </div>
-    <div class="split-intro-right section-body">
-      <p>
-        Customer Success grew up inside product companies &mdash; a discipline
-        of adoption, retention, and value proven inside the product. ITIL and
-        SIAM grew up inside enterprise IT and services &mdash; disciplines of
-        governance, integration, and service quality across complex supplier
-        ecosystems. They evolved on parallel tracks, solving different halves
-        of the same problem: how customers actually realise value from what
-        they buy.
-      </p>
-      <p>
-        CSOM<span class="tm">&trade;</span> is the operating model that joins
-        those tracks &mdash; pairing the outcome lens of Customer Success with
-        the operational rigour of ITIL and SIAM to make end-to-end Customer
-        Value Realization a repeatable practice.
-      </p>
-    </div>
-  </div>
-</section>
-
+<!-- =============== SECTION 3 (PARALLEL TRACKS) MERGED INTO #shift ABOVE =============== -->
 
 <!-- =============== SECTION 2: WHY NOW — theme rebuild =============== -->
 
