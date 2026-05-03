@@ -6542,63 +6542,156 @@
   }
   .community-cta svg { width: 16px; height: 16px; }
 
-  /* Section 10 — Stay close to the work.
-     Three numbered options stacked vertically. Each option is a
-     bold lead heading + descriptive paragraph + inline email-capture
-     form. Forms reuse .notify-form styling (inherited from §9), so
-     all three share the same input/button rhythm. Layout is left-
-     aligned within a max-920 column to keep the CTAs scannable
-     without forcing a card grid (per brief: "not as cards"). */
-  .stay-close-options {
-    list-style: none;
-    max-width: 920px;
+  /* Section 10 - Stay close to the work.
+     Three-card horizontal grid, mirroring the section 2 industry-card
+     pattern: icon + chip + title + description + email form, in a
+     3-column responsive grid with hover lift and a coloured top-bar
+     wipe-in on scroll-reveal. Replaces the prior numbered vertical
+     .stay-close-options layout per the 3 May review deck (slide 8). */
+  .stay-close-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    max-width: 1160px;
     margin: clamp(40px, 6vw, 64px) auto 0;
     padding: 0 28px;
-    counter-reset: sco;
   }
-  .stay-close-option {
+  .stay-close-card {
     position: relative;
-    padding: clamp(28px, 4vw, 40px) 0;
-    border-top: 1px solid var(--light-line);
+    padding: 30px 26px 28px;
+    border: 1px solid var(--light-line);
+    border-radius: 16px;
+    background: var(--light-bg);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    transition: transform .35s var(--ease),
+                box-shadow .35s var(--ease),
+                border-color .25s var(--ease);
   }
-  .stay-close-option:first-child { border-top: 0; padding-top: 0; }
-  .stay-close-option:last-child  { padding-bottom: 0; }
-  .sco-lead {
+  .stay-close-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.10);
+    border-color: var(--light-line-strong, #d8d8df);
+  }
+  /* Coloured top-bar - wipe-in on scroll-reveal */
+  .stay-close-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform .9s cubic-bezier(.22,.61,.36,1);
+  }
+  .stay-close-grid.show .stay-close-card::before { transform: scaleX(1); }
+  .stay-close-grid.show .stay-close-card-book::before       { transition-delay: .05s; }
+  .stay-close-grid.show .stay-close-card-training::before   { transition-delay: .20s; }
+  .stay-close-grid.show .stay-close-card-contribute::before { transition-delay: .35s; }
+  .stay-close-card-book::before       { background: var(--brand-blue, #1F6FD6); }
+  .stay-close-card-training::before   { background: var(--brand-green); }
+  .stay-close-card-contribute::before { background: var(--brand-orange); }
+
+  .sc-chip {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(19px, 1.75vw, 24px);
+    font-size: 10.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
     font-weight: 700;
+    padding: 4px 0;
+    color: var(--ink-muted);
+  }
+  .stay-close-card-book       .sc-chip { color: var(--brand-blue, #1F6FD6); }
+  .stay-close-card-training   .sc-chip { color: var(--brand-green); }
+  .stay-close-card-contribute .sc-chip { color: var(--brand-orange); }
+
+  .sc-icon {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 4px;
+    transition: transform .45s var(--ease);
+  }
+  .sc-icon svg { width: 100%; height: 100%; }
+  .stay-close-card-book       .sc-icon { color: var(--brand-blue, #1F6FD6); }
+  .stay-close-card-training   .sc-icon { color: var(--brand-green); }
+  .stay-close-card-contribute .sc-icon { color: var(--brand-orange); }
+  .stay-close-card:hover .sc-icon { transform: translateY(-2px) scale(1.05); }
+  .stay-close-card-contribute:hover .sc-icon { transform: translate(2px, -2px) rotate(-6deg); }
+
+  .sc-title {
+    margin: 4px 0 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(17px, 1.4vw, 20px);
     letter-spacing: -0.012em;
-    color: var(--ink-dark);
-    margin: 0 0 clamp(10px, 1vw, 14px);
     line-height: 1.3;
+    color: var(--ink-dark);
   }
-  .sco-num {
-    color: var(--brand-orange-lt);
-    font-weight: 700;
-    margin-right: 6px;
-  }
-  .sco-desc {
-    font-size: clamp(15px, 1.05vw, 17px);
+  .sc-desc {
+    margin: 0 0 6px;
+    font-size: clamp(14px, 1vw, 15px);
     line-height: 1.6;
     color: var(--ink-body);
-    margin: 0 0 clamp(16px, 2vw, 22px);
-    max-width: 720px;
   }
-  /* Inline form layout — input on the left, button on the right.
-     Falls back to stacked on narrow viewports via .notify-form's
-     existing 620px breakpoint. */
-  .sco-form {
-    max-width: 560px;
+  .sc-desc em { font-style: italic; }
+
+  /* Form override - vertical stack inside the card (not the default
+     horizontal input+button grid the .notify-form uses standalone). */
+  .sc-form {
+    width: 100%;
+    margin-top: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: none;
+  }
+  .sc-form .field { width: 100%; }
+  .sc-form .notify-submit { width: 100%; justify-content: center; }
+
+  @media (max-width: 880px) {
+    .stay-close-grid { grid-template-columns: 1fr; gap: 16px; }
+    .stay-close-card { padding: 26px 22px 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stay-close-card,
+    .stay-close-card::before,
+    .sc-icon { transition: none !important; }
+    .stay-close-card:hover { transform: none; }
+    .stay-close-grid.show .stay-close-card::before { transform: scaleX(1); }
   }
 
+  /* Closing voice - centered hairline-bracketed COI principle.
+     Two paragraphs: practical "for other questions" line first,
+     then the body-of-knowledge / not-a-consultancy principle below. */
   .stay-close-close {
-    max-width: 920px;
-    margin: clamp(40px, 6vw, 56px) auto 0;
-    padding: 0 28px;
-    text-align: left;
-    font-size: clamp(14px, 1vw, 15.5px);
+    max-width: 760px;
+    margin: clamp(48px, 6vw, 72px) auto 0;
+    padding: clamp(28px, 4vw, 40px) 28px 0;
+    border-top: 1px solid var(--light-line);
+    text-align: center;
+  }
+  .sc-close-question {
+    margin: 0 0 14px;
+    font-size: clamp(15px, 1.1vw, 17px);
     line-height: 1.65;
+    color: var(--ink-body);
+  }
+  .sc-close-coi {
+    margin: 0;
+    font-size: clamp(14px, 1vw, 16px);
+    line-height: 1.7;
     color: var(--ink-muted);
+  }
+  .sc-close-coi em {
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ink-dark);
   }
   .stay-close-mailto {
     color: var(--brand-orange);
@@ -6610,9 +6703,9 @@
   .stay-close-mailto:hover,
   .stay-close-mailto:focus { border-bottom-color: var(--brand-orange); }
   @media (max-width: 620px) {
-    .stay-close-close { font-size: 14px; }
+    .sc-close-question { font-size: 14.5px; }
+    .sc-close-coi { font-size: 13.5px; }
   }
-
   /* ---- Audience hairline cards ("Two audiences. One framework.") ---- */
   .audience-wrap {
     max-width: 1440px;
@@ -9034,15 +9127,23 @@
     </div>
   </div>
 
-  <ol class="stay-close-options reveal">
-    <li class="stay-close-option">
-      <h3 class="sco-lead"><span class="sco-num">1.</span> Be notified when the book is published.</h3>
-      <p class="sco-desc">
+  <div class="stay-close-grid reveal" role="list">
+    <article class="stay-close-card stay-close-card-book" role="listitem">
+      <span class="sc-chip">Book</span>
+      <span class="sc-icon" aria-hidden="true">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 7c4-1.4 9-1.4 13 1v22c-4-2.4-9-2.4-13-1V7z"/>
+          <path d="M31 7c-4-1.4-9-1.4-13 1v22c4-2.4 9-2.4 13-1V7z"/>
+          <path d="M18 8v22"/>
+        </svg>
+      </span>
+      <h3 class="sc-title">Be notified when the book is published.</h3>
+      <p class="sc-desc">
         The <em>Customer Success Body of Knowledge</em> will be the canonical
         reference for the framework. Leave your email to be notified when
         it&rsquo;s released.
       </p>
-      <form class="notify-form sco-form" data-list="book" novalidate aria-label="Notify me when the Customer Success Body of Knowledge book is published">
+      <form class="notify-form sc-form" data-list="book" novalidate aria-label="Notify me when the Customer Success Body of Knowledge book is published">
         <label class="field" data-field="notifyEmail">
           <span class="field-label sr-only">Email</span>
           <input class="field-input notify-email" type="email" name="email" required autocomplete="email" placeholder="you@company.com" inputmode="email" />
@@ -9053,15 +9154,24 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </button>
       </form>
-    </li>
+    </article>
 
-    <li class="stay-close-option">
-      <h3 class="sco-lead"><span class="sco-num">2.</span> Be notified when training opens.</h3>
-      <p class="sco-desc">
+    <article class="stay-close-card stay-close-card-training" role="listitem">
+      <span class="sc-chip">Training</span>
+      <span class="sc-icon" aria-hidden="true">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 14l15-7 15 7-15 7-15-7z"/>
+          <path d="M9 17v8c0 2.5 4 4 9 4s9-1.5 9-4v-8"/>
+          <path d="M33 14v9"/>
+          <path d="M31.5 23a1.5 1.5 0 0 0 3 0"/>
+        </svg>
+      </span>
+      <h3 class="sc-title">Be notified when training opens.</h3>
+      <p class="sc-desc">
         SIAM training, taught within the CSOM operating model, is in
         development. Leave your email to hear when cohorts open.
       </p>
-      <form class="notify-form sco-form" data-list="training" novalidate aria-label="Notify me when CSOM training opens">
+      <form class="notify-form sc-form" data-list="training" novalidate aria-label="Notify me when CSOM training opens">
         <label class="field" data-field="notifyEmail">
           <span class="field-label sr-only">Email</span>
           <input class="field-input notify-email" type="email" name="email" required autocomplete="email" placeholder="you@company.com" inputmode="email" />
@@ -9072,16 +9182,24 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </button>
       </form>
-    </li>
+    </article>
 
-    <li class="stay-close-option">
+    <article class="stay-close-card stay-close-card-contribute" role="listitem">
       <a id="contribute" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
-      <h3 class="sco-lead"><span class="sco-num">3.</span> Contribute to the body of knowledge.</h3>
-      <p class="sco-desc">
+      <span class="sc-chip">Contribute</span>
+      <span class="sc-icon" aria-hidden="true">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M28 4c-3 1-7 4-12 9s-8 9-9 12l-1 7 7-1c3-1 7-4 12-9s8-9 9-12l-1-2-3-3-2-1z"/>
+          <path d="M11 25l-7 7"/>
+          <path d="M22 10l4 4"/>
+        </svg>
+      </span>
+      <h3 class="sc-title">Contribute to the body of knowledge.</h3>
+      <p class="sc-desc">
         Senior ITIL, SIAM, and Customer Success practitioners are invited to
         contribute as co-authors, reviewers, and case-study contributors.
       </p>
-      <form class="notify-form sco-form" data-list="contribute" novalidate aria-label="Express interest in contributing to the CSOM body of knowledge">
+      <form class="notify-form sc-form" data-list="contribute" novalidate aria-label="Express interest in contributing to the CSOM body of knowledge">
         <label class="field" data-field="notifyEmail">
           <span class="field-label sr-only">Email</span>
           <input class="field-input notify-email" type="email" name="email" required autocomplete="email" placeholder="you@company.com" inputmode="email" />
@@ -9092,16 +9210,20 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </button>
       </form>
-    </li>
-  </ol>
+    </article>
+  </div>
 
-  <p class="stay-close-close reveal">
-    For other questions, reach out at
-    <a href="mailto:contact@csom.global" class="stay-close-mailto">contact@csom.global</a>.
-    CSOM is a body of knowledge, not a consultancy &mdash; we don&rsquo;t take
-    commercial engagements, but we welcome conversations with practitioners
-    and the community.
-  </p>
+  <div class="stay-close-close reveal">
+    <p class="sc-close-question">
+      For other questions, reach out at
+      <a href="mailto:contact@csom.global" class="stay-close-mailto">contact@csom.global</a>.
+    </p>
+    <p class="sc-close-coi">
+      <em>CSOM is a body of knowledge, not a consultancy</em> &mdash;
+      we don&rsquo;t take commercial engagements, but we welcome
+      conversations with practitioners and the community.
+    </p>
+  </div>
 </section>
 
 <!-- =============== FOOTER =============== -->
