@@ -7653,23 +7653,78 @@
   }
 
   /* Bold-led audience paragraphs — left-aligned reading column */
-  .why-now-body {
-    max-width: 720px;
-    margin: 0 auto;
+  /* Audience cards — three solid brand-gradient boxes, white text.
+     Replaces the prior three bold-led paragraphs per 3 May designer
+     review. Layout mirrors the .why-now-grid 3-column responsive
+     pattern; visual treatment is bolder (saturated coloured surfaces
+     instead of white cards with coloured top-bars) because these
+     three statements are the section's punch line: each names an
+     audience and what CSOM unlocks for them. */
+  .why-now-audience {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    max-width: 1160px;
+    margin: clamp(40px, 6vw, 56px) auto 0;
     padding: 0 28px;
   }
-  .why-now-body p {
-    font-size: 17px;
-    line-height: 1.7;
-    color: var(--ink-body);
-    margin: 0 0 22px;
+  .wn-audience-card {
+    position: relative;
+    padding: clamp(28px, 3vw, 36px) clamp(24px, 2.5vw, 30px);
+    border-radius: 18px;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+    box-shadow: 0 12px 36px rgba(15, 23, 42, 0.12);
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease);
   }
-  .why-now-body strong {
-    color: var(--ink-dark);
+  .wn-audience-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 56px rgba(15, 23, 42, 0.18);
+  }
+  .wn-audience-card-product  { background: linear-gradient(135deg, #1F6FD6 0%, #3A8BE8 100%); }
+  .wn-audience-card-services { background: linear-gradient(135deg, #1E9C5C 0%, #2BB673 50%, #4BD48E 100%); }
+  .wn-audience-card-pract    { background: linear-gradient(135deg, #D64326 0%, #F05A1E 50%, #FF7A3E 100%); }
+
+  .wn-aud-icon {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    color: #ffffff;
+    margin-bottom: 2px;
+    transition: transform .35s var(--ease);
+  }
+  .wn-aud-icon svg { width: 100%; height: 100%; }
+  .wn-audience-card:hover .wn-aud-icon { transform: translateY(-2px) scale(1.04); }
+
+  .wn-aud-lead {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(18px, 1.4vw, 22px);
     font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    color: #ffffff;
+    margin: 0;
   }
-  .why-now-bold-led { margin-top: 22px !important; }
-  .why-now-bold-led:first-child { margin-top: 0 !important; }
+  .wn-aud-body {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(14px, 1vw, 15.5px);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.94);
+    margin: 0;
+  }
+
+  @media (max-width: 880px) {
+    .why-now-audience { grid-template-columns: 1fr; gap: 16px; }
+    .wn-audience-card { padding: 26px 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wn-audience-card, .wn-aud-icon { transition: none !important; }
+    .wn-audience-card:hover { transform: none; }
+    .wn-audience-card:hover .wn-aud-icon { transform: none; }
+  }
 
   /* Closing italic line — centered, gradient TM */
   .why-now-close {
@@ -8400,25 +8455,61 @@
     Across every industry, customers reward the value they realize &mdash; not the output that was produced.
   </p>
 
-  <!-- Bold-led audience paragraphs: left-aligned reading column -->
-  <div class="why-now-body reveal">
-    <p class="why-now-bold-led">
-      <strong>For product companies</strong>, Customer Success grows from a
-      function into an operating model &mdash; the layer that turns adoption
-      into NRR, expansion, advocacy, and renewal.
-    </p>
-    <p class="why-now-bold-led">
-      <strong>For services companies</strong>, the engagement extends past
-      go-live, into the stretch where margin, renewal, and reference
-      customers live.
-    </p>
-    <p class="why-now-bold-led">
-      <strong>For ITIL and SIAM practitioners</strong>, it is the most
-      significant professional development opportunity in twenty years
-      &mdash; a chance to lead Value Realization from a services firm, a
-      product company, or anywhere the bridge between the two needs to be
-      built.
-    </p>
+  <!-- Three audience cards: solid brand-colour gradient backgrounds,
+       white text. Each card carries an icon, a bold lead, and the
+       audience pitch body. Replaces the prior three bold-led
+       paragraphs per the 3 May designer review. -->
+  <div class="why-now-audience reveal">
+    <article class="wn-audience-card wn-audience-card-product">
+      <span class="wn-aud-icon" aria-hidden="true">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 5L5 11v14l13 6 13-6V11L18 5z"/>
+          <path d="M5 11l13 6 13-6"/>
+          <path d="M18 17v14"/>
+        </svg>
+      </span>
+      <h3 class="wn-aud-lead">For product companies</h3>
+      <p class="wn-aud-body">
+        Customer Success grows from a function into an operating model
+        &mdash; the layer that turns adoption into NRR, expansion,
+        advocacy, and renewal.
+      </p>
+    </article>
+
+    <article class="wn-audience-card wn-audience-card-services">
+      <span class="wn-aud-icon" aria-hidden="true">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="18" r="3"/>
+          <circle cx="6"  cy="6"  r="2.5"/>
+          <circle cx="30" cy="6"  r="2.5"/>
+          <circle cx="6"  cy="30" r="2.5"/>
+          <circle cx="30" cy="30" r="2.5"/>
+          <path d="M8 8l7.5 7.5M28 8l-7.5 7.5M8 28l7.5-7.5M28 28l-7.5-7.5"/>
+        </svg>
+      </span>
+      <h3 class="wn-aud-lead">For services companies</h3>
+      <p class="wn-aud-body">
+        The engagement extends past go-live, into the stretch where
+        margin, renewal, and reference customers live.
+      </p>
+    </article>
+
+    <article class="wn-audience-card wn-audience-card-pract">
+      <span class="wn-aud-icon" aria-hidden="true">
+        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="12" r="5"/>
+          <path d="M6 32c0-7 5-12 12-12s12 5 12 12"/>
+          <path d="M13 5l5-3 5 3" stroke-width="1.5"/>
+        </svg>
+      </span>
+      <h3 class="wn-aud-lead">For ITIL and SIAM practitioners</h3>
+      <p class="wn-aud-body">
+        It is the most significant professional development opportunity
+        in twenty years &mdash; a chance to lead Value Realization from
+        a services firm, a product company, or anywhere the bridge
+        between the two needs to be built.
+      </p>
+    </article>
   </div>
 
   <!-- Italic close: the section's final word -->
