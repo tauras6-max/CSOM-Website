@@ -5136,9 +5136,12 @@
     50%      { transform: rotate(2deg); }
   }
 
-  @media (max-width: 1024px) { .butterfly { width: 280px; height: 250px; } }
-  @media (max-width: 740px)  { .butterfly { width: 220px; height: 200px; } }
-  @media (max-width: 480px)  { .butterfly { width: 180px; height: 160px; } }
+  /* Butterfly is positioned in the right gutter (translate-X around
+     88-92vw); below 1280px the gutter shrinks under the butterfly's
+     footprint and would force it to overlap body copy, so we hide
+     it entirely on tablet/mobile per the 3 May review (Q3: "beside
+     in gutter, never overlapping"). */
+  @media (max-width: 1280px) { .butterfly-stage { display: none !important; } }
 
   @media (prefers-reduced-motion: reduce) {
     .butterfly-orbit,
@@ -9930,62 +9933,104 @@
     `scale3d(${v.scale.toFixed(3)}, ${v.scale.toFixed(3)}, 1)`;
 
   /* =============== BUTTERFLY SCROLL TRAVEL ==============
-     Scoped to #practitioners: the butterfly is the metamorphosis metaphor
-     for the ITIL/SIAM/CS practitioner stepping into the CSOM operating
-     model. Two stops inside #practitioners — upper-right next to the
-     split-intro, then drifting behind the skills-gap table at a wider
-     scale. Fades in as the section approaches; fades out as #bring
-     approaches. Wing flap + body drift remain independent CSS animations.
-     Previous 5-stop travel across #audience → #bring → #contact was
-     retired when those sections were restructured. */
+     Scoped to the audience trio (§5 #practitioners → §6 #for-cs-leaders
+     → §7 #for-services-firms). The butterfly is the metamorphosis
+     metaphor for the practitioner stepping into the CSOM operating model.
+
+     Per the 3 May review (slides 2-7):
+       - Q5: butterfly present on §5/§6/§7 ONLY, absent everywhere else
+       - Q3: lives in the right gutter, never overlaps body copy
+       - Q2: directional indicator (general path, designer's call on exact
+         curve — chose right-gutter S-curve through the three sections)
+       - Q4: full brand gradient (existing wing colours preserved)
+       - Q6: flies off-screen (off bottom-right corner) at end of §7
+
+     Per-section pattern: small near the section heading where copy is
+     dense (so it doesn't fight readability even though it's beside the
+     copy, not over it), grows toward the section's bottom where there's
+     more negative space, drifts to next section. Final stop translates
+     past the right edge with op: 0 so it visibly flies off. The fadeOut
+     anchor on §8 (#author-community) ensures opacity hits zero before
+     §8 begins, even if the user scrolls quickly past §7's tail. */
   (function () {
     const bfStage = document.getElementById('butterflyStage');
     if (!bfStage) return;
     const practitionerSec  = document.getElementById('practitioners');
-    if (!practitionerSec) return;
-    const splitIntro       = practitionerSec.querySelector('.split-intro');
-    const splitIntroLeft   = practitionerSec.querySelector('.split-intro-left');
-    const skillsTable      = practitionerSec.querySelector('.skills-gap-table');
-    const givesBand        = practitionerSec.querySelector('.practitioner-benefits') || practitionerSec.querySelector('.gives-band');
-    const bringSec         = document.getElementById('bring');
-    if (!splitIntro || !skillsTable) return;
+    const csLeadersSec     = document.getElementById('for-cs-leaders');
+    const servicesFirmsSec = document.getElementById('for-services-firms');
+    const authorSec        = document.getElementById('author-community');
+    if (!practitionerSec || !servicesFirmsSec) return;
+
+    /* Anchor elements per section. The createScrollStage tween picks the
+       two stops bracketing the viewport's vertical centre, so anchors
+       must be ordered top-to-bottom in scroll order. */
+    const splitIntro_5  = practitionerSec.querySelector('.split-intro');
+    const skillsTable   = practitionerSec.querySelector('.skills-gap-table');
+    const benefits_5    = practitionerSec.querySelector('.practitioner-benefits');
+    const splitIntro_6  = csLeadersSec ? csLeadersSec.querySelector('.split-intro') : null;
+    const benefits_6    = csLeadersSec ? csLeadersSec.querySelector('.practitioner-benefits') : null;
+    const splitIntro_7  = servicesFirmsSec.querySelector('.split-intro');
+    const benefits_7    = servicesFirmsSec.querySelector('.practitioner-benefits');
+    if (!splitIntro_5 || !splitIntro_7) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      /* Static centre-gutter pose for reduced-motion users — enough to
+         signal the butterfly's presence without scroll-tied animation. */
       bfStage.style.opacity = '1';
       bfStage.style.transform =
-        'translate3d(78vw, 38vh, 0) translate3d(-50%, -50%, 0) scale3d(1.4, 1.4, 1)';
+        'translate3d(90vw, 50vh, 0) translate3d(-50%, -50%, 0) scale3d(0.7, 0.7, 1)';
       return;
     }
 
-    /* Three stops within #practitioners — the butterfly's flight path:
-       1. Emergence (split-intro-left): butterfly APPEARS FROM the
-          section title "For ITIL and SIAM practitioners. / The next
-          chapter for the craft you've already built." Sits over the
-          left column at scale 1.25, op 0.85 so the title copy
-          (z-index:5) still reads cleanly.
-       2. Skills-gap-table: mid-travel, drifts diagonally toward centre
-          at scale 2.40, dimmed to op: 0.55 so wing tips frame the
-          table without fighting the cells.
-       3. Practitioner-benefits: lands centred behind the numbered
-          "What CSOM gives you as a practitioner" benefits list at
-          scale 3.0, op: 0.60 — the emergence pose from the annotated
-          picture 2 reference. (Falls back to legacy .gives-band if
-          present.)
-       All section copy (split-intro, skills-gap cells, gives-wrap /
-       practitioner-benefits) carries z-index:5 so it paints over the
-       z-index:3 butterfly-stage; only the parts of the butterfly
-       outside those footprints remain visible. */
-    const stops = [
-      { el: splitIntroLeft || splitIntro, top: 38, left: 26, scale: 1.25, op: 0.85 },
-      { el: skillsTable,                  top: 55, left: 55, scale: 2.40, op: 0.55 },
-    ];
-    if (givesBand) {
-      stops.push({ el: givesBand, top: 55, left: 50, scale: 3.00, op: 0.60 });
+    /* Right-gutter path through the audience trio.
+       left: 88-92vw keeps the butterfly's centre in the gutter beside
+       the max-1160px content column (gutter exists only on viewports
+       wider than ~1280px — the .butterfly-stage CSS hides below that).
+       Scale alternates: ~0.5-0.6 small near section headings (where
+       copy is densest), ~0.9-1.1 larger near section bottoms (more
+       negative space). */
+    const stops = [];
+
+    // §5 — For ITIL and SIAM practitioners
+    stops.push({ el: splitIntro_5, top: 32, left: 90, scale: 0.55, op: 0.90 });  // birth: top of §5, small
+    if (skillsTable) {
+      stops.push({ el: skillsTable, top: 50, left: 92, scale: 0.50, op: 0.75 }); // small over wide table
     }
+    if (benefits_5) {
+      stops.push({ el: benefits_5, top: 70, left: 88, scale: 0.95, op: 0.90 });  // grows at §5 bottom
+    }
+
+    // §6 — For CS leaders
+    if (splitIntro_6) {
+      stops.push({ el: splitIntro_6, top: 32, left: 90, scale: 0.55, op: 0.90 }); // small at §6 top
+    }
+    if (benefits_6) {
+      stops.push({ el: benefits_6, top: 65, left: 88, scale: 1.00, op: 0.92 });  // full bloom §6 bottom
+    }
+
+    // §7 — For services firms
+    stops.push({ el: splitIntro_7, top: 32, left: 90, scale: 0.55, op: 0.90 });  // small at §7 top
+    if (benefits_7) {
+      stops.push({ el: benefits_7, top: 60, left: 88, scale: 1.10, op: 0.95 }); // largest at §7 bottom
+    }
+
+    // Fly-off — translate past right edge + drop opacity, anchored
+    // to §7's section element so it triggers as the section's centre
+    // exits viewport bottom.
+    stops.push({ el: servicesFirmsSec, top: 95, left: 130, scale: 1.40, op: 0.0 });
+
     createScrollStage(bfStage, {
       stops: stops,
-      fadeIn:  { el: practitionerSec, startVh: 1.00, endVh: 0.55 },
-      fadeOut: bringSec ? { el: bringSec, startVh: 0.85, endVh: 0.35 } : null,
+      /* Fade-in starts as §5 enters viewport (later than the prior 1.0
+         start so the butterfly never appears while the legacy #audience
+         block is the dominant on-screen section per slide 2). */
+      fadeIn:  { el: practitionerSec, startVh: 0.85, endVh: 0.55 },
+      /* Fade-out anchored on §8 (#author-community) — by the time §8 is
+         halfway up the viewport, the butterfly's hard at zero opacity.
+         Falls back to §7's bottom anchor if §8 is missing. */
+      fadeOut: authorSec
+        ? { el: authorSec, startVh: 1.00, endVh: 0.55 }
+        : { el: servicesFirmsSec, startVh: 0.20, endVh: -0.10 },
       format:  stageTransform,
     });
   })();
