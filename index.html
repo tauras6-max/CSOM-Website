@@ -7597,7 +7597,9 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 22px;
     max-width: 1160px;
-    margin: 0 auto clamp(2.4rem, 4vw, 3.2rem);
+    /* Top margin restores the gap the deleted .why-now-grid-eyebrow
+       label used to provide between section header and cards. */
+    margin: clamp(3rem, 4.5vw, 4.5rem) auto clamp(1.6rem, 2.5vw, 2.4rem);
     padding: 0 28px;
   }
   .why-now-card {
@@ -7746,8 +7748,8 @@
      industry cards as the visual hinge between macro analogy and
      the argument in the right-column prose above. */
   .shift-close {
-    max-width: 1080px;
-    margin: clamp(36px, 4.5vw, 56px) auto 0;
+    max-width: 920px;
+    margin: clamp(20px, 2.5vw, 32px) auto 0;
     padding: 0 28px;
     text-align: center;
     font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
