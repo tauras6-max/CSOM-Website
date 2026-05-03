@@ -5136,12 +5136,14 @@
     50%      { transform: rotate(2deg); }
   }
 
-  /* Butterfly is positioned in the right gutter (translate-X around
-     88-92vw); below 1280px the gutter shrinks under the butterfly's
-     footprint and would force it to overlap body copy, so we hide
-     it entirely on tablet/mobile per the 3 May review (Q3: "beside
-     in gutter, never overlapping"). */
-  @media (max-width: 1280px) { .butterfly-stage { display: none !important; } }
+  /* Butterfly travels OVER content (z-index: 3, behind copy at z-index:
+     5 in the audience-trio sections). Width scales down on smaller
+     viewports so wing tips don't dominate the screen, and the metaphor
+     is hidden on the smallest mobile sizes where the over-text overlay
+     becomes too cramped to read around. */
+  @media (max-width: 1024px) { .butterfly { width: 280px; height: 250px; } }
+  @media (max-width: 740px)  { .butterfly { width: 220px; height: 200px; } }
+  @media (max-width: 480px)  { .butterfly-stage { display: none !important; } }
 
   @media (prefers-reduced-motion: reduce) {
     .butterfly-orbit,
@@ -5179,6 +5181,19 @@
   #practitioners .gives-card,
   #practitioners .practitioner-table-heading,
   #practitioners .practitioner-benefits { position: relative; z-index: 5; }
+  /* Mirror the §5 z-index defenses on §6 and §7 — the butterfly now
+     travels over those sections too (per 3 May correction), so their
+     copy must paint above the z-index:3 butterfly-stage. */
+  #for-cs-leaders.light-surface,
+  #for-services-firms.light-surface { z-index: auto; }
+  #for-cs-leaders .split-intro,
+  #for-cs-leaders .split-intro-left,
+  #for-cs-leaders .split-intro-right,
+  #for-cs-leaders .practitioner-benefits,
+  #for-services-firms .split-intro,
+  #for-services-firms .split-intro-left,
+  #for-services-firms .split-intro-right,
+  #for-services-firms .practitioner-benefits { position: relative; z-index: 5; }
   .practitioner-quote {
     position: relative;
     z-index: 5;
@@ -9937,21 +9952,23 @@
      → §7 #for-services-firms). The butterfly is the metamorphosis
      metaphor for the practitioner stepping into the CSOM operating model.
 
-     Per the 3 May review (slides 2-7):
-       - Q5: butterfly present on §5/§6/§7 ONLY, absent everywhere else
-       - Q3: lives in the right gutter, never overlaps body copy
-       - Q2: directional indicator (general path, designer's call on exact
-         curve — chose right-gutter S-curve through the three sections)
-       - Q4: full brand gradient (existing wing colours preserved)
-       - Q6: flies off-screen (off bottom-right corner) at end of §7
+     Per the 3 May review (slides 2-7) and follow-up correction:
+       - Slide 2 / Q5: butterfly absent from legacy #audience and from
+         §8/§9/§10. Present on §5/§6/§7 only.
+       - Slide 3: appears (births) at the §5 entry, growing in.
+       - Slides 4-7: travels OVER the section copy (behind it via z-index)
+         along an A->B path PER section. Small at point A (over the
+         section heading where copy is densest, so the text remains
+         readable through the wings); grows to full size at point B
+         (toward the section's bottom where there's negative space).
+       - Slide 7 / Q6: flies off the bottom-right corner at end of §7.
 
-     Per-section pattern: small near the section heading where copy is
-     dense (so it doesn't fight readability even though it's beside the
-     copy, not over it), grows toward the section's bottom where there's
-     more negative space, drifts to next section. Final stop translates
-     past the right edge with op: 0 so it visibly flies off. The fadeOut
-     anchor on §8 (#author-community) ensures opacity hits zero before
-     §8 begins, even if the user scrolls quickly past §7's tail. */
+     Wing flap + body drift remain independent CSS animations.
+     Z-index dance: .butterfly-stage at z-index:3 sits behind every
+     audience-section's copy at z-index:5, so the wings are always
+     visible at section edges/empty regions while text/cards paint
+     over them — the "small enough to read through" effect comes from
+     the scale value at heading anchors. */
   (function () {
     const bfStage = document.getElementById('butterflyStage');
     if (!bfStage) return;
@@ -9961,73 +9978,77 @@
     const authorSec        = document.getElementById('author-community');
     if (!practitionerSec || !servicesFirmsSec) return;
 
-    /* Anchor elements per section. The createScrollStage tween picks the
-       two stops bracketing the viewport's vertical centre, so anchors
-       must be ordered top-to-bottom in scroll order. */
-    const splitIntro_5  = practitionerSec.querySelector('.split-intro');
+    /* Per-section anchors — must be ordered top-to-bottom in scroll
+       order. createScrollStage tweens linearly between consecutive
+       stops as viewport centre crosses each anchor's vertical centre. */
+    const splitIntro_5  = practitionerSec.querySelector('.split-intro-left')
+                       || practitionerSec.querySelector('.split-intro');
     const skillsTable   = practitionerSec.querySelector('.skills-gap-table');
     const benefits_5    = practitionerSec.querySelector('.practitioner-benefits');
-    const splitIntro_6  = csLeadersSec ? csLeadersSec.querySelector('.split-intro') : null;
+    const splitIntro_6  = csLeadersSec ? (csLeadersSec.querySelector('.split-intro-left')
+                                       || csLeadersSec.querySelector('.split-intro')) : null;
     const benefits_6    = csLeadersSec ? csLeadersSec.querySelector('.practitioner-benefits') : null;
-    const splitIntro_7  = servicesFirmsSec.querySelector('.split-intro');
+    const splitIntro_7  = servicesFirmsSec.querySelector('.split-intro-left')
+                       || servicesFirmsSec.querySelector('.split-intro');
     const benefits_7    = servicesFirmsSec.querySelector('.practitioner-benefits');
     if (!splitIntro_5 || !splitIntro_7) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      /* Static centre-gutter pose for reduced-motion users — enough to
-         signal the butterfly's presence without scroll-tied animation. */
+      /* Static centre pose for reduced-motion users — visible but no
+         scroll-tied animation. Slightly off-centre so it doesn't sit
+         dead-centre over body copy on whichever section is loaded. */
       bfStage.style.opacity = '1';
       bfStage.style.transform =
-        'translate3d(90vw, 50vh, 0) translate3d(-50%, -50%, 0) scale3d(0.7, 0.7, 1)';
+        'translate3d(60vw, 50vh, 0) translate3d(-50%, -50%, 0) scale3d(1.6, 1.6, 1)';
       return;
     }
 
-    /* Right-gutter path through the audience trio.
-       left: 88-92vw keeps the butterfly's centre in the gutter beside
-       the max-1160px content column (gutter exists only on viewports
-       wider than ~1280px — the .butterfly-stage CSS hides below that).
-       Scale alternates: ~0.5-0.6 small near section headings (where
-       copy is densest), ~0.9-1.1 larger near section bottoms (more
-       negative space). */
+    /* Per-section A->B path — diagonal from upper-LEFT (small, over
+       the section heading) toward lower-RIGHT (large, in the bottom
+       negative space). Mirrors the red-line markings on slides 5-7
+       where A sits over the title block and B sits below the body
+       content. Scale at A is ~1.0 (small, text reads cleanly through);
+       scale at B is ~2.5-3.0 (full bloom in empty space). */
     const stops = [];
 
     // §5 — For ITIL and SIAM practitioners
-    stops.push({ el: splitIntro_5, top: 32, left: 90, scale: 0.55, op: 0.90 });  // birth: top of §5, small
+    stops.push({ el: splitIntro_5, top: 38, left: 28, scale: 1.10, op: 0.85 });  // A: small over title
     if (skillsTable) {
-      stops.push({ el: skillsTable, top: 50, left: 92, scale: 0.50, op: 0.75 }); // small over wide table
+      stops.push({ el: skillsTable, top: 52, left: 50, scale: 1.60, op: 0.65 }); // mid-drift over table
     }
     if (benefits_5) {
-      stops.push({ el: benefits_5, top: 70, left: 88, scale: 0.95, op: 0.90 });  // grows at §5 bottom
+      stops.push({ el: benefits_5, top: 65, left: 62, scale: 2.50, op: 0.75 });  // B: bloom in §5 bottom
     }
 
     // §6 — For CS leaders
     if (splitIntro_6) {
-      stops.push({ el: splitIntro_6, top: 32, left: 90, scale: 0.55, op: 0.90 }); // small at §6 top
+      stops.push({ el: splitIntro_6, top: 38, left: 30, scale: 1.05, op: 0.85 }); // A: small over title
     }
     if (benefits_6) {
-      stops.push({ el: benefits_6, top: 65, left: 88, scale: 1.00, op: 0.92 });  // full bloom §6 bottom
+      stops.push({ el: benefits_6, top: 65, left: 60, scale: 2.60, op: 0.75 });   // B: bloom §6 bottom
     }
 
     // §7 — For services firms
-    stops.push({ el: splitIntro_7, top: 32, left: 90, scale: 0.55, op: 0.90 });  // small at §7 top
+    stops.push({ el: splitIntro_7, top: 38, left: 30, scale: 1.05, op: 0.85 });   // A: small over title
     if (benefits_7) {
-      stops.push({ el: benefits_7, top: 60, left: 88, scale: 1.10, op: 0.95 }); // largest at §7 bottom
+      stops.push({ el: benefits_7, top: 62, left: 60, scale: 2.80, op: 0.78 });   // B: largest bloom
     }
 
-    // Fly-off — translate past right edge + drop opacity, anchored
-    // to §7's section element so it triggers as the section's centre
-    // exits viewport bottom.
-    stops.push({ el: servicesFirmsSec, top: 95, left: 130, scale: 1.40, op: 0.0 });
+    // Fly-off — translate past bottom-right corner with op:0.
+    // Anchored to §7's section element so it triggers as the section's
+    // centre scrolls out the bottom of the viewport.
+    stops.push({ el: servicesFirmsSec, top: 105, left: 130, scale: 2.20, op: 0.0 });
 
     createScrollStage(bfStage, {
       stops: stops,
-      /* Fade-in starts as §5 enters viewport (later than the prior 1.0
-         start so the butterfly never appears while the legacy #audience
-         block is the dominant on-screen section per slide 2). */
+      /* Fade-in starts as §5 enters viewport — kept at startVh:0.85
+         (later than the original 1.0) so the butterfly never appears
+         while the legacy #audience block is the dominant on-screen
+         section per slide 2. */
       fadeIn:  { el: practitionerSec, startVh: 0.85, endVh: 0.55 },
-      /* Fade-out anchored on §8 (#author-community) — by the time §8 is
-         halfway up the viewport, the butterfly's hard at zero opacity.
-         Falls back to §7's bottom anchor if §8 is missing. */
+      /* Fade-out anchored on §8 (#author-community) — by the time §8
+         is halfway up the viewport, opacity is 0. Falls back to §7's
+         own scroll-out if §8 is missing. */
       fadeOut: authorSec
         ? { el: authorSec, startVh: 1.00, endVh: 0.55 }
         : { el: servicesFirmsSec, startVh: 0.20, endVh: -0.10 },
