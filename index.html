@@ -7114,6 +7114,17 @@
   .sc-form .field { width: 100%; }
   .sc-form .notify-submit { width: 100%; justify-content: center; }
 
+  /* Fine-print line under the training card form - the trust signal
+     'One email when training is ready. Nothing else.' relocated from
+     the deleted standalone #bring section. */
+  .sc-fineprint {
+    margin: 8px 0 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--ink-muted);
+    text-align: center;
+  }
+
   @media (max-width: 880px) {
     .stay-close-grid { grid-template-columns: 1fr; gap: 16px; }
     .stay-close-card { padding: 26px 22px 24px; }
@@ -9724,43 +9735,6 @@
   </div>
 </section>
 
-<!-- =============== TRAINING (in development) =============== -->
-<section class="light-surface" id="bring" aria-labelledby="bringTitle">
-  <div class="split-intro reveal">
-    <div class="split-intro-left">
-      <h2 class="section-title" id="bringTitle">Training (in development)</h2>
-    </div>
-    <div class="split-intro-right section-body">
-      <p>
-        SIAM training, taught within the CSOM<span class="tm">&trade;</span>
-        operating model, is being developed for delivery through CSOM Global.
-        First cohorts are planned for 2026.
-      </p>
-      <p>
-        Leave your email to be notified when training opens.
-      </p>
-    </div>
-  </div>
-
-  <div class="training-wrap reveal">
-    <form class="notify-form" id="notify" data-list="training" novalidate aria-label="Register interest in CSOM training">
-      <label class="field" data-field="notifyEmail">
-        <span class="field-label sr-only">Email</span>
-        <input class="field-input notify-email" type="email" name="email" required autocomplete="email" placeholder="you@company.com" inputmode="email" />
-        <span class="field-error">Please enter a valid email address (e.g. you@company.com).</span>
-      </label>
-      <button type="submit" class="btn btn-primary notify-submit">
-        Notify me
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </button>
-    </form>
-
-    <p class="notify-fineprint">
-      One email when training is ready. Nothing else.
-    </p>
-  </div>
-</section>
-
 <!-- Three Missions section removed per consolidated revision -->
 
 <!-- =============== SECTION 10: STAY CLOSE TO THE WORK — theme rebuild =============== -->
@@ -9795,9 +9769,7 @@
       </span>
       <h3 class="sc-title">Be notified when the book is published.</h3>
       <p class="sc-desc">
-        The <em>Customer Success Body of Knowledge</em> will be the canonical
-        reference for the framework. Leave your email to be notified when
-        it&rsquo;s released.
+        The canonical reference for the framework. Launching 2026.
       </p>
       <form class="notify-form sc-form" data-list="book" novalidate aria-label="Notify me when the Customer Success Body of Knowledge book is published">
         <label class="field" data-field="notifyEmail">
@@ -9813,6 +9785,8 @@
     </article>
 
     <article class="stay-close-card stay-close-card-training" role="listitem">
+      <a id="bring" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
+      <a id="notify" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
       <span class="sc-chip">Training</span>
       <span class="sc-icon" aria-hidden="true">
         <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -9824,8 +9798,8 @@
       </span>
       <h3 class="sc-title">Be notified when training opens.</h3>
       <p class="sc-desc">
-        SIAM training, taught within the CSOM operating model, is in
-        development. Leave your email to hear when cohorts open.
+        The first SIAM training taught inside a Customer Value Realization
+        operating model. First cohorts in 2026.
       </p>
       <form class="notify-form sc-form" data-list="training" novalidate aria-label="Notify me when CSOM training opens">
         <label class="field" data-field="notifyEmail">
@@ -9838,6 +9812,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </button>
       </form>
+      <p class="sc-fineprint">One email when training is ready. Nothing else.</p>
     </article>
 
     <article class="stay-close-card stay-close-card-contribute" role="listitem">
@@ -9852,8 +9827,8 @@
       </span>
       <h3 class="sc-title">Contribute to the body of knowledge.</h3>
       <p class="sc-desc">
-        Senior ITIL, SIAM, and Customer Success practitioners are invited to
-        contribute as co-authors, reviewers, and case-study contributors.
+        Help shape the body of knowledge. Co-authors, reviewers, and
+        case-study contributors welcome.
       </p>
       <form class="notify-form sc-form" data-list="contribute" novalidate aria-label="Express interest in contributing to the CSOM body of knowledge">
         <label class="field" data-field="notifyEmail">
@@ -9869,17 +9844,6 @@
     </article>
   </div>
 
-  <div class="stay-close-close reveal">
-    <p class="sc-close-question">
-      For other questions, reach out at
-      <a href="mailto:contact@csom.global" class="stay-close-mailto">contact@csom.global</a>.
-    </p>
-    <p class="sc-close-coi">
-      <em>CSOM is a body of knowledge, not a consultancy</em> &mdash;
-      we don&rsquo;t take commercial engagements, but we welcome
-      conversations with practitioners and the community.
-    </p>
-  </div>
 </section>
 
 <!-- =============== FOOTER =============== -->
@@ -9899,7 +9863,7 @@
       <a href="#audience">Who It&rsquo;s For</a>
       <a href="#practitioners">For Practitioners</a>
       <a href="#bring">Training</a>
-      <a href="#contact">Contact</a>
+      <a href="mailto:contact@csom.global">contact@csom.global</a>
     </div>
     <div class="foot-social" aria-label="Follow CSOM Global on social">
       <a class="foot-social-link" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
