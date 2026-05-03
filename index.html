@@ -9886,7 +9886,7 @@
       <a href="#audience">Who It&rsquo;s For</a>
       <a href="#practitioners">For Practitioners</a>
       <a href="#bring">Training</a>
-      <a href="mailto:contact@csom.global">contact@csom.global</a>
+      <a href="mailto:hello@csom.global">hello@csom.global</a>
     </div>
     <div class="foot-social" aria-label="Follow CSOM Global on social">
       <a class="foot-social-link" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
@@ -10321,14 +10321,14 @@
       if (backgrounds.length) meta.push(`Background: ${backgrounds.join(', ')}`);
       const metaBlock = meta.length ? `${meta.join('\n')}\n\n` : '';
       const body = `From: ${name} <${email}>\n\n${metaBlock}${message}\n\n\u2014 Sent from csom.global`;
-      const href = `mailto:contact@csom.global?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const href = `mailto:hello@csom.global?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = href;
 
       contactFormMain.outerHTML = `
         <div class="form-success" role="status">
           <strong>Signal received.</strong>
           We'll be in touch within two working days. If your mail client didn't open, write to
-          <a href="mailto:contact@csom.global" style="color:#ffd166;font-weight:600;text-decoration:none;">contact@csom.global</a> directly.
+          <a href="mailto:hello@csom.global" style="color:#ffd166;font-weight:600;text-decoration:none;">hello@csom.global</a> directly.
         </div>
       `;
     });
@@ -10402,7 +10402,7 @@
         const subject = SUBJECT_BY_LIST[list] || SUBJECT_BY_LIST.training;
         const intro   = BODY_BY_LIST[list]   || BODY_BY_LIST.training;
         const body    = `${intro}\n\nEmail: ${email}\nList: ${list}\n\n\u2014 Sent from csom.global`;
-        const href    = `mailto:contact@csom.global?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        const href    = `mailto:hello@csom.global?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         window.location.href = href;
 
         form.classList.add('is-sent');
