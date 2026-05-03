@@ -9957,26 +9957,38 @@
 
   /* =============== BUTTERFLY SCROLL TRAVEL ==============
      Scoped to: BIRTH at #audience -> uniform-speed travel through
-     §5/§6/§7 -> slow drift+fade toward the §7/§8 divider line.
+     §5/§6/§7 (per-section), aligned with actual section boundaries
+     -> slow drift+fade toward the §7/§8 divider line.
 
-     Why this is a custom handler instead of createScrollStage:
-       The element-anchored interpolation in createScrollStage tweens
-       between stops based on each anchor element's vertical centre.
-       Because §5 is much taller than §6 (the wide mapping table adds
-       vertical real-estate), the same butterfly position-change took
-       far more scroll pixels to play out in §5 than in §6 — so the
-       butterfly moved SLOWER through §5 and FASTER through §6 even
-       though the visual change between stops was similar.
-       v5 replaces that with progress-based interpolation: t is
-       scroll-position normalised between #audience top and #author-
-       community top, and stops are placed by t-value (not element).
-       Equal t-deltas == equal scroll-pixel deltas == uniform speed
-       across all sections, regardless of section heights. */
+     v6 design: stops are anchored to a section + a fraction within
+     that section (e.g. "20% into §5" or "85% into §6"), and the
+     t-value for each stop is recomputed every update from the live
+     section positions. So when the user is at 50% of §5, the
+     interpolated butterfly state reflects "halfway between §5-entry
+     and §5-bloom" — not somewhere derived from a hardcoded fraction
+     that doesn't match the actual page layout.
+
+     Why this beats both prior attempts:
+       v4 (createScrollStage with element anchors): tied transitions
+         to .split-intro / .practitioner-benefits midpoints; speed
+         varied per section based on those elements' separations.
+       v5 (hardcoded t scrubber): uniform speed per scroll-pixel but
+         t-values were guessed and didn't align with where sections
+         actually sit, so the butterfly was "ahead of itself"
+         visually.
+       v6: per-section t-budget proportional to section height
+         (so sections "feel" right relative to content), AND uniform
+         speed within each section's allocated t-range. Across
+         sections, speed varies in proportion to section heights
+         (slightly slower in tall §5, slightly faster in short §6) —
+         which matches the natural reading pace through each section.
+       */
   (function () {
     const bfStage = document.getElementById('butterflyStage');
     if (!bfStage) return;
     const audienceSec      = document.getElementById('audience');
     const practitionerSec  = document.getElementById('practitioners');
+    const csLeadersSec     = document.getElementById('for-cs-leaders');
     const servicesFirmsSec = document.getElementById('for-services-firms');
     const authorSec        = document.getElementById('author-community');
     if (!practitionerSec || !servicesFirmsSec) return;
@@ -9988,21 +10000,19 @@
       return;
     }
 
-    /* t-keyed stops. t is scroll progress 0 (top of #audience reaches
-       viewport centre) -> 1 (top of #author-community reaches viewport
-       centre). Stops are placed by t-value with even-ish spacing so
-       the butterfly's per-scroll-pixel motion is uniform across all
-       audience sections. */
-    const stops = [
-      { t: 0.00, top: 38, left: 35, scale: 0.55, op: 0.70 },  // BIRTH at #audience title
-      { t: 0.13, top: 60, left: 75, scale: 1.10, op: 0.70 },  // drifts right past audience band
-      { t: 0.25, top: 35, left: 78, scale: 1.20, op: 0.85 },  // §5 entry: gentle scale dip
-      { t: 0.42, top: 65, left: 84, scale: 2.00, op: 0.85 },  // §5 bloom: right of bullets
-      { t: 0.52, top: 35, left: 82, scale: 1.60, op: 0.85 },  // §6 entry: gentle dip
-      { t: 0.66, top: 65, left: 86, scale: 2.20, op: 0.85 },  // §6 bloom: right of bullets
-      { t: 0.76, top: 35, left: 84, scale: 1.80, op: 0.85 },  // §7 entry: gentle dip
-      { t: 0.91, top: 60, left: 88, scale: 2.40, op: 0.85 },  // §7 bloom: largest, far right
-      { t: 1.00, top: 92, left: 95, scale: 1.80, op: 0.85 },  // §7/§8 divider drift
+    /* Section-keyed stops — each entry is anchored to a section element
+       (sec) and a fraction (f) into that section. The t-value (scroll
+       progress 0-1) is computed from live measurements every update. */
+    const PLAN = [
+      { sec: audienceSec      || practitionerSec, f: 0.20, top: 38, left: 35, scale: 0.55, op: 0.70 },  // BIRTH
+      { sec: audienceSec      || practitionerSec, f: 0.85, top: 60, left: 75, scale: 1.10, op: 0.70 },  // audience drift
+      { sec: practitionerSec,                     f: 0.10, top: 35, left: 78, scale: 1.20, op: 0.85 },  // §5 entry
+      { sec: practitionerSec,                     f: 0.85, top: 65, left: 84, scale: 2.00, op: 0.85 },  // §5 bloom
+      { sec: csLeadersSec     || practitionerSec, f: 0.10, top: 35, left: 82, scale: 1.60, op: 0.85 },  // §6 entry
+      { sec: csLeadersSec     || practitionerSec, f: 0.85, top: 65, left: 86, scale: 2.20, op: 0.85 },  // §6 bloom
+      { sec: servicesFirmsSec,                    f: 0.10, top: 35, left: 84, scale: 1.80, op: 0.85 },  // §7 entry
+      { sec: servicesFirmsSec,                    f: 0.85, top: 60, left: 88, scale: 2.40, op: 0.85 },  // §7 bloom
+      { sec: servicesFirmsSec,                    f: 1.05, top: 92, left: 95, scale: 1.80, op: 0.85 },  // divider drift (just past §7)
     ];
 
     const lerp     = (a, b, t) => a + (b - a) * t;
@@ -10019,21 +10029,40 @@
       return clamp01((s - r.top) / (s - e));
     }
 
-    function progress() {
+    function absTop(el)    { return el.getBoundingClientRect().top + window.scrollY; }
+    function absBottom(el) { return absTop(el) + el.offsetHeight; }
+
+    function computeStops() {
+      /* Total span: from top of #audience (or #practitioners as
+         fallback) to top of #author-community. The butterfly's full
+         journey plays out across this range. */
       const startEl = audienceSec || practitionerSec;
       const endEl   = authorSec   || servicesFirmsSec;
-      const startTop = startEl.getBoundingClientRect().top + window.scrollY;
-      const endTop   = endEl.getBoundingClientRect().top   + window.scrollY;
-      const centre   = window.scrollY + window.innerHeight / 2;
-      const span     = endTop - startTop;
-      if (span <= 0) return 0;
-      return clamp01((centre - startTop) / span);
+      const start   = absTop(startEl);
+      const end     = absTop(endEl);
+      const span    = end - start;
+      if (span <= 0) return [];
+
+      return PLAN.map(p => {
+        /* Each stop's t = (section's top + fraction*section's height
+           - global start) / global span. Fractions > 1.0 reach past
+           the section's bottom (used for the divider-drift stop). */
+        const secTop    = absTop(p.sec);
+        const secHeight = p.sec.offsetHeight;
+        const stopAbs   = secTop + p.f * secHeight;
+        return {
+          t:     clamp01((stopAbs - start) / span),
+          top:   p.top,
+          left:  p.left,
+          scale: p.scale,
+          op:    p.op,
+        };
+      });
     }
 
     function update() {
       /* Opacity: fadeIn as #audience enters viewport, fadeOut as
-         #author-community enters viewport. Extended fadeOut range
-         (1.30 -> 0.10) gives a very slow dissolve at the §7/§8 border. */
+         #author-community enters viewport. */
       let opacity = (audienceSec || practitionerSec) ? 0 : 1;
       const fi = fadeFactor(audienceSec || practitionerSec, 0.85, 0.55);
       if (fi !== null) opacity = fi;
@@ -10044,9 +10073,18 @@
       if (opacity <= 0.01) { bfStage.classList.add('is-hidden'); return; }
       bfStage.classList.remove('is-hidden');
 
-      /* Position: scroll-progress driven, smoothstep within each
-         consecutive stop pair. Uniform speed across sections. */
-      const t = progress();
+      /* Position: scroll-progress driven, with stop t-values computed
+         from live section positions so transitions align with content. */
+      const stops = computeStops();
+      if (!stops.length) return;
+
+      const startEl = audienceSec || practitionerSec;
+      const endEl   = authorSec   || servicesFirmsSec;
+      const start   = absTop(startEl);
+      const end     = absTop(endEl);
+      const span    = end - start;
+      const centre  = window.scrollY + window.innerHeight / 2;
+      const t       = clamp01((centre - start) / span);
 
       let v;
       if (t <= stops[0].t)                     v = stops[0];
@@ -10055,7 +10093,8 @@
         for (let i = 0; i < stops.length - 1; i++) {
           const a = stops[i], b = stops[i+1];
           if (t >= a.t && t <= b.t) {
-            const tt = smooth((t - a.t) / (b.t - a.t));
+            const range = b.t - a.t;
+            const tt = range > 0 ? smooth((t - a.t) / range) : 0;
             v = {
               top:   lerp(a.top,   b.top,   tt),
               left:  lerp(a.left,  b.left,  tt),
@@ -10081,7 +10120,9 @@
       requestAnimationFrame(() => { update(); ticking = false; });
     }, { passive: true });
     window.addEventListener('resize', update);
+    /* Run after a tick to ensure all sections are laid out. */
     update();
+    setTimeout(update, 100);
   })();
 
   /* =============== BUILD-TRAILS CANVAS (#audience) ==============
