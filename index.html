@@ -6761,6 +6761,47 @@
     font-weight: 600;
     opacity: 0.7;
   }
+  /* Practitioner section-end CTA - drives to the training notify form.
+     Sits below the value list as a clear conversion moment. Orange
+     brand accent matches the practitioner section's brand colour. */
+  .practitioner-cta {
+    margin: clamp(36px, 4.5vw, 56px) 0 0;
+    padding: clamp(28px, 3.5vw, 40px) 0 0;
+    border-top: 1px solid var(--light-line);
+    text-align: center;
+  }
+  .practitioner-cta-lead {
+    margin: 0 auto clamp(16px, 2vw, 22px);
+    max-width: 640px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(17px, 1.3vw, 20px);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--ink-dark);
+  }
+  .practitioner-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 999px;
+    background: linear-gradient(95deg, #D64326 0%, #F05A1E 50%, #FF7A3E 100%);
+    color: #ffffff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.012em;
+    text-decoration: none;
+    box-shadow: 0 12px 30px rgba(240, 90, 30, 0.25);
+    transition: transform .25s var(--ease), box-shadow .3s var(--ease), filter .25s var(--ease);
+  }
+  .practitioner-cta-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow: 0 18px 40px rgba(240, 90, 30, 0.35);
+  }
+
   .practitioner-benefits {
     list-style: decimal;
     list-style-position: outside;
@@ -9309,19 +9350,10 @@
     </div>
     <div class="split-intro-right section-body">
       <p>
-        ITIL and SIAM gave the industry the rigour it needed for service
-        management at scale. Customer Success added the relationship and
-        adoption craft on the product side. Each one solved real problems &mdash;
-        and each one carries forward into the work product companies and
-        services firms now have to do together.
-      </p>
-      <p>
-        CSOM<span class="tm">&trade;</span> is where that work compounds. It
-        builds on what ITIL, SIAM, and Customer Success already do well, adds
-        the dimensions Value Realization needs at scale, and gives senior
-        practitioners a body of knowledge to anchor what comes next &mdash;
-        whether they lead from a services firm, cross into a product company,
-        or build the bridge between the two.
+        CSOM<span class="tm">&trade;</span> gives senior practitioners a body
+        of knowledge to anchor what comes next &mdash; whether they lead from
+        a services firm, cross into a product company, or build the bridge
+        between the two.
       </p>
     </div>
   </div>
@@ -9338,7 +9370,7 @@
       <div class="sgt-row" role="row">
         <div class="sgt-cell sgt-bg" role="cell"><strong>ITIL</strong></div>
         <div class="sgt-cell sgt-strong" role="cell">Process, service design, incident &amp; change management.</div>
-        <div class="sgt-cell sgt-adds" role="cell">Customer journeys, value-stream thinking, outcome measurement, proving the customer is better off.</div>
+        <div class="sgt-cell sgt-adds" role="cell">Customer journeys, value-stream thinking, outcome measurement and provable customer value.</div>
       </div>
       <div class="sgt-row" role="row">
         <div class="sgt-cell sgt-bg" role="cell"><strong>SIAM</strong></div>
@@ -9379,11 +9411,22 @@
         budget for.
       </li>
       <li>
-        <strong>A path that doesn&rsquo;t require leaving where you are.</strong>
+        <strong>A path that meets you where you are.</strong>
         Lead Value Realization from a services firm, a product company,
         or anywhere the bridge between the two needs to be built.
       </li>
     </ol>
+
+    <!-- Practitioner CTA - section-end conversion to training notify form. -->
+    <div class="practitioner-cta">
+      <p class="practitioner-cta-lead">
+        Be among the first practitioners trained in the model.
+      </p>
+      <a href="#notify" class="practitioner-cta-btn">
+        Notify me when training opens
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
   </div>
 </section>
 
