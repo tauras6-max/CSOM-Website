@@ -7284,6 +7284,9 @@
   /* IMPORTANT: use block (not flex) so inline elements like <em>and</em>
      flow inline with the surrounding text instead of becoming separate
      flex items stacked on their own rows. */
+  /* Per Part 1 brief: bold every "Not" line for scanability. */
+  .light-surface .fence-pair .fence-not { font-weight: 700; }
+
   .light-surface .fence-not,
   .light-surface .fence-is {
     display: block;
@@ -7884,6 +7887,18 @@
     font-weight: 700;
     color: var(--ink-muted);
   }
+  /* Visible 2-sentence prose under each industry card.
+     Sits below the .wn-caption hairline divider as the card's
+     reader-facing argument. Per Part 1 brief: replaces the prior
+     sr-only sentences with visible body copy. */
+  .wn-prose {
+    margin: 12px 0 0;
+    font-size: clamp(13px, 0.95vw, 14px);
+    line-height: 1.55;
+    color: var(--ink-body);
+    width: 100%;
+  }
+
   /* Hidden full-sentence for screen readers — preserves the brief's
      locked metaphor copy for assistive tech without crowding the
      visual card. (Self-contained: codebase has no global .sr-only
@@ -8921,7 +8936,7 @@
   <div class="gsc-top">
     <span class="gsc-eyebrow">The operating model for Customer Value Realization</span>
     <h1 class="gsc-title">
-      The product economy is scaling. Value Realization is the work that defines it.
+      The product economy is built. Value Realization is the work that runs it.
     </h1>
   </div>
 
@@ -9028,7 +9043,7 @@
       </span>
       <p class="wn-verb"><em>Recovery.</em></p>
       <p class="wn-caption">Not the procedure.</p>
-      <p class="wn-sr sr-only">A patient comes for the recovery, not the procedure.</p>
+      <p class="wn-prose">A patient comes for the recovery. The procedure is just the means.</p>
     </article>
 
     <article class="why-now-card why-now-card-journey" role="listitem">
@@ -9041,11 +9056,11 @@
       </span>
       <p class="wn-verb"><em>Journey.</em></p>
       <p class="wn-caption">Not the flight.</p>
-      <p class="wn-sr sr-only">A traveller comes for the journey, not the flight.</p>
+      <p class="wn-prose">A traveller comes for the journey. The flight is just the conveyance.</p>
     </article>
 
     <article class="why-now-card why-now-card-outcome" role="listitem">
-      <span class="wn-chip">Business</span>
+      <span class="wn-chip">Enterprise</span>
       <span class="wn-icon" aria-hidden="true">
         <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 12L16 5l12 7"/>
@@ -9054,15 +9069,10 @@
         </svg>
       </span>
       <p class="wn-verb"><em>Outcome.</em></p>
-      <p class="wn-caption">Not the licence.</p>
-      <p class="wn-sr sr-only">A business buys software for the outcome, not the licence.</p>
+      <p class="wn-caption">Not the deployment.</p>
+      <p class="wn-prose">A business buys software for the outcome. The deployment is just the start.</p>
     </article>
   </div>
-
-  <!-- Principle paragraph: standalone, centered lede -->
-  <p class="why-now-principle reveal">
-    Across every industry, customers reward the value they realize &mdash; not the output that was produced.
-  </p>
 
   <!-- Three audience cards: solid brand-colour gradient backgrounds,
        white text. Each card carries an icon, a bold lead, and the
@@ -9323,7 +9333,7 @@
       <h2 class="section-title" id="fenceTitle">
         Not another thing<br/>to add.
       </h2>
-      <span class="serif-gradient">The model underneath what you&nbsp;already have.</span>
+      <span class="serif-gradient">The operating model under what you&nbsp;already run.</span>
     </div>
     <div class="split-intro-right section-body">
       <p>
@@ -9332,7 +9342,7 @@
         so each discipline shows up in outcomes the customer can feel.
       </p>
       <p>
-        Six things it&rsquo;s sometimes mistaken for, and what it actually is.
+        Six things CSOM<span class="tm">&trade;</span> isn&rsquo;t, and what it is.
       </p>
     </div>
   </div>
@@ -9340,28 +9350,28 @@
   <div class="fence-wrap reveal">
     <ul class="fence-list" role="list">
       <li class="fence-pair">
-        <div class="fence-not"><span class="fence-tag">Not</span> a model only for one side of the house.</div>
-        <div class="fence-is"><span class="fence-tag">Is</span> the operating model that works <em>both</em> sides of the bridge &mdash; services <em>and</em> product.</div>
-      </li>
-      <li class="fence-pair">
         <div class="fence-not"><span class="fence-tag">Not</span> a replacement for anything you already run.</div>
         <div class="fence-is"><span class="fence-tag">Is</span> the operating model that lets ITIL, SIAM, and CS <em>compound</em> instead of compete.</div>
-      </li>
-      <li class="fence-pair">
-        <div class="fence-not"><span class="fence-tag">Not</span> a consultancy playbook.</div>
-        <div class="fence-is"><span class="fence-tag">Is</span> a body of knowledge practitioners own and carry into any organisation.</div>
       </li>
       <li class="fence-pair">
         <div class="fence-not"><span class="fence-tag">Not</span> another certification to collect.</div>
         <div class="fence-is"><span class="fence-tag">Is</span> the thread that makes the ones you already hold show up in customer outcomes.</div>
       </li>
       <li class="fence-pair">
-        <div class="fence-not"><span class="fence-tag">Not</span> a strategy or a transformation programme.</div>
-        <div class="fence-is"><span class="fence-tag">Is</span> the operating model every strategy needs underneath it.</div>
+        <div class="fence-not"><span class="fence-tag">Not</span> a consultancy playbook.</div>
+        <div class="fence-is"><span class="fence-tag">Is</span> a body of knowledge practitioners own and carry into any organisation.</div>
       </li>
       <li class="fence-pair">
-        <div class="fence-not"><span class="fence-tag">Not</span> a methodology about outputs alone.</div>
+        <div class="fence-not"><span class="fence-tag">Not</span> a model for one side of the house.</div>
+        <div class="fence-is"><span class="fence-tag">Is</span> the operating model that works <em>both</em> sides of the bridge &mdash; services <em>and</em> product.</div>
+      </li>
+      <li class="fence-pair">
+        <div class="fence-not"><span class="fence-tag">Not</span> a methodology that stops at outputs.</div>
         <div class="fence-is"><span class="fence-tag">Is</span> outputs <em>and</em> outcomes, wired into one operating rhythm.</div>
+      </li>
+      <li class="fence-pair">
+        <div class="fence-not"><span class="fence-tag">Not</span> a strategy or a transformation programme.</div>
+        <div class="fence-is"><span class="fence-tag">Is</span> the operating model every strategy needs underneath it.</div>
       </li>
     </ul>
   </div>
