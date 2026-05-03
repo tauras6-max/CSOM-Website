@@ -9956,57 +9956,30 @@
     `scale3d(${v.scale.toFixed(3)}, ${v.scale.toFixed(3)}, 1)`;
 
   /* =============== BUTTERFLY SCROLL TRAVEL ==============
-     Scoped to: BIRTH at #audience -> growth through §5/§6/§7 ->
-     slow drift+fade toward the §7/§8 divider line.
+     Scoped to: BIRTH at #audience -> uniform-speed travel through
+     §5/§6/§7 -> slow drift+fade toward the §7/§8 divider line.
 
-     Per the 3 May review with screenshot follow-up corrections:
-       - Smooth path: avoid left-right swings between sections. Once
-         the butterfly drifts to the right side (after birth), it
-         stays right (left: 75-92vw monotonic) so the visual motion
-         feels like a single continuous arc, not back-and-forth jitter.
-       - Per-section A->B "small at title -> big at benefits" pattern
-         is preserved as a gentle scale dip at each section's split-
-         intro anchor (-0.4 scale) rather than a hard reset, so the
-         growth narrative stays continuous.
-       - In §6/§7 the bottom anchors push to left:86-88vw with the
-         butterfly's centre at the right edge of the content column;
-         wing tips at scale ~2.2-2.4 stay above ~64vw, never crossing
-         the bullet text (which sits between left:25-55vw).
-       - End of §7 -> §8: a final position stop anchored to #author-
-         community drifts the butterfly toward the §7/§8 divider line
-         (left:95 top:92) while the fadeOut on the same anchor (with
-         an extended scroll range, startVh:1.30 -> endVh:0.10, ~120vh)
-         smoothly drops opacity to zero. Combined effect: butterfly
-         visibly drifts toward the divider AND fades very slowly.
-
-     Z-index dance: .butterfly-stage at z-index:3 sits behind every
-     audience-section's copy at z-index:5. */
+     Why this is a custom handler instead of createScrollStage:
+       The element-anchored interpolation in createScrollStage tweens
+       between stops based on each anchor element's vertical centre.
+       Because §5 is much taller than §6 (the wide mapping table adds
+       vertical real-estate), the same butterfly position-change took
+       far more scroll pixels to play out in §5 than in §6 — so the
+       butterfly moved SLOWER through §5 and FASTER through §6 even
+       though the visual change between stops was similar.
+       v5 replaces that with progress-based interpolation: t is
+       scroll-position normalised between #audience top and #author-
+       community top, and stops are placed by t-value (not element).
+       Equal t-deltas == equal scroll-pixel deltas == uniform speed
+       across all sections, regardless of section heights. */
   (function () {
     const bfStage = document.getElementById('butterflyStage');
     if (!bfStage) return;
     const audienceSec      = document.getElementById('audience');
     const practitionerSec  = document.getElementById('practitioners');
-    const csLeadersSec     = document.getElementById('for-cs-leaders');
     const servicesFirmsSec = document.getElementById('for-services-firms');
     const authorSec        = document.getElementById('author-community');
     if (!practitionerSec || !servicesFirmsSec) return;
-
-    /* Per-section anchors — must be ordered top-to-bottom in scroll
-       order. createScrollStage tweens (smoothstep) between adjacent
-       stops as viewport centre crosses each anchor's vertical centre. */
-    const audienceTitle  = audienceSec ? (audienceSec.querySelector('.split-intro-left')
-                                       || audienceSec.querySelector('.split-intro')) : null;
-    const audienceBand   = audienceSec ? audienceSec.querySelector('.audience-band') : null;
-    const splitIntro_5   = practitionerSec.querySelector('.split-intro-left')
-                       || practitionerSec.querySelector('.split-intro');
-    const benefits_5     = practitionerSec.querySelector('.practitioner-benefits');
-    const splitIntro_6   = csLeadersSec ? (csLeadersSec.querySelector('.split-intro-left')
-                                        || csLeadersSec.querySelector('.split-intro')) : null;
-    const benefits_6     = csLeadersSec ? csLeadersSec.querySelector('.practitioner-benefits') : null;
-    const splitIntro_7   = servicesFirmsSec.querySelector('.split-intro-left')
-                       || servicesFirmsSec.querySelector('.split-intro');
-    const benefits_7     = servicesFirmsSec.querySelector('.practitioner-benefits');
-    if (!splitIntro_5 || !splitIntro_7) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       bfStage.style.opacity = '1';
@@ -10015,71 +9988,100 @@
       return;
     }
 
-    /* Right-side monotonic path. Birth at left:35 (only stop on the
-       left half — small enough at scale 0.55 to read through the
-       title). Then drifts to the right side and stays there, with
-       gentle scale dips at each section's split-intro anchor that
-       refresh the A->B pattern without disrupting the smooth flow. */
-    const stops = [];
+    /* t-keyed stops. t is scroll progress 0 (top of #audience reaches
+       viewport centre) -> 1 (top of #author-community reaches viewport
+       centre). Stops are placed by t-value with even-ish spacing so
+       the butterfly's per-scroll-pixel motion is uniform across all
+       audience sections. */
+    const stops = [
+      { t: 0.00, top: 38, left: 35, scale: 0.55, op: 0.70 },  // BIRTH at #audience title
+      { t: 0.13, top: 60, left: 75, scale: 1.10, op: 0.70 },  // drifts right past audience band
+      { t: 0.25, top: 35, left: 78, scale: 1.20, op: 0.85 },  // §5 entry: gentle scale dip
+      { t: 0.42, top: 65, left: 84, scale: 2.00, op: 0.85 },  // §5 bloom: right of bullets
+      { t: 0.52, top: 35, left: 82, scale: 1.60, op: 0.85 },  // §6 entry: gentle dip
+      { t: 0.66, top: 65, left: 86, scale: 2.20, op: 0.85 },  // §6 bloom: right of bullets
+      { t: 0.76, top: 35, left: 84, scale: 1.80, op: 0.85 },  // §7 entry: gentle dip
+      { t: 0.91, top: 60, left: 88, scale: 2.40, op: 0.85 },  // §7 bloom: largest, far right
+      { t: 1.00, top: 92, left: 95, scale: 1.80, op: 0.85 },  // §7/§8 divider drift
+    ];
 
-    // BIRTH — legacy #audience "Three audiences. One operating model."
-    if (audienceTitle) {
-      stops.push({ el: audienceTitle, top: 38, left: 35, scale: 0.55, op: 0.70 }); // born small over title
-    }
-    if (audienceBand) {
-      stops.push({ el: audienceBand,  top: 60, left: 75, scale: 1.10, op: 0.70 }); // drifts right + grows
-    }
+    const lerp     = (a, b, t) => a + (b - a) * t;
+    const smooth   = t => t * t * (3 - 2 * t);
+    const clamp01  = t => t < 0 ? 0 : (t > 1 ? 1 : t);
 
-    // §5 — For ITIL and SIAM practitioners (right side throughout)
-    stops.push({ el: splitIntro_5, top: 35, left: 78, scale: 1.20, op: 0.85 });    // A: small dip, right
-    if (benefits_5) {
-      stops.push({ el: benefits_5, top: 65, left: 84, scale: 2.00, op: 0.85 });    // B: bloom right of bullets
-    }
-
-    // §6 — For CS leaders (further right, gentle scale dip at top)
-    if (splitIntro_6) {
-      stops.push({ el: splitIntro_6, top: 35, left: 82, scale: 1.60, op: 0.85 });  // A: gentle dip
-    }
-    if (benefits_6) {
-      stops.push({ el: benefits_6, top: 65, left: 86, scale: 2.20, op: 0.85 });    // B: right of bullets
-    }
-
-    // §7 — For services firms (rightmost, largest)
-    stops.push({ el: splitIntro_7, top: 35, left: 84, scale: 1.80, op: 0.85 });    // A: gentle dip
-    if (benefits_7) {
-      stops.push({ el: benefits_7, top: 60, left: 88, scale: 2.40, op: 0.85 });    // B: largest, far right
+    function fadeFactor(el, startVh, endVh) {
+      if (!el) return null;
+      const vh = window.innerHeight;
+      const r  = el.getBoundingClientRect();
+      const s  = startVh * vh;
+      const e  = endVh   * vh;
+      if (r.top > s) return null;
+      return clamp01((s - r.top) / (s - e));
     }
 
-    // §7 -> §8 divider drift — anchored to #author-community so the
-    // position changes are tied to §8's scroll-in. Drifts the butterfly
-    // toward the bottom-right corner of §7 (the divider line between
-    // §7 white and §8 alt-grey). Opacity stays held here; the fadeOut
-    // (with extended range) handles the slow dissolve.
-    if (authorSec) {
-      stops.push({ el: authorSec, top: 92, left: 95, scale: 1.80, op: 0.85 });
-    } else {
-      stops.push({ el: servicesFirmsSec, top: 92, left: 95, scale: 1.80, op: 0.85 });
+    function progress() {
+      const startEl = audienceSec || practitionerSec;
+      const endEl   = authorSec   || servicesFirmsSec;
+      const startTop = startEl.getBoundingClientRect().top + window.scrollY;
+      const endTop   = endEl.getBoundingClientRect().top   + window.scrollY;
+      const centre   = window.scrollY + window.innerHeight / 2;
+      const span     = endTop - startTop;
+      if (span <= 0) return 0;
+      return clamp01((centre - startTop) / span);
     }
 
-    createScrollStage(bfStage, {
-      stops: stops,
-      /* Fade-in starts as #audience enters viewport. */
-      fadeIn: audienceSec
-        ? { el: audienceSec, startVh: 0.85, endVh: 0.55 }
-        : { el: practitionerSec, startVh: 0.85, endVh: 0.55 },
-      /* Fade-out: VERY SLOW. Range startVh:1.30 -> endVh:0.10 means
-         opacity begins dropping when §8's top is 0.30vh below the
-         viewport's bottom (so before §8 is even on screen) and only
-         hits zero when §8's top is 0.10vh below the viewport's top
-         (i.e. §8 nearly fully in view). Total fade range ~120vh —
-         about a viewport-and-a-quarter of scrolling. Combined with
-         the position drift toward the divider, the butterfly
-         dissolves at the §7/§8 border rather than vanishing. */
-      fadeOut: authorSec
-        ? { el: authorSec, startVh: 1.30, endVh: 0.10 }
-        : { el: servicesFirmsSec, startVh: 0.10, endVh: -0.40 },
-      format:  stageTransform,
-    });
+    function update() {
+      /* Opacity: fadeIn as #audience enters viewport, fadeOut as
+         #author-community enters viewport. Extended fadeOut range
+         (1.30 -> 0.10) gives a very slow dissolve at the §7/§8 border. */
+      let opacity = (audienceSec || practitionerSec) ? 0 : 1;
+      const fi = fadeFactor(audienceSec || practitionerSec, 0.85, 0.55);
+      if (fi !== null) opacity = fi;
+      const fo = fadeFactor(authorSec   || servicesFirmsSec, 1.30, 0.10);
+      if (fo !== null) opacity *= (1 - fo);
+
+      bfStage.style.opacity = opacity.toFixed(3);
+      if (opacity <= 0.01) { bfStage.classList.add('is-hidden'); return; }
+      bfStage.classList.remove('is-hidden');
+
+      /* Position: scroll-progress driven, smoothstep within each
+         consecutive stop pair. Uniform speed across sections. */
+      const t = progress();
+
+      let v;
+      if (t <= stops[0].t)                     v = stops[0];
+      else if (t >= stops[stops.length-1].t)   v = stops[stops.length-1];
+      else {
+        for (let i = 0; i < stops.length - 1; i++) {
+          const a = stops[i], b = stops[i+1];
+          if (t >= a.t && t <= b.t) {
+            const tt = smooth((t - a.t) / (b.t - a.t));
+            v = {
+              top:   lerp(a.top,   b.top,   tt),
+              left:  lerp(a.left,  b.left,  tt),
+              scale: lerp(a.scale, b.scale, tt),
+              op:    lerp(a.op,    b.op,    tt),
+            };
+            break;
+          }
+        }
+      }
+
+      if (v.op !== undefined) bfStage.style.opacity = (opacity * v.op).toFixed(3);
+      bfStage.style.transform =
+        'translate3d(' + v.left.toFixed(2) + 'vw, ' + v.top.toFixed(2) + 'vh, 0) ' +
+        'translate3d(-50%, -50%, 0) ' +
+        'scale3d(' + v.scale.toFixed(3) + ', ' + v.scale.toFixed(3) + ', 1)';
+    }
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { update(); ticking = false; });
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
   })();
 
   /* =============== BUILD-TRAILS CANVAS (#audience) ==============
