@@ -7928,31 +7928,23 @@
     overflow: visible;
     display: block;
   }
-  /* Two arcs converge at centre then ascend to CSOM apex.
-     Each arc draws over 1.6s simultaneously; vertical connector draws
-     over 0.5s after the arcs land. */
-  .csom-bridge-arc-left,
-  .csom-bridge-arc-right {
-    stroke-dasharray: 400;
-    stroke-dashoffset: 400;
-    animation: csomBridgeArcDraw 1.6s cubic-bezier(.22, .61, .36, 1) forwards;
-  }
-  .csom-bridge-arc-up {
-    stroke-dasharray: 60;
-    stroke-dashoffset: 60;
-    animation: csomBridgeArcDraw 0.55s ease-out 1.6s forwards;
+  /* Single arc - 800-unit dash, draws from 800 (hidden) to 0
+     (revealed) over 2s. */
+  .csom-bridge-arc {
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    animation: csomBridgeArcDraw 2s cubic-bezier(.22, .61, .36, 1) forwards;
   }
   @keyframes csomBridgeArcDraw {
     to { stroke-dashoffset: 0; }
   }
-  /* Apex pill - drops in at 2.15s (after the vertical connector lands)
-     so the visual story reads: streams converge, then rise, then CSOM
-     materialises at the top. */
+  /* Apex pill - drops in at 1.6s with bounce, just as the arc
+     completes its draw. */
   .csom-bridge-apex-group {
     opacity: 0;
     transform: translateY(-18px);
     transform-origin: 240px 120px;
-    animation: csomBridgeApexDrop .75s cubic-bezier(.34, 1.56, .64, 1) 2.15s forwards;
+    animation: csomBridgeApexDrop .75s cubic-bezier(.34, 1.56, .64, 1) 1.6s forwards;
   }
   @keyframes csomBridgeApexDrop {
     to { opacity: 1; transform: translateY(0); }
@@ -7977,26 +7969,25 @@
     to { stroke-dashoffset: 0; }
   }
   /* Travelling glow dot - loops the arc every 9s via offset-path */
-  /* Two travelling dots - each follows its side's combined path
-     (arc from card + vertical to apex). Synchronised loop so they
-     meet at centre then ascend together. The combined offset-path
-     means each dot traverses ~187 units (arc) + 33 units (vertical)
-     = ~220 units total, normalised to 0-100% offset-distance. */
-  .csom-bridge-dot-left {
-    offset-path: path("M 109 318 Q 165 245 240 200 L 240 167");
+  /* Two travelling dots on the SAME arc going in opposite directions,
+     synchronised so they meet at the arc apex (50% point) every loop.
+     Blue dot: left (0%) -> right (100%). Green dot: right (100%) ->
+     left (0%) via animation-direction: reverse. Loop period 9s. */
+  .csom-bridge-dot-left,
+  .csom-bridge-dot-right {
+    offset-path: path("M 109 318 Q 240 130 371 318");
     offset-distance: 0%;
     opacity: 0;
+  }
+  .csom-bridge-dot-left {
     animation:
-      csomBridgeDotTravel 9s linear infinite 2.5s,
-      csomBridgeDotFadeIn .8s ease-out 2.5s forwards;
+      csomBridgeDotTravel 9s linear infinite 2.4s,
+      csomBridgeDotFadeIn .8s ease-out 2.4s forwards;
   }
   .csom-bridge-dot-right {
-    offset-path: path("M 371 318 Q 315 245 240 200 L 240 167");
-    offset-distance: 0%;
-    opacity: 0;
     animation:
-      csomBridgeDotTravel 9s linear infinite 2.5s,
-      csomBridgeDotFadeIn .8s ease-out 2.5s forwards;
+      csomBridgeDotTravel 9s linear infinite 2.4s reverse,
+      csomBridgeDotFadeIn .8s ease-out 2.4s forwards;
   }
   @keyframes csomBridgeDotTravel {
     from { offset-distance: 0%; }
@@ -8012,9 +8003,8 @@
     .csom-bridge-dot-right { display: none !important; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .csom-bridge-arc-left, .csom-bridge-arc-right, .csom-bridge-arc-up,
-    .csom-bridge-deck, .csom-bridge-apex-group, .csom-bridge-anchor,
-    .csom-bridge-dot-left, .csom-bridge-dot-right {
+    .csom-bridge-arc, .csom-bridge-deck, .csom-bridge-apex-group,
+    .csom-bridge-anchor, .csom-bridge-dot-left, .csom-bridge-dot-right {
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;
@@ -9008,20 +8998,13 @@
       <div class="csom-bridge" role="img" aria-label="CSOM bridge: connecting product-economy Customer Success and services-side ITIL/SIAM">
         <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <!-- Left arc gradient: blue, going from card up toward centre -->
-            <linearGradient id="csomArcGradLeft" x1="0" y1="1" x2="1" y2="0">
+            <!-- Single arc gradient: blue (PRODUCT SIDE) -> amber at apex
+                 (CSOM region) -> green (SERVICES SIDE). The midpoint
+                 amber bloom marks the apex right under the CSOM pill. -->
+            <linearGradient id="csomArcGrad" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%"   stop-color="#1F6FD6"/>
-              <stop offset="100%" stop-color="#3A8BE8"/>
-            </linearGradient>
-            <!-- Right arc gradient: green (mirror), from card up toward centre -->
-            <linearGradient id="csomArcGradRight" x1="1" y1="1" x2="0" y2="0">
-              <stop offset="0%"   stop-color="#2BB673"/>
-              <stop offset="100%" stop-color="#4BD48E"/>
-            </linearGradient>
-            <!-- Vertical connector gradient: amber, the unified stream rising to CSOM -->
-            <linearGradient id="csomArcGradUp" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%"   stop-color="#F5A623"/>
-              <stop offset="100%" stop-color="#FFCF54"/>
+              <stop offset="50%"  stop-color="#F5A623"/>
+              <stop offset="100%" stop-color="#2BB673"/>
             </linearGradient>
             <linearGradient id="csomBridgeProductGrad" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%"   stop-color="#1F6FD6"/>
@@ -9097,26 +9080,15 @@
                   font-size="10.5" letter-spacing="0.3">Governance &#183; Integration &#183; Service</text>
           </g>
 
-          <!-- Two converging arcs - one from each side, meeting at centre,
-               then vertical connector ascending to the CSOM apex pill.
-               LEFT arc (blue) + RIGHT arc (green) + UP connector (amber). -->
-          <path class="csom-bridge-arc-left"
-                d="M 109 318 Q 165 245 240 200"
+          <!-- Single arc spanning both anchor cards. Two dots travel
+               along it in opposite directions and meet at the apex
+               (the arc's midpoint, which sits directly under the
+               CSOM pill). The convergence point IS the rise to CSOM. -->
+          <path class="csom-bridge-arc"
+                d="M 109 318 Q 240 130 371 318"
                 fill="none"
-                stroke="url(#csomArcGradLeft)"
+                stroke="url(#csomArcGrad)"
                 stroke-width="3"
-                stroke-linecap="round"/>
-          <path class="csom-bridge-arc-right"
-                d="M 371 318 Q 315 245 240 200"
-                fill="none"
-                stroke="url(#csomArcGradRight)"
-                stroke-width="3"
-                stroke-linecap="round"/>
-          <path class="csom-bridge-arc-up"
-                d="M 240 200 L 240 167"
-                fill="none"
-                stroke="url(#csomArcGradUp)"
-                stroke-width="2.5"
                 stroke-linecap="round"/>
 
           <!-- Apex pill - cream/white background with dark text + amber accents -->
@@ -9138,10 +9110,12 @@
                   letter-spacing="-0.3">One operating model</text>
           </g>
 
-          <!-- Two travelling glow dots - each follows its side's combined
-               path (arc + vertical), so they converge at centre and
-               ascend together to CSOM. Synchronised so the meet is
-               visible. -->
+          <!-- Two travelling glow dots on the same arc, going in
+               opposite directions. Blue dot starts at the left card
+               (PRODUCT SIDE) and travels right; green dot starts at
+               the right card (SERVICES SIDE) and travels left. They
+               meet at the arc's apex (the visual point closest to
+               the CSOM pill above) every loop. -->
           <circle class="csom-bridge-dot csom-bridge-dot-left" r="4.5"
                   fill="#1F6FD6"
                   filter="drop-shadow(0 0 6px rgba(31, 111, 214, 0.85))"/>
