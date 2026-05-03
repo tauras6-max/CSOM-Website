@@ -4683,6 +4683,14 @@
      with halo glow + animated stars, lede + CTA + bridge cards
      below. Replaces the prior left-aligned layout that used the
      fixed-position globe-stage (now hidden via display:none). */
+  /* Force hero content visible on page load — never depend on
+     IntersectionObserver for the above-the-fold hero. */
+  .gs-centered .gsc-top,
+  .gs-centered .gsc-globe-wrap,
+  .gs-centered .gsc-bottom {
+    opacity: 1 !important;
+    transform: none !important;
+  }
   .gs-centered {
     align-items: center !important;
     text-align: center;
@@ -8906,7 +8914,7 @@
 <!-- =============== SECTION 1: HERO — centred-globe layout =============== -->
 <header class="gs gs-centered" id="top">
   <!-- TOP: eyebrow + headline -->
-  <div class="gsc-top reveal">
+  <div class="gsc-top">
     <span class="gsc-eyebrow">The operating model for Customer Value Realization</span>
     <h1 class="gsc-title">
       The product economy is scaling. Value Realization is the work that defines it.
@@ -8914,7 +8922,7 @@
   </div>
 
   <!-- MIDDLE: bigger centred inline globe -->
-  <div class="gsc-globe-wrap reveal" aria-hidden="true">
+  <div class="gsc-globe-wrap" aria-hidden="true">
     <span class="gsc-globe-star" style="left: -12px; top: 18px;  animation-delay: 0s;"></span>
     <span class="gsc-globe-star" style="left: -28px; top: 80px;  animation-delay: 0.4s;"></span>
     <span class="gsc-globe-star" style="right: -20px; top: 100px; animation-delay: 0.8s;"></span>
@@ -8925,7 +8933,7 @@
   </div>
 
   <!-- BOTTOM: lede + CTA + bridge cards -->
-  <div class="gsc-bottom reveal">
+  <div class="gsc-bottom">
     <p class="gsc-lede">
       Customer Success grew up inside product companies &mdash; a discipline
       of adoption, retention, and value proven inside the product. ITIL and
