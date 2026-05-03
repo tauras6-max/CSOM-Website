@@ -9956,33 +9956,31 @@
     `scale3d(${v.scale.toFixed(3)}, ${v.scale.toFixed(3)}, 1)`;
 
   /* =============== BUTTERFLY SCROLL TRAVEL ==============
-     Scoped to the audience-wide path: BIRTH at #audience, growth
-     through §5/§6/§7, slow fade at §8 border.
+     Scoped to: BIRTH at #audience -> growth through §5/§6/§7 ->
+     slow drift+fade toward the §7/§8 divider line.
 
-     Per the 3 May review (slides 2-7) and follow-up corrections:
-       - BIRTH at #audience (the legacy "Three audiences. One operating
-         model." block) — small, near the title block. Butterfly grows
-         while moving.
-       - §5/§6/§7 per-section A->B pattern preserved (small over the
-         section heading where text is dense, large in the empty-space
-         bottom of each section).
-       - §6 + §7 bottom positions pushed FURTHER RIGHT (left: 78-82vw)
-         so wings clear the numbered-benefits column entirely. The
-         left bullets sit roughly between 25-55vw on wide viewports;
-         the butterfly's centre at 80vw with scale ~2.0-2.4 keeps
-         wing tips above ~58vw, never crossing the bullet text.
-       - End of §7 -> §8: NO hard fly-off. Butterfly holds its bloomed
-         pose at end of §7 and the fadeOut on #author-community
-         smoothly drops opacity to zero across a longer scroll range
-         (startVh:1.10 -> endVh:0.30) so it dissolves at the border
-         rather than vanishing.
-       - Hidden on mobile <480px (CSS .butterfly-stage display:none).
+     Per the 3 May review with screenshot follow-up corrections:
+       - Smooth path: avoid left-right swings between sections. Once
+         the butterfly drifts to the right side (after birth), it
+         stays right (left: 75-92vw monotonic) so the visual motion
+         feels like a single continuous arc, not back-and-forth jitter.
+       - Per-section A->B "small at title -> big at benefits" pattern
+         is preserved as a gentle scale dip at each section's split-
+         intro anchor (-0.4 scale) rather than a hard reset, so the
+         growth narrative stays continuous.
+       - In §6/§7 the bottom anchors push to left:86-88vw with the
+         butterfly's centre at the right edge of the content column;
+         wing tips at scale ~2.2-2.4 stay above ~64vw, never crossing
+         the bullet text (which sits between left:25-55vw).
+       - End of §7 -> §8: a final position stop anchored to #author-
+         community drifts the butterfly toward the §7/§8 divider line
+         (left:95 top:92) while the fadeOut on the same anchor (with
+         an extended scroll range, startVh:1.30 -> endVh:0.10, ~120vh)
+         smoothly drops opacity to zero. Combined effect: butterfly
+         visibly drifts toward the divider AND fades very slowly.
 
      Z-index dance: .butterfly-stage at z-index:3 sits behind every
-     audience-section's copy at z-index:5 — so titles, body paragraphs,
-     bullet rows, and the audience-band columns paint OVER the wings.
-     The "small enough to read through" effect comes from the scale
-     value at heading anchors. */
+     audience-section's copy at z-index:5. */
   (function () {
     const bfStage = document.getElementById('butterflyStage');
     if (!bfStage) return;
@@ -9994,14 +9992,13 @@
     if (!practitionerSec || !servicesFirmsSec) return;
 
     /* Per-section anchors — must be ordered top-to-bottom in scroll
-       order. createScrollStage tweens linearly between consecutive
+       order. createScrollStage tweens (smoothstep) between adjacent
        stops as viewport centre crosses each anchor's vertical centre. */
     const audienceTitle  = audienceSec ? (audienceSec.querySelector('.split-intro-left')
                                        || audienceSec.querySelector('.split-intro')) : null;
     const audienceBand   = audienceSec ? audienceSec.querySelector('.audience-band') : null;
     const splitIntro_5   = practitionerSec.querySelector('.split-intro-left')
                        || practitionerSec.querySelector('.split-intro');
-    const skillsTable    = practitionerSec.querySelector('.skills-gap-table');
     const benefits_5     = practitionerSec.querySelector('.practitioner-benefits');
     const splitIntro_6   = csLeadersSec ? (csLeadersSec.querySelector('.split-intro-left')
                                         || csLeadersSec.querySelector('.split-intro')) : null;
@@ -10012,73 +10009,75 @@
     if (!splitIntro_5 || !splitIntro_7) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      /* Static centre-right pose for reduced-motion users. */
       bfStage.style.opacity = '1';
       bfStage.style.transform =
-        'translate3d(75vw, 50vh, 0) translate3d(-50%, -50%, 0) scale3d(1.6, 1.6, 1)';
+        'translate3d(82vw, 50vh, 0) translate3d(-50%, -50%, 0) scale3d(1.8, 1.8, 1)';
       return;
     }
 
-    /* Path — tops of sections sit at left:30-35vw (over the title block
-       in the split-intro-left column), bottoms drift to left:78-82vw
-       (right side, clear of the bullet column at left:25-55vw). Scale
-       grows from ~0.55 at birth -> ~2.4 at §7 bottom. */
+    /* Right-side monotonic path. Birth at left:35 (only stop on the
+       left half — small enough at scale 0.55 to read through the
+       title). Then drifts to the right side and stays there, with
+       gentle scale dips at each section's split-intro anchor that
+       refresh the A->B pattern without disrupting the smooth flow. */
     const stops = [];
 
     // BIRTH — legacy #audience "Three audiences. One operating model."
     if (audienceTitle) {
-      stops.push({ el: audienceTitle, top: 38, left: 32, scale: 0.55, op: 0.75 }); // born small over title
+      stops.push({ el: audienceTitle, top: 38, left: 35, scale: 0.55, op: 0.70 }); // born small over title
     }
     if (audienceBand) {
-      stops.push({ el: audienceBand,  top: 60, left: 78, scale: 1.20, op: 0.70 }); // drifts right past columns
+      stops.push({ el: audienceBand,  top: 60, left: 75, scale: 1.10, op: 0.70 }); // drifts right + grows
     }
 
-    // §5 — For ITIL and SIAM practitioners
-    stops.push({ el: splitIntro_5, top: 35, left: 30, scale: 1.10, op: 0.85 }); // A: small over title
-    if (skillsTable) {
-      stops.push({ el: skillsTable, top: 52, left: 78, scale: 1.50, op: 0.70 }); // mid: right of wide table
-    }
+    // §5 — For ITIL and SIAM practitioners (right side throughout)
+    stops.push({ el: splitIntro_5, top: 35, left: 78, scale: 1.20, op: 0.85 });    // A: small dip, right
     if (benefits_5) {
-      stops.push({ el: benefits_5, top: 65, left: 80, scale: 2.00, op: 0.85 }); // B: bloom right of bullets
+      stops.push({ el: benefits_5, top: 65, left: 84, scale: 2.00, op: 0.85 });    // B: bloom right of bullets
     }
 
-    // §6 — For CS leaders
+    // §6 — For CS leaders (further right, gentle scale dip at top)
     if (splitIntro_6) {
-      stops.push({ el: splitIntro_6, top: 35, left: 30, scale: 1.05, op: 0.85 }); // A: small over title
+      stops.push({ el: splitIntro_6, top: 35, left: 82, scale: 1.60, op: 0.85 });  // A: gentle dip
     }
     if (benefits_6) {
-      stops.push({ el: benefits_6, top: 65, left: 82, scale: 2.20, op: 0.85 }); // B: bloom RIGHT of bullets
+      stops.push({ el: benefits_6, top: 65, left: 86, scale: 2.20, op: 0.85 });    // B: right of bullets
     }
 
-    // §7 — For services firms
-    stops.push({ el: splitIntro_7, top: 35, left: 30, scale: 1.05, op: 0.85 });   // A: small over title
+    // §7 — For services firms (rightmost, largest)
+    stops.push({ el: splitIntro_7, top: 35, left: 84, scale: 1.80, op: 0.85 });    // A: gentle dip
     if (benefits_7) {
-      stops.push({ el: benefits_7, top: 62, left: 82, scale: 2.40, op: 0.85 });   // B: largest, RIGHT
+      stops.push({ el: benefits_7, top: 60, left: 88, scale: 2.40, op: 0.85 });    // B: largest, far right
     }
 
-    // Hold position at end of §7 — no hard fly-off, no opacity drop
-    // here. The fadeOut anchor on §8 drops opacity smoothly while the
-    // butterfly stays roughly in place. Anchor to the section element
-    // (whose centre exits viewport bottom as §8 approaches) so the
-    // butterfly drifts a touch lower-right but doesn't suddenly leave.
-    stops.push({ el: servicesFirmsSec, top: 80, left: 84, scale: 2.20, op: 0.85 });
+    // §7 -> §8 divider drift — anchored to #author-community so the
+    // position changes are tied to §8's scroll-in. Drifts the butterfly
+    // toward the bottom-right corner of §7 (the divider line between
+    // §7 white and §8 alt-grey). Opacity stays held here; the fadeOut
+    // (with extended range) handles the slow dissolve.
+    if (authorSec) {
+      stops.push({ el: authorSec, top: 92, left: 95, scale: 1.80, op: 0.85 });
+    } else {
+      stops.push({ el: servicesFirmsSec, top: 92, left: 95, scale: 1.80, op: 0.85 });
+    }
 
     createScrollStage(bfStage, {
       stops: stops,
-      /* Fade-in starts as #audience enters viewport. Replaces the prior
-         #practitioners anchor — birth point moved earlier per the 3 May
-         correction. Falls back to #practitioners if #audience is absent. */
+      /* Fade-in starts as #audience enters viewport. */
       fadeIn: audienceSec
         ? { el: audienceSec, startVh: 0.85, endVh: 0.55 }
         : { el: practitionerSec, startVh: 0.85, endVh: 0.55 },
-      /* Fade-out anchored on §8 (#author-community) — slow fade across
-         a longer scroll range so the butterfly dissolves at the border
-         rather than vanishing. startVh:1.10 means fade begins as §8's
-         top is just below the viewport bottom; endVh:0.30 means it
-         completes only when §8 has scrolled well into view. */
+      /* Fade-out: VERY SLOW. Range startVh:1.30 -> endVh:0.10 means
+         opacity begins dropping when §8's top is 0.30vh below the
+         viewport's bottom (so before §8 is even on screen) and only
+         hits zero when §8's top is 0.10vh below the viewport's top
+         (i.e. §8 nearly fully in view). Total fade range ~120vh —
+         about a viewport-and-a-quarter of scrolling. Combined with
+         the position drift toward the divider, the butterfly
+         dissolves at the §7/§8 border rather than vanishing. */
       fadeOut: authorSec
-        ? { el: authorSec, startVh: 1.10, endVh: 0.30 }
-        : { el: servicesFirmsSec, startVh: 0.10, endVh: -0.30 },
+        ? { el: authorSec, startVh: 1.30, endVh: 0.10 }
+        : { el: servicesFirmsSec, startVh: 0.10, endVh: -0.40 },
       format:  stageTransform,
     });
   })();
