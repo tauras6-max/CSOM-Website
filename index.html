@@ -6761,6 +6761,48 @@
     font-weight: 600;
     opacity: 0.7;
   }
+  /* Services Firms section-end CTA - single contribute button.
+     Green gradient matches the services audience accent (the
+     For-services-firms green rail in the hero bridge cards + the
+     services audience card system). */
+  .services-firms-cta {
+    margin: clamp(36px, 4.5vw, 56px) 0 0;
+    padding: clamp(28px, 3.5vw, 40px) 0 0;
+    border-top: 1px solid var(--light-line);
+    text-align: center;
+  }
+  .services-firms-cta-lead {
+    margin: 0 auto clamp(16px, 2vw, 22px);
+    max-width: 720px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(17px, 1.3vw, 20px);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--ink-dark);
+  }
+  .services-firms-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 999px;
+    background: linear-gradient(95deg, #1E9C5C 0%, #2BB673 50%, #4BD48E 100%);
+    color: #ffffff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.012em;
+    text-decoration: none;
+    box-shadow: 0 12px 30px rgba(43, 182, 115, 0.22);
+    transition: transform .25s var(--ease), box-shadow .3s var(--ease), filter .25s var(--ease);
+  }
+  .services-firms-cta-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow: 0 18px 40px rgba(43, 182, 115, 0.32);
+  }
+
   /* CS Leaders section-end CTA pair - dual buttons (book launch +
      contribute) below the value list. Buttons use blue gradient to
      match the CS leader audience accent (the For-product-companies
@@ -9577,19 +9619,16 @@
     </div>
     <div class="split-intro-right section-body">
       <p>
-        Services firms have built deep capability in deploying, integrating,
-        and running complex products at scale &mdash; the foundation ITIL and
-        SIAM gave the industry. The work the customer experiences after
-        go-live &mdash; adoption, value realization, outcome measurement
-        &mdash; is now an equally significant chapter of that work.
+        Services firms have mastered the work that ends at go-live &mdash;
+        deploying, integrating, and running complex products at scale. The
+        work that begins at go-live &mdash; adoption, value realization,
+        outcome measurement &mdash; is now an equally significant chapter
+        of that work.
       </p>
       <p>
-        CSOM<span class="tm">&trade;</span> is where the services-side and
-        product-side disciplines meet on shared terms. It gives services-firm
-        leaders, account teams, and practitioners a body of knowledge for
-        Value Realization that builds on the rigour they already have, and a
-        vocabulary that aligns naturally with how product companies and
-        customers talk about outcomes.
+        CSOM<span class="tm">&trade;</span> gives services firms a body of
+        knowledge for that chapter &mdash; and a vocabulary that aligns with
+        how product companies and customers talk about outcomes.
       </p>
     </div>
   </div>
@@ -9598,10 +9637,10 @@
     <h3 class="gives-wrap-title">What CSOM<span class="tm">&trade;</span> offers a services firm</h3>
     <ol class="practitioner-benefits">
       <li>
-        <strong>A body of knowledge that builds on what&rsquo;s already there.</strong>
-        ITIL and SIAM remain foundational. CSOM names the dimensions
-        Value Realization adds beyond them &mdash; without replacing or
-        competing with what services firms have built.
+        <strong>Recognition for the value your post-implementation work creates.</strong>
+        The stretch where margin compounds, references emerge, and renewals
+        are decided &mdash; named in the language product companies and
+        customers now use.
       </li>
       <li>
         <strong>A common language with product-company customers.</strong>
@@ -9623,6 +9662,19 @@
         industry can read, contribute to, and build on.
       </li>
     </ol>
+
+    <!-- Services Firms section-end CTA: contribute (single, green accent
+         to match the services audience colour). -->
+    <div class="services-firms-cta">
+      <p class="services-firms-cta-lead">
+        Senior practitioners and services-firm leaders are invited to shape
+        the body of knowledge.
+      </p>
+      <a href="#contribute" class="services-firms-cta-btn">
+        Express interest in contributing
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
   </div>
 </section>
 
