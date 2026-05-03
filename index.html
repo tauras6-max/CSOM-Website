@@ -8042,6 +8042,21 @@
 
   /* Five-beat inventory — five italic lines stacked in the right column.
      Not bullets, not boxes. Rhythm carried by spacing. */
+  /* Parallel tracks section - reuse split-intro pattern. The
+     closing "That question opens new ground..." line gets a softer
+     italic Fraunces treatment to mark it as the section's transition. */
+  #parallel-tracks .parallel-tracks-close {
+    margin-top: clamp(20px, 2.5vw, 32px);
+    padding-top: clamp(20px, 2.5vw, 28px);
+    border-top: 1px solid var(--light-line);
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(16px, 1.2vw, 19px);
+    line-height: 1.55;
+    color: var(--ink-dark);
+  }
+
   /* §3 layout v2 — 2-column grid: text on the left, BIGGER dark
      inset panel on the right hosting the CSOM hero bridge component.
      Right column gets more weight (1.15fr) and the panel min-height
@@ -8819,9 +8834,9 @@
          consolidated into #planets), so it duplicated "Disciplines"
          — dropped. -->
     <ul class="nav-links">
-      <li><a href="#diagnosis">The Diagnosis</a></li>
-      <li><a href="#planets">Disciplines</a></li>
-      <li><a href="#audience">Who It's For</a></li>
+      <li><a href="#shift">The Shift</a></li>
+      <li><a href="#planets">The Model</a></li>
+      <li><a href="#audience">Who It&rsquo;s For</a></li>
       <li><a href="#practitioners">For Practitioners</a></li>
       <li><a href="#bring">Training</a></li>
     </ul>
@@ -8953,22 +8968,6 @@
 
   <!-- BOTTOM: lede + CTA + bridge cards -->
   <div class="gsc-bottom">
-    <p class="gsc-lede">
-      Customer Success grew up inside product companies &mdash; a discipline
-      of adoption, retention, and value proven inside the product. ITIL and
-      SIAM grew up inside enterprise IT and services &mdash; disciplines of
-      governance, integration, and service quality across complex supplier
-      ecosystems. They evolved on parallel tracks, solving different halves
-      of the same problem: how customers actually realise value from what
-      they buy.
-    </p>
-    <p class="gsc-lede">
-      CSOM<span class="tm">&trade;</span> is the operating model that joins
-      those tracks &mdash; pairing the outcome lens of Customer Success with
-      the operational rigour of ITIL and SIAM to make end-to-end Customer
-      Value Realization a repeatable practice.
-    </p>
-
     <div class="gsc-actions">
       <a href="#model" class="btn btn-primary gsc-cta">
         Explore the Model
@@ -8994,42 +8993,23 @@
   </div>
 </header>
 
-<!-- =============== SECTION 2: WHY NOW — theme rebuild =============== -->
-<section class="light-surface why-now" id="diagnosis" aria-labelledby="diagnosisTitle">
-  <!-- Legacy anchors: preserve inbound deep-links to former section ids. -->
+<!-- =============== SECTION 2: THE SHIFT — three industries =============== -->
+<section class="light-surface" id="shift" aria-labelledby="shiftTitle">
+  <!-- Legacy anchors: preserve inbound deep-links to former diagnosis section. -->
+  <a id="diagnosis" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
   <a id="fails" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
   <a id="rewritten" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
 
-  <!-- Title block: left-aligned eyebrow + bold H2 + italic gradient deck (left),
-       lede paragraphs (right) — mirrors the "Three audiences. One operating model."
-       split-intro pattern used elsewhere on the page. -->
   <div class="split-intro reveal">
     <div class="split-intro-left">
       <span class="section-eyebrow">The shift</span>
-      <h2 class="section-title" id="diagnosisTitle">Why now.</h2>
+      <h2 class="section-title" id="shiftTitle">
+        The same shift,<br/>three industries.
+      </h2>
       <span class="serif-gradient">Across every industry, customers reward the value they realize &mdash; not the output.</span>
-    </div>
-    <div class="split-intro-right section-body">
-      <p>
-        For the last decade, product companies built Customer Success as a
-        discipline. Services companies built ITIL and SIAM as the foundations
-        for managing service ecosystems at scale. Both opened real ground
-        &mdash; and both still face the same question: how do you operationalise
-        Value Realization across the whole journey, not just inside one
-        function?
-      </p>
-      <p>
-        That question opens new ground on both sides of the bridge.
-      </p>
     </div>
   </div>
 
-  <!-- Three-industry metaphor grid: each card pairs the locked metaphor
-       sentence with an industry chip + icon + single-word serif-gradient
-       italic verb (Recovery / Journey / Outcome). Coloured top-bars,
-       hairline-divided caption, hover lift. The three cards together
-       carry the brief's three-beat metaphor copy verbatim while giving
-       the section the visual rhythm previously absent. -->
   <span class="why-now-grid-eyebrow reveal">The same shift, three industries</span>
   <div class="why-now-grid reveal" role="list" aria-label="The same shift across three industries">
     <article class="why-now-card why-now-card-recovery" role="listitem">
@@ -9073,68 +9053,96 @@
       <p class="wn-prose">A business buys software for the outcome. The deployment is just the start.</p>
     </article>
   </div>
+</section>
 
-  <!-- Three audience cards: solid brand-colour gradient backgrounds,
-       white text. Each card carries an icon, a bold lead, and the
-       audience pitch body. Replaces the prior three bold-led
-       paragraphs per the 3 May designer review. -->
-  <div class="why-now-audience reveal">
-    <article class="wn-audience-card wn-audience-card-product">
-      <span class="wn-aud-icon" aria-hidden="true">
-        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 5L5 11v14l13 6 13-6V11L18 5z"/>
-          <path d="M5 11l13 6 13-6"/>
-          <path d="M18 17v14"/>
-        </svg>
-      </span>
-      <h3 class="wn-aud-lead">For product companies</h3>
-      <p class="wn-aud-body">
-        Customer Success grows from a function into an operating model
-        &mdash; the layer that turns adoption into NRR, expansion,
-        advocacy, and renewal.
+<!-- =============== SECTION 3: PARALLEL TRACKS — promoted from hero body =============== -->
+<section class="light-surface alt" id="parallel-tracks" aria-labelledby="parallelTracksTitle">
+  <div class="split-intro reveal">
+    <div class="split-intro-left">
+      <span class="section-eyebrow">The disciplines</span>
+      <h2 class="section-title" id="parallelTracksTitle">
+        Parallel tracks,<br/>one operating model.
+      </h2>
+      <span class="serif-gradient">That same shift, in the world product companies and services firms share.</span>
+    </div>
+    <div class="split-intro-right section-body">
+      <p>
+        Customer Success grew up inside product companies &mdash; a discipline
+        of adoption, retention, and value proven inside the product. ITIL and
+        SIAM grew up inside enterprise IT and services &mdash; disciplines of
+        governance, integration, and service quality across complex supplier
+        ecosystems. They evolved on parallel tracks, solving different halves
+        of the same problem: how customers actually realise value from what
+        they buy.
       </p>
-    </article>
+      <p>
+        CSOM<span class="tm">&trade;</span> is the operating model that joins
+        those tracks &mdash; pairing the outcome lens of Customer Success with
+        the operational rigour of ITIL and SIAM to make end-to-end Customer
+        Value Realization a repeatable practice.
+      </p>
+      <p class="parallel-tracks-close">
+        That question opens new ground on both sides of the bridge.
+      </p>
+    </div>
+  </div>
+</section>
 
-    <article class="wn-audience-card wn-audience-card-services">
-      <span class="wn-aud-icon" aria-hidden="true">
-        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="18" cy="18" r="3"/>
-          <circle cx="6"  cy="6"  r="2.5"/>
-          <circle cx="30" cy="6"  r="2.5"/>
-          <circle cx="6"  cy="30" r="2.5"/>
-          <circle cx="30" cy="30" r="2.5"/>
-          <path d="M8 8l7.5 7.5M28 8l-7.5 7.5M8 28l7.5-7.5M28 28l-7.5-7.5"/>
-        </svg>
-      </span>
-      <h3 class="wn-aud-lead">For services companies</h3>
-      <p class="wn-aud-body">
-        The engagement extends past go-live, into the stretch where
-        margin, renewal, and reference customers live.
-      </p>
-    </article>
 
-    <article class="wn-audience-card wn-audience-card-pract">
-      <span class="wn-aud-icon" aria-hidden="true">
-        <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="18" cy="12" r="5"/>
-          <path d="M6 32c0-7 5-12 12-12s12 5 12 12"/>
-          <path d="M13 5l5-3 5 3" stroke-width="1.5"/>
-        </svg>
-      </span>
-      <h3 class="wn-aud-lead">For ITIL and SIAM practitioners</h3>
-      <p class="wn-aud-body">
-        It is the most significant professional development opportunity
-        in twenty years &mdash; a chance to lead Value Realization from
-        a services firm, a product company, or anywhere the bridge
-        between the two needs to be built.
+<!-- =============== SECTION 2: WHY NOW — theme rebuild =============== -->
+
+<!-- =============== THE FENCE — split-intro + NOT/IS pair list =============== -->
+<section class="light-surface fence has-pillar-grid" id="fence" aria-labelledby="fenceTitle">
+  <a id="not-another-thing" class="anchor-legacy" aria-hidden="true" tabindex="-1"></a>
+  <div class="split-intro reveal">
+    <div class="split-intro-left">
+      <span class="section-eyebrow">Before we go further</span>
+      <h2 class="section-title" id="fenceTitle">
+        Not another thing<br/>to add.
+      </h2>
+      <span class="serif-gradient">The operating model under what you&nbsp;already run.</span>
+    </div>
+    <div class="split-intro-right section-body">
+      <p>
+        CSOM<span class="tm">&trade;</span> builds on what you already run. It&rsquo;s the
+        operating model that lets ITIL, SIAM, and Customer Success <em>compound</em> &mdash;
+        so each discipline shows up in outcomes the customer can feel.
       </p>
-    </article>
+      <p>
+        Six things CSOM<span class="tm">&trade;</span> isn&rsquo;t, and what it is.
+      </p>
+    </div>
   </div>
 
-  <!-- Italic close: the section's final word -->
-  <p class="why-now-close reveal">
-    CSOM<span class="tm">&trade;</span> is the operating model for that shift.
-  </p>
+  <div class="fence-wrap reveal">
+    <ul class="fence-list" role="list">
+      <li class="fence-pair">
+        <div class="fence-not"><span class="fence-tag">Not</span> a replacement for anything you already run.</div>
+        <div class="fence-is"><span class="fence-tag">Is</span> the operating model that lets ITIL, SIAM, and CS <em>compound</em> instead of compete.</div>
+      </li>
+      <li class="fence-pair">
+        <div class="fence-not"><span class="fence-tag">Not</span> another certification to collect.</div>
+        <div class="fence-is"><span class="fence-tag">Is</span> the thread that makes the ones you already hold show up in customer outcomes.</div>
+      </li>
+      <li class="fence-pair">
+        <div class="fence-not"><span class="fence-tag">Not</span> a consultancy playbook.</div>
+        <div class="fence-is"><span class="fence-tag">Is</span> a body of knowledge practitioners own and carry into any organisation.</div>
+      </li>
+      <li class="fence-pair">
+        <div class="fence-not"><span class="fence-tag">Not</span> a model for one side of the house.</div>
+        <div class="fence-is"><span class="fence-tag">Is</span> the operating model that works <em>both</em> sides of the bridge &mdash; services <em>and</em> product.</div>
+      </li>
+      <li class="fence-pair">
+        <div class="fence-not"><span class="fence-tag">Not</span> a methodology that stops at outputs.</div>
+        <div class="fence-is"><span class="fence-tag">Is</span> outputs <em>and</em> outcomes, wired into one operating rhythm.</div>
+      </li>
+      <li class="fence-pair">
+        <div class="fence-not"><span class="fence-tag">Not</span> a strategy or a transformation programme.</div>
+        <div class="fence-is"><span class="fence-tag">Is</span> the operating model every strategy needs underneath it.</div>
+      </li>
+    </ul>
+  </div>
+
 </section>
 
 <!-- =============== SECTION 3: THE HIDDEN ASSET — theme rebuild =============== -->
@@ -9325,58 +9333,6 @@
   </p>
 </section>
 
-<!-- =============== THE FENCE — split-intro + NOT/IS pair list =============== -->
-<section class="light-surface fence has-pillar-grid" id="fence" aria-labelledby="fenceTitle">
-  <div class="split-intro reveal">
-    <div class="split-intro-left">
-      <span class="section-eyebrow">Before we go further</span>
-      <h2 class="section-title" id="fenceTitle">
-        Not another thing<br/>to add.
-      </h2>
-      <span class="serif-gradient">The operating model under what you&nbsp;already run.</span>
-    </div>
-    <div class="split-intro-right section-body">
-      <p>
-        CSOM<span class="tm">&trade;</span> builds on what you already run. It&rsquo;s the
-        operating model that lets ITIL, SIAM, and Customer Success <em>compound</em> &mdash;
-        so each discipline shows up in outcomes the customer can feel.
-      </p>
-      <p>
-        Six things CSOM<span class="tm">&trade;</span> isn&rsquo;t, and what it is.
-      </p>
-    </div>
-  </div>
-
-  <div class="fence-wrap reveal">
-    <ul class="fence-list" role="list">
-      <li class="fence-pair">
-        <div class="fence-not"><span class="fence-tag">Not</span> a replacement for anything you already run.</div>
-        <div class="fence-is"><span class="fence-tag">Is</span> the operating model that lets ITIL, SIAM, and CS <em>compound</em> instead of compete.</div>
-      </li>
-      <li class="fence-pair">
-        <div class="fence-not"><span class="fence-tag">Not</span> another certification to collect.</div>
-        <div class="fence-is"><span class="fence-tag">Is</span> the thread that makes the ones you already hold show up in customer outcomes.</div>
-      </li>
-      <li class="fence-pair">
-        <div class="fence-not"><span class="fence-tag">Not</span> a consultancy playbook.</div>
-        <div class="fence-is"><span class="fence-tag">Is</span> a body of knowledge practitioners own and carry into any organisation.</div>
-      </li>
-      <li class="fence-pair">
-        <div class="fence-not"><span class="fence-tag">Not</span> a model for one side of the house.</div>
-        <div class="fence-is"><span class="fence-tag">Is</span> the operating model that works <em>both</em> sides of the bridge &mdash; services <em>and</em> product.</div>
-      </li>
-      <li class="fence-pair">
-        <div class="fence-not"><span class="fence-tag">Not</span> a methodology that stops at outputs.</div>
-        <div class="fence-is"><span class="fence-tag">Is</span> outputs <em>and</em> outcomes, wired into one operating rhythm.</div>
-      </li>
-      <li class="fence-pair">
-        <div class="fence-not"><span class="fence-tag">Not</span> a strategy or a transformation programme.</div>
-        <div class="fence-is"><span class="fence-tag">Is</span> the operating model every strategy needs underneath it.</div>
-      </li>
-    </ul>
-  </div>
-
-</section>
 
 <!-- "Two worlds. One model." section removed in theme rebuild —
      superseded by §2 Why now and the §5/§6/§7 audience trio,
