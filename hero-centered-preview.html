@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSOM™ Global — Hero (centred-globe alternate)</title>
+
+<link rel="preload" href="/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/space-grotesk-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,500&display=swap" rel="stylesheet">
+
+<style>
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300 900;
+    font-display: swap;
+    src: url('/fonts/inter-var-latin.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Space Grotesk';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('/fonts/space-grotesk-var-latin.woff2') format('woff2');
+  }
+
+  :root {
+    --bg-0: #03040a;
+    --bg-1: #070b1c;
+    --bg-2: #0b1230;
+    --ink-0: #ffffff;
+    --ink-1: rgba(255, 255, 255, 0.94);
+    --ink-2: rgba(255, 255, 255, 0.80);
+    --ink-3: rgba(255, 255, 255, 0.60);
+    --line: rgba(255, 255, 255, 0.14);
+    --line-strong: rgba(255, 255, 255, 0.26);
+    --gold: #ffcf54;
+    --brand-blue:    #1F6FD6;
+    --brand-blue-lt: #3A8BE8;
+    --brand-green:   #2BB673;
+    --brand-green-lt:#4BD48E;
+    --brand-orange:  #F05A1E;
+    --brand-orange-lt:#FF7A3E;
+    --brand-yellow:  #F5A623;
+    --brand-gradient: linear-gradient(95deg, #1F6FD6 0%, #2BB673 38%, #F05A1E 72%, #F5A623 100%);
+    --ease: cubic-bezier(.22, .61, .36, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg-0);
+    color: var(--ink-1);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Hero stage - dark gradient background, vertically centred content */
+  /* Background = original site's hero brand-spectrum gradient
+     (blue -> teal -> green -> olive -> orange -> yellow at 95deg)
+     with an editorial scrim and a soft top-right highlight, layered
+     so text reads cleanly on the saturated colour wash. Adapted for
+     the centred layout: scrim moved to bottom-centre under the text
+     column instead of bottom-left as on the main hero. */
+  .hero-stage {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(48px, 8vh, 80px) clamp(20px, 4vw, 48px) clamp(40px, 6vh, 64px);
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 80% 85% at 50% 88%, rgba(8, 12, 24, 0.55), rgba(8, 12, 24, 0.20) 45%, transparent 75%),
+      radial-gradient(ellipse 60% 70% at 50% 30%, rgba(255, 255, 255, 0.10), transparent 65%),
+      linear-gradient(95deg,
+        #1F6FD6 0%,
+        #2891A8 22%,
+        #2BB673 40%,
+        #7CA161 62%,
+        #F05A1E 82%,
+        #F5A623 100%);
+  }
+
+  /* Twinkling background stars */
+  .hero-stage::before,
+  .hero-stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 28% 42%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 64% 12%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 82% 36%, rgba(255,255,255,0.45), transparent),
+      radial-gradient(1px 1px at 92% 72%, rgba(255,255,255,0.55), transparent),
+      radial-gradient(1px 1px at 18% 78%, rgba(255,255,255,0.35), transparent),
+      radial-gradient(1px 1px at 48% 92%, rgba(255,255,255,0.45), transparent);
+  }
+  .hero-stage::after {
+    background-image:
+      radial-gradient(1px 1px at 8% 56%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 38% 28%, rgba(255,255,255,0.35), transparent),
+      radial-gradient(1px 1px at 56% 64%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 76% 22%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 88% 88%, rgba(255,255,255,0.45), transparent);
+    animation: starTwinkle 4s ease-in-out infinite alternate;
+  }
+  @keyframes starTwinkle {
+    from { opacity: 0.3; }
+    to   { opacity: 1; }
+  }
+
+  /* === TOP: title block (eyebrow + h1) === */
+  .hero-top {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1180px;
+    text-align: center;
+    margin-bottom: clamp(28px, 4vh, 48px);
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 7px 16px;
+    border: 1px solid rgba(255, 207, 84, 0.45);
+    border-radius: 999px;
+    background: rgba(4, 8, 18, 0.35);
+    backdrop-filter: blur(8px);
+    margin-bottom: clamp(18px, 2.5vh, 28px);
+  }
+  .hero-title {
+    margin: 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(36px, 5.2vw, 72px);
+    line-height: 1.06;
+    letter-spacing: -0.022em;
+    color: var(--ink-0);
+  }
+
+  /* === MIDDLE: bigger centred globe === */
+  .hero-globe-wrap {
+    position: relative;
+    z-index: 2;
+    width: clamp(280px, 42vw, 480px);
+    height: clamp(280px, 42vw, 480px);
+    margin: clamp(20px, 3vh, 32px) auto clamp(28px, 4vh, 48px);
+  }
+  .hero-globe {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background-image: url('globe.jpeg');
+    background-size: cover;
+    background-position: left;
+    animation: globeRotate 30s linear infinite;
+    box-shadow:
+      0 0 60px rgba(63, 168, 224, 0.30),
+      0 0 120px rgba(255, 110, 60, 0.18),
+      -8px 0 12px #c3f4ff inset,
+      24px 4px 38px #000 inset,
+      -36px -4px 50px #c3f4ff99 inset,
+      380px 0 66px #00000066 inset,
+      230px 0 56px #000000aa inset;
+  }
+  @keyframes globeRotate {
+    from { background-position: 0 0; }
+    to   { background-position: 600px 0; }
+  }
+  /* Subtle radial glow halo behind the globe */
+  .hero-globe-wrap::before {
+    content: "";
+    position: absolute;
+    inset: -12%;
+    background: radial-gradient(circle, rgba(255, 245, 220, 0.30) 0%, rgba(255, 245, 220, 0) 65%);
+    pointer-events: none;
+    z-index: -1;
+    animation: globeGlow 6s ease-in-out infinite alternate;
+  }
+  @keyframes globeGlow {
+    from { opacity: 0.5; transform: scale(0.95); }
+    to   { opacity: 1;   transform: scale(1.05); }
+  }
+  /* Twinkling stars around the globe */
+  .hero-globe-star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+    animation: starPulse 3s ease-in-out infinite;
+  }
+  @keyframes starPulse {
+    0%, 100% { opacity: 0.2; }
+    50%      { opacity: 1; }
+  }
+
+  /* === BOTTOM: lede + CTAs + hero bridge cards === */
+  .hero-bottom {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1180px;
+    text-align: center;
+  }
+  .hero-lede {
+    margin: 0 auto clamp(18px, 2.5vh, 28px);
+    font-size: clamp(15px, 1.3vw, 18px);
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 1080px;
+    padding: 0 clamp(8px, 2vw, 24px);
+  }
+  .hero-lede .tm { font-size: 0.7em; vertical-align: super; color: var(--gold); margin-left: 1px; }
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: clamp(28px, 4vh, 40px);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: transform .25s var(--ease), background .3s var(--ease), border-color .25s var(--ease);
+  }
+  .btn svg { width: 16px; height: 16px; }
+  /* CTA — high contrast: solid dark glass surface with gold accent
+     border + subtle warm glow. Pops against the spectrum-gradient
+     hero background where the prior brand-gradient button blended in. */
+  .btn-primary {
+    background: rgba(8, 12, 24, 0.70);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.012em;
+    padding: 16px 32px;
+    border: 1.5px solid rgba(255, 207, 84, 0.55);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    box-shadow:
+      0 14px 36px rgba(0, 0, 0, 0.32),
+      0 6px 16px rgba(255, 110, 60, 0.18),
+      inset 0 1px 0 rgba(255, 207, 84, 0.18);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    background: rgba(8, 12, 24, 0.85);
+    border-color: rgba(255, 207, 84, 0.85);
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.4),
+      0 8px 20px rgba(255, 110, 60, 0.30),
+      inset 0 1px 0 rgba(255, 207, 84, 0.32);
+  }
+  .btn-primary svg { stroke: var(--gold); }
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--line-strong);
+    color: #ffffff;
+  }
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+  }
+
+  /* Three hero bridge cards */
+  .hero-bridges {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    text-align: left;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .hero-bridge {
+    position: relative;
+    padding: 22px 26px 22px 34px;
+    border-radius: 14px;
+    background: rgba(8, 12, 24, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+    text-decoration: none;
+    transition: background .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease);
+  }
+  .hero-bridge::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 5px;
+    box-shadow: 0 0 14px currentColor;
+  }
+  .hero-bridge-product::before  { background: var(--brand-blue);   color: var(--brand-blue); }
+  .hero-bridge-services::before { background: var(--brand-green);  color: var(--brand-green); }
+  .hero-bridge-pract::before    { background: var(--brand-orange); color: var(--brand-orange); }
+  .hero-bridge:hover {
+    background: rgba(8, 12, 24, 0.75);
+    border-color: rgba(255, 255, 255, 0.32);
+    transform: translateY(-3px);
+  }
+  .hero-bridge-title {
+    margin: 0 0 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+  /* Bright tinted titles - lighter than _lt vars so they read on the
+     spectrum gradient background even in their own color region. */
+  .hero-bridge-product  .hero-bridge-title { color: #BBD8F8; }
+  .hero-bridge-services .hero-bridge-title { color: #B8E8CE; }
+  .hero-bridge-pract    .hero-bridge-title { color: #FFC9A8; }
+  .hero-bridge-tagline {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  @media (max-width: 880px) {
+    .hero-bridges { grid-template-columns: 1fr; gap: 10px; }
+    .hero-globe-wrap { width: clamp(240px, 60vw, 360px); height: clamp(240px, 60vw, 360px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-globe, .hero-globe-wrap::before, .hero-stage::after,
+    .btn, .hero-bridge, .hero-globe-star {
+      animation: none !important;
+      transition: none !important;
+    }
+    .hero-bridge:hover, .btn:hover { transform: none; }
+  }
+
+  /* Preview banner so you remember this is the alternate */
+  .preview-banner {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 8px 16px;
+    background: rgba(255, 207, 84, 0.92);
+    color: #1a1a1a;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    z-index: 9999;
+    backdrop-filter: blur(8px);
+  }
+  .preview-banner a {
+    color: #1a1a1a;
+    text-decoration: underline;
+    margin-left: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="preview-banner">
+  Hero Alt View — centred globe layout
+  <a href="/">← back to main site</a>
+</div>
+
+<main class="hero-stage">
+  <!-- TOP: eyebrow + headline -->
+  <div class="hero-top">
+    <span class="hero-eyebrow">The operating model for Customer Value Realization</span>
+    <h1 class="hero-title">
+      The product economy is scaling. Value Realization is the work that defines it.
+    </h1>
+  </div>
+
+  <!-- MIDDLE: bigger centred globe -->
+  <div class="hero-globe-wrap" aria-hidden="true">
+    <span class="hero-globe-star" style="left: -12px; top: 18px;  animation-delay: 0s;"></span>
+    <span class="hero-globe-star" style="left: -28px; top: 80px;  animation-delay: 0.4s;"></span>
+    <span class="hero-globe-star" style="right: -20px; top: 100px; animation-delay: 0.8s;"></span>
+    <span class="hero-globe-star" style="right: -8px; bottom: 80px; animation-delay: 1.2s;"></span>
+    <span class="hero-globe-star" style="left: 30%; top: -20px; animation-delay: 1.6s;"></span>
+    <span class="hero-globe-star" style="left: 70%; bottom: -16px; animation-delay: 2.0s;"></span>
+    <div class="hero-globe"></div>
+  </div>
+
+  <!-- BOTTOM: lede + subtitle + CTAs + bridge cards -->
+  <div class="hero-bottom">
+    <p class="hero-lede">
+      Customer Success grew up inside product companies &mdash; a discipline
+      of adoption, retention, and value proven inside the product. ITIL and
+      SIAM grew up inside enterprise IT and services &mdash; disciplines of
+      governance, integration, and service quality across complex supplier
+      ecosystems. They evolved on parallel tracks, solving different halves
+      of the same problem: how customers actually realise value from what
+      they buy.
+    </p>
+    <p class="hero-lede">
+      CSOM<span class="tm">&trade;</span> is the operating model that joins
+      those tracks &mdash; pairing the outcome lens of Customer Success with
+      the operational rigour of ITIL and SIAM to make end-to-end Customer
+      Value Realization a repeatable practice.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#model" class="btn btn-primary">
+        Explore the Model
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-bridges" role="list">
+      <a href="#for-cs-leaders" class="hero-bridge hero-bridge-product" role="listitem">
+        <h3 class="hero-bridge-title">For product companies</h3>
+        <p class="hero-bridge-tagline">A new chapter &mdash; adoption becomes outcome.</p>
+      </a>
+      <a href="#for-services-firms" class="hero-bridge hero-bridge-services" role="listitem">
+        <h3 class="hero-bridge-title">For services firms</h3>
+        <p class="hero-bridge-tagline">A new edge &mdash; past go-live, into renewal.</p>
+      </a>
+      <a href="#for-practitioners" class="hero-bridge hero-bridge-pract" role="listitem">
+        <h3 class="hero-bridge-title">For ITIL &amp; SIAM</h3>
+        <p class="hero-bridge-tagline">A new path &mdash; lead Value Realization.</p>
+      </a>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

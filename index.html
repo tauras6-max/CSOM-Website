@@ -4678,6 +4678,92 @@
     flex-wrap: wrap;
   }
   .gs.align-center .gs-actions { justify-content: center; }
+  /* Hero CTA buttons - white text. Scoped to .gs-actions so other
+     .btn-primary usages elsewhere on the site (eg §10 notify forms)
+     keep their existing colour. */
+  .gs-actions .btn-primary,
+  .gs-actions .btn-secondary {
+    color: #ffffff !important;
+  }
+  .gs-actions .btn-primary svg,
+  .gs-actions .btn-secondary svg {
+    stroke: #ffffff;
+  }
+
+  /* "Value Realization" gradient - brand 4-stop applied to the two
+     hero title words. Replaces the prior .accent gold->orange wash. */
+  .hero-vr {
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+    background: none;
+  }
+
+  /* Three hero bridge cards - brand-coloured left-rail + title + tagline.
+     Sit below the CTAs as the audience preview strip. */
+  .hero-bridges {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: clamp(24px, 3vw, 36px);
+    max-width: 980px;
+  }
+  .hero-bridge {
+    position: relative;
+    padding: 16px 20px 16px 24px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+    text-decoration: none;
+    transition: background .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease);
+  }
+  .hero-bridge::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 3px;
+  }
+  .hero-bridge-product::before  { background: var(--brand-blue, #1F6FD6); }
+  .hero-bridge-services::before { background: var(--brand-green, #2BB673); }
+  .hero-bridge-pract::before    { background: var(--brand-orange, #F05A1E); }
+
+  .hero-bridge:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.22);
+    transform: translateY(-2px);
+  }
+  .hero-bridge:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  .hero-bridge-title {
+    margin: 0 0 6px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+  }
+  .hero-bridge-product  .hero-bridge-title { color: var(--brand-blue-lt, #3A8BE8); }
+  .hero-bridge-services .hero-bridge-title { color: var(--brand-green-lt, #4BD48E); }
+  .hero-bridge-pract    .hero-bridge-title { color: var(--brand-orange-lt, #FF7A3E); }
+
+  .hero-bridge-tagline {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  @media (max-width: 740px) {
+    .hero-bridges { grid-template-columns: 1fr; gap: 10px; }
+    .hero-bridge { padding: 14px 18px 14px 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bridge { transition: none !important; }
+    .hero-bridge:hover { transform: none; }
+  }
 
   /* Manifesto close paragraph + pull-quote (section 2) */
   .gs-close {
@@ -7756,6 +7842,311 @@
 
   /* Five-beat inventory — five italic lines stacked in the right column.
      Not bullets, not boxes. Rhythm carried by spacing. */
+  /* §3 layout v2 — 2-column grid: text on the left, BIGGER dark
+     inset panel on the right hosting the CSOM hero bridge component.
+     Right column gets more weight (1.15fr) and the panel min-height
+     bumps to 660px so the bridge has room to breathe. */
+  .hidden-asset-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr);
+    gap: clamp(40px, 5vw, 72px);
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 28px;
+    align-items: start;
+  }
+  .hidden-asset-text { display: flex; flex-direction: column; }
+  .hidden-asset-visual {
+    position: sticky;
+    top: clamp(80px, 12vh, 140px);
+    background: #FFFFFF;
+    background-image:
+      radial-gradient(ellipse at 25% 18%, rgba(31, 111, 214, 0.05) 0%, transparent 55%),
+      radial-gradient(ellipse at 78% 85%, rgba(43, 182, 115, 0.05) 0%, transparent 55%),
+      radial-gradient(ellipse at 55% 40%, rgba(245, 166, 35, 0.04) 0%, transparent 60%);
+    border-radius: 28px;
+    padding: clamp(36px, 4vw, 56px);
+    display: grid;
+    place-items: center;
+    min-height: 720px;
+    overflow: hidden;
+    border: 2px solid var(--brand-orange, #F05A1E);
+    box-shadow:
+      0 30px 70px rgba(240, 90, 30, 0.12),
+      0 12px 24px rgba(240, 90, 30, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
+  }
+  /* CSOM Hero Bridge component — CSS + SVG, no JS. 480x480 native,
+     responsive via width:100% inside a square container. Arc draws
+     left->right over 2s, six suspension cables fade in staggered
+     1.4-1.8s, apex pill drops in at 1.6s, glowing dot loops the
+     arc every 9s. */
+  .csom-bridge {
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    color: var(--ink-dark);
+    font-family: 'Inter', sans-serif;
+  }
+  .csom-bridge svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    display: block;
+  }
+  /* Arc - 480-unit dash, draws from 480 (hidden) to 0 (revealed) */
+  .csom-bridge-arc {
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    animation: csomBridgeArcDraw 2s cubic-bezier(.22, .61, .36, 1) forwards;
+  }
+  @keyframes csomBridgeArcDraw {
+    to { stroke-dashoffset: 0; }
+  }
+  /* Suspension cables - staggered fade-in via inline --d delay */
+  .csom-cable {
+    opacity: 0;
+    transform-origin: bottom center;
+    animation: csomBridgeCableFade .55s ease-out forwards;
+    animation-delay: var(--d, 1.5s);
+  }
+  @keyframes csomBridgeCableFade {
+    from { opacity: 0; transform: scaleY(.5); }
+    to   { opacity: 1; transform: scaleY(1); }
+  }
+  /* Apex pill - drops in at 1.6s with bounce */
+  .csom-bridge-apex-group {
+    opacity: 0;
+    transform: translateY(-18px);
+    transform-origin: 240px 120px;
+    animation: csomBridgeApexDrop .75s cubic-bezier(.34, 1.56, .64, 1) 1.6s forwards;
+  }
+  @keyframes csomBridgeApexDrop {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Side anchor cards (Services / Product) fade in early */
+  .csom-bridge-anchor {
+    opacity: 0;
+    animation: csomBridgeAnchorFade .6s ease-out forwards;
+  }
+  .csom-bridge-anchor-left  { animation-delay: .55s; }
+  .csom-bridge-anchor-right { animation-delay: .85s; }
+  @keyframes csomBridgeAnchorFade {
+    to { opacity: 1; }
+  }
+  /* Bridge deck (horizontal line at the base) */
+  .csom-bridge-deck {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: csomBridgeDeckDraw 1.4s ease-out .3s forwards;
+  }
+  @keyframes csomBridgeDeckDraw {
+    to { stroke-dashoffset: 0; }
+  }
+  /* Travelling glow dot - loops the arc every 9s via offset-path */
+  .csom-bridge-dot {
+    offset-path: path("M 90 318 Q 240 120 390 318");
+    offset-distance: 0%;
+    opacity: 0;
+    animation:
+      csomBridgeDotTravel 9s linear infinite 2.4s,
+      csomBridgeDotFadeIn .8s ease-out 2.4s forwards;
+  }
+  @keyframes csomBridgeDotTravel {
+    from { offset-distance: 0%; }
+    to   { offset-distance: 100%; }
+  }
+  @keyframes csomBridgeDotFadeIn {
+    to { opacity: 1; }
+  }
+  /* Browsers without offset-path support — hide the dot rather than
+     show it stuck at the origin. */
+  @supports not (offset-path: path("M 0 0 L 1 1")) {
+    .csom-bridge-dot { display: none !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .csom-bridge-arc, .csom-bridge-deck, .csom-cable,
+    .csom-bridge-apex-group, .csom-bridge-anchor, .csom-bridge-dot {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      stroke-dashoffset: 0 !important;
+    }
+  }
+
+  .csom-bridge-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 64px 32px;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 540px;
+    aspect-ratio: 1 / 1;
+  }
+  .csom-bridge-placeholder span {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: 700;
+  }
+  .csom-bridge-placeholder small {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  /* Numbered inventory inside the text column. Five items, each with
+     a brand-coloured number marker AND a brand-coloured bottom-border
+     hairline. Colours cycle through the brand palette (blue, green,
+     orange, yellow, iris) so the inventory feels like the spectrum
+     of the CSOM gradient broken into its component crafts. */
+  .hidden-asset-grid .hidden-asset-inventory {
+    list-style: none;
+    counter-reset: ha-inv;
+    padding: 0;
+    margin: clamp(28px, 3.5vw, 36px) 0 0;
+    border: 0;
+  }
+  .hidden-asset-grid .hidden-asset-inventory li {
+    counter-increment: ha-inv;
+    position: relative;
+    padding: clamp(14px, 1.5vw, 18px) 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(15px, 1.1vw, 17px);
+    line-height: 1.5;
+    color: var(--ink-dark);
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    border-bottom: 2px solid;
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .hidden-asset-grid .hidden-asset-inventory li::before {
+    content: counter(ha-inv, decimal-leading-zero);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    min-width: 26px;
+  }
+  .hidden-asset-grid .hidden-asset-inventory li:nth-child(1) { border-bottom-color: var(--brand-blue); }
+  .hidden-asset-grid .hidden-asset-inventory li:nth-child(1)::before { color: var(--brand-blue); }
+  .hidden-asset-grid .hidden-asset-inventory li:nth-child(2) { border-bottom-color: var(--brand-green); }
+  .hidden-asset-grid .hidden-asset-inventory li:nth-child(2)::before { color: var(--brand-green); }
+  .hidden-asset-grid .hidden-asset-inventory li:nth-child(3) { border-bottom-color: var(--brand-orange); }
+  .hidden-asset-grid .hidden-asset-inventory li:nth-child(3)::before { color: var(--brand-orange); }
+  .hidden-asset-grid .hidden-asset-inventory li:nth-child(4) { border-bottom-color: var(--brand-yellow); }
+  .hidden-asset-grid .hidden-asset-inventory li:nth-child(4)::before { color: var(--brand-yellow); }
+  .hidden-asset-grid .hidden-asset-inventory li:nth-child(5) { border-bottom-color: var(--brand-iris); }
+  .hidden-asset-grid .hidden-asset-inventory li:nth-child(5)::before { color: var(--brand-iris); }
+  .hidden-asset-grid .hidden-asset-inventory li:last-child { border-bottom-width: 0; }
+
+  /* Two parallel mirror sentences — now rendered as side-by-side
+     brand-gradient cards (blue for product companies, orange for
+     ITIL/SIAM practitioners), spanning full width below the
+     2-column grid above. White text on coloured surfaces - same
+     pattern as the §2 audience cards for tonal consistency. */
+  .hidden-asset-mirror-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(20px, 2.5vw, 28px);
+    max-width: 1360px;
+    margin: clamp(56px, 7vw, 88px) auto 0;
+    padding: 0 28px;
+  }
+  .ha-mirror-card {
+    position: relative;
+    padding: clamp(28px, 3vw, 40px) clamp(26px, 2.6vw, 36px);
+    border-radius: 22px;
+    color: #ffffff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(17px, 1.35vw, 20px);
+    line-height: 1.55;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    box-shadow:
+      0 10px 30px rgba(15, 23, 42, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    overflow: hidden;
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+  }
+  /* Glossy sheen — soft white-to-transparent overlay across the top
+     two-thirds, plus a subtle top-edge highlight for the "lit from
+     above" glass effect. */
+  .ha-mirror-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.06) 35%,
+      transparent 65%);
+    pointer-events: none;
+    border-radius: inherit;
+  }
+  .ha-mirror-card > * { position: relative; z-index: 1; }
+  .ha-mirror-card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 16px 40px rgba(15, 23, 42, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  /* Lighter, more pastel gradient stops — softer on the eyes than
+     the saturated v2 gradients while staying recognisably blue/orange. */
+  .ha-mirror-card-product {
+    background: linear-gradient(135deg, #4F94E5 0%, #6BACEE 60%, #84BEF2 100%);
+  }
+  .ha-mirror-card-pract {
+    background: linear-gradient(135deg, #F2724A 0%, #FF8E5C 60%, #FFA77B 100%);
+  }
+  .ha-mirror-card strong  { font-weight: 700; }
+
+  /* Bridge paragraph — full-width-ish, larger type than body. The
+     section's pivot sentence; deserves visual weight. */
+  .hidden-asset-bridge-v2 {
+    max-width: 1100px;
+    margin: clamp(40px, 5vw, 56px) auto 0;
+    padding: 0 28px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(19px, 1.6vw, 24px);
+    line-height: 1.55;
+    color: var(--ink-dark);
+    font-weight: 500;
+    letter-spacing: -0.012em;
+  }
+  .hidden-asset-bridge-v2 em {
+    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  @media (max-width: 1024px) {
+    .hidden-asset-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .hidden-asset-visual {
+      position: static;
+      min-height: 540px;
+    }
+  }
+  @media (max-width: 880px) {
+    .hidden-asset-mirror-grid { grid-template-columns: 1fr; gap: 16px; }
+  }
+  @media (max-width: 600px) {
+    .hidden-asset-visual { padding: 28px; min-height: 420px; }
+    .csom-bridge-placeholder { padding: 40px 20px; }
+  }
+
   .hidden-asset-inventory {
     margin: 0;
   }
@@ -8344,7 +8735,7 @@
   <div class="gs-content reveal">
     <span class="gs-badge">The operating model for Customer Value Realization</span>
     <h1 class="gs-title">
-      <span class="title-main">The product economy is scaling. <span class="accent">Value Realization is the work that defines it.</span></span>
+      <span class="title-main">The product economy is scaling. <span class="hero-vr">Value Realization</span> is the work that defines it.</span>
     </h1>
     <p class="hero-lede">
       Product companies have built Customer Success. Services companies &mdash;
@@ -8365,6 +8756,25 @@
       <a href="#for-practitioners" class="btn btn-secondary">
         For SIAM &amp; ITIL practitioners
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Three hero bridge cards: blue/green/orange brand-coloured
+         left-rail accent, brand-coloured title, white tagline.
+         Sets up the three-audience narrative the rest of the page
+         delivers in §2/§5/§6/§7. -->
+    <div class="hero-bridges reveal" role="list">
+      <a href="#for-cs-leaders" class="hero-bridge hero-bridge-product" role="listitem">
+        <h3 class="hero-bridge-title">For product companies</h3>
+        <p class="hero-bridge-tagline">A new chapter &mdash; adoption becomes outcome.</p>
+      </a>
+      <a href="#for-services-firms" class="hero-bridge hero-bridge-services" role="listitem">
+        <h3 class="hero-bridge-title">For services firms</h3>
+        <p class="hero-bridge-tagline">A new edge &mdash; past go-live, into renewal.</p>
+      </a>
+      <a href="#for-practitioners" class="hero-bridge hero-bridge-pract" role="listitem">
+        <h3 class="hero-bridge-title">For ITIL &amp; SIAM</h3>
+        <p class="hero-bridge-tagline">A new path &mdash; lead Value Realization.</p>
       </a>
     </div>
   </div>
@@ -8520,46 +8930,187 @@
 
 <!-- =============== SECTION 3: THE HIDDEN ASSET — theme rebuild =============== -->
 <section class="light-surface alt hidden-asset" id="hidden-asset" aria-labelledby="hiddenAssetTitle">
-  <!-- Title block on the left, five-beat expertise inventory on the right —
-       same .split-intro pattern as #audience and §2. -->
-  <div class="split-intro reveal">
-    <div class="split-intro-left">
+  <!-- 2-column top: text + numbered inventory on the left, BIGGER
+       dark inset panel on the right hosting the CSOM hero bridge. -->
+  <div class="hidden-asset-grid reveal">
+    <div class="hidden-asset-text">
       <span class="section-eyebrow">The hidden asset</span>
       <h2 class="section-title" id="hiddenAssetTitle">
         The expertise<br/>hiding in plain sight.
       </h2>
       <span class="serif-gradient">Value Realization at scale isn&rsquo;t a new craft. It&rsquo;s an existing craft, being asked to do new work.</span>
+
+      <ol class="hidden-asset-inventory">
+        <li>Governance across complex ecosystems.</li>
+        <li>Outcome measurement that holds up at portfolio scale.</li>
+        <li>Multi-stakeholder coordination when nobody has full authority.</li>
+        <li>Service integration when the value chain crosses ten organisations.</li>
+        <li>Continual improvement as a working discipline, not a slogan.</li>
+      </ol>
     </div>
-    <div class="split-intro-right">
-      <div class="hidden-asset-inventory" role="presentation">
-        <p>Governance across complex ecosystems.</p>
-        <p>Outcome measurement that holds up at portfolio scale.</p>
-        <p>Multi-stakeholder coordination when nobody has full authority.</p>
-        <p>Service integration when the value chain crosses ten organisations.</p>
-        <p>Continual improvement as a working discipline, not a slogan.</p>
+
+    <div class="hidden-asset-visual" aria-hidden="true">
+      <!-- ============ CSOM HERO BRIDGE COMPONENT ============
+           Cream-white themed v3. Cards pushed to far left/right,
+           PRODUCT ECONOMY card uses solid blue gradient with white
+           text, SERVICES ECONOMY card uses solid green gradient
+           with white text. Cables in soft blue, arc in blue->amber
+           ->green gradient (sides match cards), apex pill on cream
+           with dark text + blue accent border, travelling dot in
+           amber so it shows on the cream background. -->
+      <div class="csom-bridge" role="img" aria-label="CSOM bridge: connecting product-economy Customer Success and services-side ITIL/SIAM">
+        <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="csomArcGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%"   stop-color="#1F6FD6"/>
+              <stop offset="50%"  stop-color="#F5A623"/>
+              <stop offset="100%" stop-color="#2BB673"/>
+            </linearGradient>
+            <linearGradient id="csomBridgeProductGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"   stop-color="#1F6FD6"/>
+              <stop offset="100%" stop-color="#4F94E5"/>
+            </linearGradient>
+            <linearGradient id="csomBridgeServicesGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"   stop-color="#1E9C5C"/>
+              <stop offset="55%"  stop-color="#2BB673"/>
+              <stop offset="100%" stop-color="#4BD48E"/>
+            </linearGradient>
+            <radialGradient id="csomApexGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="rgba(245, 166, 35, 0.30)"/>
+              <stop offset="60%"  stop-color="rgba(245, 166, 35, 0.08)"/>
+              <stop offset="100%" stop-color="rgba(245, 166, 35, 0)"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Faint horizontal cable-bracket guideline at apex level -->
+          <line class="csom-bridge-bracket" x1="20" y1="180" x2="460" y2="180"
+                stroke="rgba(31, 111, 214, 0.32)" stroke-width="0.8"
+                stroke-dasharray="2 5"/>
+
+          <!-- Bridge deck (horizontal line at base of cards) -->
+          <line class="csom-bridge-deck" x1="40" y1="380" x2="440" y2="380"
+                stroke="rgba(31, 111, 214, 0.40)" stroke-width="1.2"/>
+
+          <!-- LEFT anchor card: PRODUCT ECONOMY (blue gradient, pushed far left) -->
+          <g class="csom-bridge-anchor csom-bridge-anchor-left">
+            <rect x="0" y="318" width="180" height="104" rx="14"
+                  fill="url(#csomBridgeProductGrad)"
+                  stroke="rgba(31, 111, 214, 0.20)" stroke-width="1"/>
+            <!-- Subtle top sheen -->
+            <rect x="0" y="318" width="180" height="104" rx="14"
+                  fill="rgba(255, 255, 255, 0.12)" pointer-events="none"
+                  style="mix-blend-mode: overlay;"/>
+            <text x="90" y="345" text-anchor="middle"
+                  fill="rgba(255,255,255,0.85)"
+                  font-family="'Space Grotesk',sans-serif"
+                  font-size="9.5" font-weight="700"
+                  letter-spacing="2.4">PRODUCT ECONOMY</text>
+            <text x="90" y="374" text-anchor="middle"
+                  fill="#ffffff"
+                  font-family="'Space Grotesk',sans-serif"
+                  font-size="18" font-weight="700"
+                  letter-spacing="-0.3">Customer Success</text>
+            <text x="90" y="400" text-anchor="middle"
+                  fill="rgba(255,255,255,0.85)"
+                  font-family="'Inter',sans-serif"
+                  font-size="10.5" letter-spacing="0.3">NRR &#183; Adoption &#183; Renewal</text>
+          </g>
+
+          <!-- RIGHT anchor card: SERVICES ECONOMY (green gradient, pushed far right) -->
+          <g class="csom-bridge-anchor csom-bridge-anchor-right">
+            <rect x="300" y="318" width="180" height="104" rx="14"
+                  fill="url(#csomBridgeServicesGrad)"
+                  stroke="rgba(43, 182, 115, 0.20)" stroke-width="1"/>
+            <rect x="300" y="318" width="180" height="104" rx="14"
+                  fill="rgba(255, 255, 255, 0.12)" pointer-events="none"
+                  style="mix-blend-mode: overlay;"/>
+            <text x="390" y="345" text-anchor="middle"
+                  fill="rgba(255,255,255,0.85)"
+                  font-family="'Space Grotesk',sans-serif"
+                  font-size="9.5" font-weight="700"
+                  letter-spacing="2.4">SERVICES ECONOMY</text>
+            <text x="390" y="374" text-anchor="middle"
+                  fill="#ffffff"
+                  font-family="'Space Grotesk',sans-serif"
+                  font-size="18" font-weight="700"
+                  letter-spacing="-0.3">ITIL &amp; SIAM</text>
+            <text x="390" y="400" text-anchor="middle"
+                  fill="rgba(255,255,255,0.85)"
+                  font-family="'Inter',sans-serif"
+                  font-size="10.5" letter-spacing="0.3">Governance &#183; Integration &#183; Service</text>
+          </g>
+
+          <!-- The arc - shallow quadratic from left card top to right card top -->
+          <path class="csom-bridge-arc"
+                d="M 90 318 Q 240 120 390 318"
+                fill="none"
+                stroke="url(#csomArcGrad)"
+                stroke-width="3"
+                stroke-linecap="round"/>
+
+          <!-- Suspension cables - soft blue, vertical lines from arc to deck -->
+          <line class="csom-cable" style="--d: 1.40s" x1="135" y1="232" x2="135" y2="380"
+                stroke="rgba(31, 111, 214, 0.32)" stroke-width="1"/>
+          <line class="csom-cable" style="--d: 1.50s" x1="180" y1="190" x2="180" y2="380"
+                stroke="rgba(31, 111, 214, 0.40)" stroke-width="1"/>
+          <line class="csom-cable" style="--d: 1.60s" x1="225" y1="160" x2="225" y2="380"
+                stroke="rgba(31, 111, 214, 0.46)" stroke-width="1"/>
+          <line class="csom-cable" style="--d: 1.65s" x1="265" y1="160" x2="265" y2="380"
+                stroke="rgba(43, 182, 115, 0.46)" stroke-width="1"/>
+          <line class="csom-cable" style="--d: 1.75s" x1="305" y1="190" x2="305" y2="380"
+                stroke="rgba(43, 182, 115, 0.40)" stroke-width="1"/>
+          <line class="csom-cable" style="--d: 1.80s" x1="345" y1="232" x2="345" y2="380"
+                stroke="rgba(43, 182, 115, 0.32)" stroke-width="1"/>
+
+          <!-- Apex pill - cream/white background with dark text + amber accents -->
+          <g class="csom-bridge-apex-group">
+            <ellipse cx="240" cy="135" rx="120" ry="70" fill="url(#csomApexGlow)"/>
+            <rect x="158" y="103" width="164" height="64" rx="20"
+                  fill="#FFFFFF"
+                  stroke="rgba(240, 90, 30, 0.55)" stroke-width="1.4"
+                  filter="drop-shadow(0 8px 22px rgba(240, 90, 30, 0.18))"/>
+            <text x="240" y="128" text-anchor="middle"
+                  fill="rgba(14, 14, 20, 0.55)"
+                  font-family="'Space Grotesk',sans-serif"
+                  font-size="10.5" font-weight="700"
+                  letter-spacing="3.5">C S O M<tspan font-size="7" dy="-3">&#8482;</tspan></text>
+            <text x="240" y="153" text-anchor="middle"
+                  fill="var(--ink-dark, #0E0E14)"
+                  font-family="'Fraunces','IBM Plex Serif',Georgia,serif"
+                  font-style="italic" font-size="16" font-weight="500"
+                  letter-spacing="-0.3">One operating model</text>
+          </g>
+
+          <!-- Travelling glow dot - amber, visible on cream bg -->
+          <circle class="csom-bridge-dot" r="5"
+                  fill="#F5A623"
+                  filter="drop-shadow(0 0 6px rgba(245, 166, 35, 0.85))"/>
+        </svg>
       </div>
     </div>
   </div>
 
-  <!-- Two parallel mirror sentences: visually paired, the rhetorical centrepiece -->
-  <div class="hidden-asset-mirror reveal">
-    <p class="hidden-asset-mirror-line">
+  <!-- Two mirror sentences as side-by-side brand-gradient cards
+       (blue = product companies, orange = ITIL/SIAM practitioners) —
+       spanning full width below the 2-column grid above. -->
+  <div class="hidden-asset-mirror-grid reveal">
+    <div class="ha-mirror-card ha-mirror-card-product">
       Every one of those is what product companies now need to operationalise Customer Success at scale.
-    </p>
-    <p class="hidden-asset-mirror-line">
+    </div>
+    <div class="ha-mirror-card ha-mirror-card-pract">
       Every one of those is what senior ITIL and SIAM practitioners have spent careers building.
-    </p>
+    </div>
   </div>
 
-  <!-- Bridge paragraph in standard prose treatment -->
-  <p class="hidden-asset-bridge reveal">
-    The match is real. What&rsquo;s been missing is the bridge &mdash; a
-    body of knowledge that names this expertise in product-economy
-    language, gives practitioners a path into the work, and gives
-    product companies a way to recognise the people who can do it.
+  <!-- Bridge paragraph - larger, full-width below the mirror cards. -->
+  <p class="hidden-asset-bridge-v2 reveal">
+    The match is real. What&rsquo;s been missing is <em>the bridge</em>
+    &mdash; a body of knowledge that names this expertise in
+    product-economy language, gives practitioners a path into the work,
+    and gives product companies a way to recognise the people who can
+    do it.
   </p>
 
-  <!-- Italic close: the section's final word -->
   <p class="hidden-asset-close reveal">
     CSOM<span class="tm">&trade;</span> is that bridge.
   </p>
