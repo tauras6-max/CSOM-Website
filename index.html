@@ -4690,6 +4690,10 @@
   .gs-centered .gsc-bottom {
     opacity: 1 !important;
     transform: none !important;
+    /* z-index lift — sit above the #top.gs::before gradient overlay
+       (which has z-index:0 absolute), or the text gets painted over. */
+    position: relative;
+    z-index: 10;
   }
   .gs-centered {
     align-items: center !important;
