@@ -10002,21 +10002,20 @@
       { sec: audienceSec      || practitionerSec, f: 0.42, top: 50, left: 62, scale: 0.85, op: 0.75 },
       { sec: audienceSec      || practitionerSec, f: 0.78, top: 70, left: 70, scale: 1.05, op: 0.80 },
 
-      // §5 — For ITIL and SIAM practitioners (snake stays in right half)
-      { sec: practitionerSec, f: 0.05, top: 25, left: 70, scale: 1.10, op: 0.85 }, // top-right
-      { sec: practitionerSec, f: 0.30, top: 42, left: 60, scale: 1.30, op: 0.85 }, // gentle left dip
-      { sec: practitionerSec, f: 0.60, top: 60, left: 75, scale: 1.50, op: 0.85 }, // swing right
-      { sec: practitionerSec, f: 0.90, top: 76, left: 68, scale: 1.70, op: 0.85 }, // gentle left
+      // §5 — For ITIL and SIAM practitioners (matches §6 pattern: centre of vacant at bloom)
+      { sec: practitionerSec, f: 0.10, top: 28, left: 70, scale: 1.10, op: 0.85 }, // entry top-right
+      { sec: practitionerSec, f: 0.45, top: 50, left: 65, scale: 1.30, op: 0.85 }, // gentle left dip
+      { sec: practitionerSec, f: 0.85, top: 72, left: 78, scale: 1.70, op: 0.85 }, // centre of vacant
 
       // §6 — For CS leaders (snake on right side)
       { sec: csLeadersSec     || practitionerSec, f: 0.10, top: 28, left: 70, scale: 1.70, op: 0.85 },
       { sec: csLeadersSec     || practitionerSec, f: 0.45, top: 50, left: 62, scale: 1.85, op: 0.85 }, // gentle left
       { sec: csLeadersSec     || practitionerSec, f: 0.85, top: 72, left: 78, scale: 2.00, op: 0.85 }, // centre of vacant
 
-      // §7 — For services firms (snake on right side, largest)
-      { sec: servicesFirmsSec, f: 0.10, top: 28, left: 70, scale: 2.00, op: 0.85 },
-      { sec: servicesFirmsSec, f: 0.40, top: 48, left: 62, scale: 2.10, op: 0.85 }, // gentle left
-      { sec: servicesFirmsSec, f: 0.75, top: 66, left: 78, scale: 2.20, op: 0.85 }, // centre of vacant
+      // §7 — For services firms (matches §6 pattern: centre of vacant at bloom, largest)
+      { sec: servicesFirmsSec, f: 0.10, top: 28, left: 70, scale: 2.00, op: 0.85 }, // entry top-right
+      { sec: servicesFirmsSec, f: 0.45, top: 50, left: 65, scale: 2.10, op: 0.85 }, // gentle left dip
+      { sec: servicesFirmsSec, f: 0.85, top: 72, left: 78, scale: 2.20, op: 0.85 }, // centre of vacant
 
       // Divider drift — past §7 bottom, toward §7/§8 divider
       { sec: servicesFirmsSec, f: 1.05, top: 95, left: 92, scale: 1.50, op: 0.85 },
