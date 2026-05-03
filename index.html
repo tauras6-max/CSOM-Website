@@ -7928,32 +7928,31 @@
     overflow: visible;
     display: block;
   }
-  /* Arc - 480-unit dash, draws from 480 (hidden) to 0 (revealed) */
-  .csom-bridge-arc {
-    stroke-dasharray: 800;
-    stroke-dashoffset: 800;
-    animation: csomBridgeArcDraw 2s cubic-bezier(.22, .61, .36, 1) forwards;
+  /* Two arcs converge at centre then ascend to CSOM apex.
+     Each arc draws over 1.6s simultaneously; vertical connector draws
+     over 0.5s after the arcs land. */
+  .csom-bridge-arc-left,
+  .csom-bridge-arc-right {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: csomBridgeArcDraw 1.6s cubic-bezier(.22, .61, .36, 1) forwards;
+  }
+  .csom-bridge-arc-up {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    animation: csomBridgeArcDraw 0.55s ease-out 1.6s forwards;
   }
   @keyframes csomBridgeArcDraw {
     to { stroke-dashoffset: 0; }
   }
-  /* Suspension cables - staggered fade-in via inline --d delay */
-  .csom-cable {
-    opacity: 0;
-    transform-origin: bottom center;
-    animation: csomBridgeCableFade .55s ease-out forwards;
-    animation-delay: var(--d, 1.5s);
-  }
-  @keyframes csomBridgeCableFade {
-    from { opacity: 0; transform: scaleY(.5); }
-    to   { opacity: 1; transform: scaleY(1); }
-  }
-  /* Apex pill - drops in at 1.6s with bounce */
+  /* Apex pill - drops in at 2.15s (after the vertical connector lands)
+     so the visual story reads: streams converge, then rise, then CSOM
+     materialises at the top. */
   .csom-bridge-apex-group {
     opacity: 0;
     transform: translateY(-18px);
     transform-origin: 240px 120px;
-    animation: csomBridgeApexDrop .75s cubic-bezier(.34, 1.56, .64, 1) 1.6s forwards;
+    animation: csomBridgeApexDrop .75s cubic-bezier(.34, 1.56, .64, 1) 2.15s forwards;
   }
   @keyframes csomBridgeApexDrop {
     to { opacity: 1; transform: translateY(0); }
@@ -7978,13 +7977,26 @@
     to { stroke-dashoffset: 0; }
   }
   /* Travelling glow dot - loops the arc every 9s via offset-path */
-  .csom-bridge-dot {
-    offset-path: path("M 90 318 Q 240 120 390 318");
+  /* Two travelling dots - each follows its side's combined path
+     (arc from card + vertical to apex). Synchronised loop so they
+     meet at centre then ascend together. The combined offset-path
+     means each dot traverses ~187 units (arc) + 33 units (vertical)
+     = ~220 units total, normalised to 0-100% offset-distance. */
+  .csom-bridge-dot-left {
+    offset-path: path("M 109 318 Q 165 245 240 200 L 240 167");
     offset-distance: 0%;
     opacity: 0;
     animation:
-      csomBridgeDotTravel 9s linear infinite 2.4s,
-      csomBridgeDotFadeIn .8s ease-out 2.4s forwards;
+      csomBridgeDotTravel 9s linear infinite 2.5s,
+      csomBridgeDotFadeIn .8s ease-out 2.5s forwards;
+  }
+  .csom-bridge-dot-right {
+    offset-path: path("M 371 318 Q 315 245 240 200 L 240 167");
+    offset-distance: 0%;
+    opacity: 0;
+    animation:
+      csomBridgeDotTravel 9s linear infinite 2.5s,
+      csomBridgeDotFadeIn .8s ease-out 2.5s forwards;
   }
   @keyframes csomBridgeDotTravel {
     from { offset-distance: 0%; }
@@ -7993,14 +8005,16 @@
   @keyframes csomBridgeDotFadeIn {
     to { opacity: 1; }
   }
-  /* Browsers without offset-path support — hide the dot rather than
-     show it stuck at the origin. */
+  /* Browsers without offset-path support — hide the dots rather than
+     show them stuck at origin. */
   @supports not (offset-path: path("M 0 0 L 1 1")) {
-    .csom-bridge-dot { display: none !important; }
+    .csom-bridge-dot-left,
+    .csom-bridge-dot-right { display: none !important; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .csom-bridge-arc, .csom-bridge-deck, .csom-cable,
-    .csom-bridge-apex-group, .csom-bridge-anchor, .csom-bridge-dot {
+    .csom-bridge-arc-left, .csom-bridge-arc-right, .csom-bridge-arc-up,
+    .csom-bridge-deck, .csom-bridge-apex-group, .csom-bridge-anchor,
+    .csom-bridge-dot-left, .csom-bridge-dot-right {
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;
@@ -8994,10 +9008,20 @@
       <div class="csom-bridge" role="img" aria-label="CSOM bridge: connecting product-economy Customer Success and services-side ITIL/SIAM">
         <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="csomArcGrad" x1="0" y1="0" x2="1" y2="0">
+            <!-- Left arc gradient: blue, going from card up toward centre -->
+            <linearGradient id="csomArcGradLeft" x1="0" y1="1" x2="1" y2="0">
               <stop offset="0%"   stop-color="#1F6FD6"/>
-              <stop offset="50%"  stop-color="#F5A623"/>
-              <stop offset="100%" stop-color="#2BB673"/>
+              <stop offset="100%" stop-color="#3A8BE8"/>
+            </linearGradient>
+            <!-- Right arc gradient: green (mirror), from card up toward centre -->
+            <linearGradient id="csomArcGradRight" x1="1" y1="1" x2="0" y2="0">
+              <stop offset="0%"   stop-color="#2BB673"/>
+              <stop offset="100%" stop-color="#4BD48E"/>
+            </linearGradient>
+            <!-- Vertical connector gradient: amber, the unified stream rising to CSOM -->
+            <linearGradient id="csomArcGradUp" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%"   stop-color="#F5A623"/>
+              <stop offset="100%" stop-color="#FFCF54"/>
             </linearGradient>
             <linearGradient id="csomBridgeProductGrad" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%"   stop-color="#1F6FD6"/>
@@ -9073,27 +9097,27 @@
                   font-size="10.5" letter-spacing="0.3">Governance &#183; Integration &#183; Service</text>
           </g>
 
-          <!-- The arc - shallow quadratic from left card top to right card top -->
-          <path class="csom-bridge-arc"
-                d="M 90 318 Q 240 120 390 318"
+          <!-- Two converging arcs - one from each side, meeting at centre,
+               then vertical connector ascending to the CSOM apex pill.
+               LEFT arc (blue) + RIGHT arc (green) + UP connector (amber). -->
+          <path class="csom-bridge-arc-left"
+                d="M 109 318 Q 165 245 240 200"
                 fill="none"
-                stroke="url(#csomArcGrad)"
+                stroke="url(#csomArcGradLeft)"
                 stroke-width="3"
                 stroke-linecap="round"/>
-
-          <!-- Suspension cables - soft blue, vertical lines from arc to deck -->
-          <line class="csom-cable" style="--d: 1.40s" x1="135" y1="232" x2="135" y2="380"
-                stroke="rgba(31, 111, 214, 0.32)" stroke-width="1"/>
-          <line class="csom-cable" style="--d: 1.50s" x1="180" y1="190" x2="180" y2="380"
-                stroke="rgba(31, 111, 214, 0.40)" stroke-width="1"/>
-          <line class="csom-cable" style="--d: 1.60s" x1="225" y1="160" x2="225" y2="380"
-                stroke="rgba(31, 111, 214, 0.46)" stroke-width="1"/>
-          <line class="csom-cable" style="--d: 1.65s" x1="265" y1="160" x2="265" y2="380"
-                stroke="rgba(43, 182, 115, 0.46)" stroke-width="1"/>
-          <line class="csom-cable" style="--d: 1.75s" x1="305" y1="190" x2="305" y2="380"
-                stroke="rgba(43, 182, 115, 0.40)" stroke-width="1"/>
-          <line class="csom-cable" style="--d: 1.80s" x1="345" y1="232" x2="345" y2="380"
-                stroke="rgba(43, 182, 115, 0.32)" stroke-width="1"/>
+          <path class="csom-bridge-arc-right"
+                d="M 371 318 Q 315 245 240 200"
+                fill="none"
+                stroke="url(#csomArcGradRight)"
+                stroke-width="3"
+                stroke-linecap="round"/>
+          <path class="csom-bridge-arc-up"
+                d="M 240 200 L 240 167"
+                fill="none"
+                stroke="url(#csomArcGradUp)"
+                stroke-width="2.5"
+                stroke-linecap="round"/>
 
           <!-- Apex pill - cream/white background with dark text + amber accents -->
           <g class="csom-bridge-apex-group">
@@ -9114,10 +9138,16 @@
                   letter-spacing="-0.3">One operating model</text>
           </g>
 
-          <!-- Travelling glow dot - amber, visible on cream bg -->
-          <circle class="csom-bridge-dot" r="5"
-                  fill="#F5A623"
-                  filter="drop-shadow(0 0 6px rgba(245, 166, 35, 0.85))"/>
+          <!-- Two travelling glow dots - each follows its side's combined
+               path (arc + vertical), so they converge at centre and
+               ascend together to CSOM. Synchronised so the meet is
+               visible. -->
+          <circle class="csom-bridge-dot csom-bridge-dot-left" r="4.5"
+                  fill="#1F6FD6"
+                  filter="drop-shadow(0 0 6px rgba(31, 111, 214, 0.85))"/>
+          <circle class="csom-bridge-dot csom-bridge-dot-right" r="4.5"
+                  fill="#2BB673"
+                  filter="drop-shadow(0 0 6px rgba(43, 182, 115, 0.85))"/>
         </svg>
       </div>
     </div>
