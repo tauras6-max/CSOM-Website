@@ -6623,9 +6623,8 @@
 
   .sc-chip {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 10.5px;
-    letter-spacing: .22em;
-    text-transform: uppercase;
+    font-size: 15px;
+    letter-spacing: .01em;
     font-weight: 700;
     padding: 4px 0;
     color: var(--ink-muted);
@@ -6647,6 +6646,30 @@
   .stay-close-card-contribute .sc-icon { color: var(--brand-orange); }
   .stay-close-card:hover .sc-icon { transform: translateY(-2px) scale(1.05); }
   .stay-close-card-contribute:hover .sc-icon { transform: translate(2px, -2px) rotate(-6deg); }
+
+  /* Per-card CTA button gradients (matches the card's accent colour).
+     Replaces the global .btn-primary multi-stop brand gradient with a
+     single-colour gradient; text in white for contrast. */
+  .stay-close-card .notify-submit {
+    color: #ffffff !important;
+    border-color: transparent !important;
+    background-size: 100% 100% !important;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+  }
+  .stay-close-card-book .notify-submit {
+    background: linear-gradient(95deg, #1F6FD6 0%, #3A8BE8 100%) !important;
+  }
+  .stay-close-card-training .notify-submit {
+    background: linear-gradient(95deg, #1E9C5C 0%, #2BB673 50%, #4BD48E 100%) !important;
+  }
+  .stay-close-card-contribute .notify-submit {
+    background: linear-gradient(95deg, #D64326 0%, #F05A1E 50%, #FF7A3E 100%) !important;
+  }
+  .stay-close-card .notify-submit:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+  }
+  .stay-close-card .notify-submit svg { stroke: #ffffff; }
 
   .sc-title {
     margin: 4px 0 0;
