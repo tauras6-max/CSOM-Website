@@ -9997,26 +9997,26 @@
        monotonically from 0.55 (BIRTH) -> 2.20 (§7 bloom) -> 1.50
        (divider drift). */
     const PLAN = [
-      // BIRTH at point A — top of #audience title
+      // BIRTH at point A — top of #audience title (only LEFT-side stop)
       { sec: audienceSec      || practitionerSec, f: 0.10, top: 32, left: 32, scale: 0.55, op: 0.70 },
       { sec: audienceSec      || practitionerSec, f: 0.42, top: 50, left: 62, scale: 0.85, op: 0.75 },
-      { sec: audienceSec      || practitionerSec, f: 0.78, top: 70, left: 48, scale: 1.05, op: 0.80 },
+      { sec: audienceSec      || practitionerSec, f: 0.78, top: 70, left: 70, scale: 1.05, op: 0.80 },
 
-      // §5 — For ITIL and SIAM practitioners (snake through)
-      { sec: practitionerSec, f: 0.05, top: 25, left: 65, scale: 1.10, op: 0.85 }, // top-right
-      { sec: practitionerSec, f: 0.30, top: 42, left: 38, scale: 1.30, op: 0.85 }, // swing left
-      { sec: practitionerSec, f: 0.60, top: 60, left: 62, scale: 1.50, op: 0.85 }, // swing right
-      { sec: practitionerSec, f: 0.90, top: 76, left: 42, scale: 1.70, op: 0.85 }, // swing left
+      // §5 — For ITIL and SIAM practitioners (snake stays in right half)
+      { sec: practitionerSec, f: 0.05, top: 25, left: 70, scale: 1.10, op: 0.85 }, // top-right
+      { sec: practitionerSec, f: 0.30, top: 42, left: 60, scale: 1.30, op: 0.85 }, // gentle left dip
+      { sec: practitionerSec, f: 0.60, top: 60, left: 75, scale: 1.50, op: 0.85 }, // swing right
+      { sec: practitionerSec, f: 0.90, top: 76, left: 68, scale: 1.70, op: 0.85 }, // gentle left
 
-      // §6 — For CS leaders (continue snake)
-      { sec: csLeadersSec     || practitionerSec, f: 0.10, top: 28, left: 60, scale: 1.70, op: 0.85 },
-      { sec: csLeadersSec     || practitionerSec, f: 0.45, top: 50, left: 36, scale: 1.85, op: 0.85 },
-      { sec: csLeadersSec     || practitionerSec, f: 0.85, top: 72, left: 64, scale: 2.00, op: 0.85 },
+      // §6 — For CS leaders (snake on right side)
+      { sec: csLeadersSec     || practitionerSec, f: 0.10, top: 28, left: 70, scale: 1.70, op: 0.85 },
+      { sec: csLeadersSec     || practitionerSec, f: 0.45, top: 50, left: 62, scale: 1.85, op: 0.85 }, // gentle left
+      { sec: csLeadersSec     || practitionerSec, f: 0.85, top: 72, left: 78, scale: 2.00, op: 0.85 }, // centre of vacant
 
-      // §7 — For services firms (final swings, largest)
-      { sec: servicesFirmsSec, f: 0.10, top: 28, left: 56, scale: 2.00, op: 0.85 },
-      { sec: servicesFirmsSec, f: 0.40, top: 48, left: 36, scale: 2.10, op: 0.85 },
-      { sec: servicesFirmsSec, f: 0.75, top: 66, left: 60, scale: 2.20, op: 0.85 },
+      // §7 — For services firms (snake on right side, largest)
+      { sec: servicesFirmsSec, f: 0.10, top: 28, left: 70, scale: 2.00, op: 0.85 },
+      { sec: servicesFirmsSec, f: 0.40, top: 48, left: 62, scale: 2.10, op: 0.85 }, // gentle left
+      { sec: servicesFirmsSec, f: 0.75, top: 66, left: 78, scale: 2.20, op: 0.85 }, // centre of vacant
 
       // Divider drift — past §7 bottom, toward §7/§8 divider
       { sec: servicesFirmsSec, f: 1.05, top: 95, left: 92, scale: 1.50, op: 0.85 },
