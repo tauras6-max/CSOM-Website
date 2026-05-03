@@ -8042,21 +8042,6 @@
 
   /* Five-beat inventory — five italic lines stacked in the right column.
      Not bullets, not boxes. Rhythm carried by spacing. */
-  /* Parallel tracks section - reuse split-intro pattern. The
-     closing "That question opens new ground..." line gets a softer
-     italic Fraunces treatment to mark it as the section's transition. */
-  #parallel-tracks .parallel-tracks-close {
-    margin-top: clamp(20px, 2.5vw, 32px);
-    padding-top: clamp(20px, 2.5vw, 28px);
-    border-top: 1px solid var(--light-line);
-    font-family: 'Fraunces', 'IBM Plex Serif', Georgia, serif;
-    font-style: italic;
-    font-weight: 500;
-    font-size: clamp(16px, 1.2vw, 19px);
-    line-height: 1.55;
-    color: var(--ink-dark);
-  }
-
   /* §3 layout v2 — 2-column grid: text on the left, BIGGER dark
      inset panel on the right hosting the CSOM hero bridge component.
      Right column gets more weight (1.15fr) and the panel min-height
@@ -9004,14 +8989,14 @@
     <div class="split-intro-left">
       <span class="section-eyebrow">The shift</span>
       <h2 class="section-title" id="shiftTitle">
-        The same shift,<br/>three industries.
+        The same shift,<br/>everywhere.
       </h2>
       <span class="serif-gradient">Across every industry, customers reward the value they realize &mdash; not the output.</span>
     </div>
   </div>
 
-  <span class="why-now-grid-eyebrow reveal">The same shift, three industries</span>
-  <div class="why-now-grid reveal" role="list" aria-label="The same shift across three industries">
+  <span class="why-now-grid-eyebrow reveal">The shift</span>
+  <div class="why-now-grid reveal" role="list" aria-label="The same shift across industries">
     <article class="why-now-card why-now-card-recovery" role="listitem">
       <span class="wn-chip">Hospital</span>
       <span class="wn-icon" aria-hidden="true">
@@ -9080,9 +9065,6 @@
         those tracks &mdash; pairing the outcome lens of Customer Success with
         the operational rigour of ITIL and SIAM to make end-to-end Customer
         Value Realization a repeatable practice.
-      </p>
-      <p class="parallel-tracks-close">
-        That question opens new ground on both sides of the bridge.
       </p>
     </div>
   </div>
@@ -10093,13 +10075,11 @@
       <span class="logo-descriptor">Customer Success Operating Model &middot; Customer Value Realization, operationalized.</span>
     </a>
     <!-- Footer link order matches the top-nav order and the site's
-         section flow: #diagnosis → #planets → #audience →
-         #practitioners → #bring → #contact. Legacy "Model" link
-         removed (it pointed at a stub inside #planets, duplicating
-         "Disciplines"). -->
+         section flow: #shift -> #planets -> #audience ->
+         #practitioners -> #bring -> #contact. -->
     <div class="foot-links">
-      <a href="#diagnosis">The Diagnosis</a>
-      <a href="#planets">Disciplines</a>
+      <a href="#shift">The Shift</a>
+      <a href="#planets">The Model</a>
       <a href="#audience">Who It&rsquo;s For</a>
       <a href="#practitioners">For Practitioners</a>
       <a href="#bring">Training</a>
