@@ -5137,13 +5137,13 @@
   }
 
   /* Butterfly travels OVER content (z-index: 3, behind copy at z-index:
-     5 in the audience-trio sections). Width scales down on smaller
-     viewports so wing tips don't dominate the screen, and the metaphor
-     is hidden on the smallest mobile sizes where the over-text overlay
-     becomes too cramped to read around. */
-  @media (max-width: 1024px) { .butterfly { width: 280px; height: 250px; } }
-  @media (max-width: 740px)  { .butterfly { width: 220px; height: 200px; } }
-  @media (max-width: 480px)  { .butterfly-stage { display: none !important; } }
+     5 in the audience-trio sections). Base width scales down on
+     smaller viewports; the JS handler also caps the scale multiplier
+     on narrow screens so wing tips stay within the viewport. Visible
+     on all sizes including mobile. */
+  @media (max-width: 1024px) { .butterfly { width: 240px; height: 215px; } }
+  @media (max-width:  740px) { .butterfly { width: 180px; height: 160px; } }
+  @media (max-width:  480px) { .butterfly { width: 140px; height: 125px; } }
 
   @media (prefers-reduced-motion: reduce) {
     .butterfly-orbit,
@@ -9956,33 +9956,24 @@
     `scale3d(${v.scale.toFixed(3)}, ${v.scale.toFixed(3)}, 1)`;
 
   /* =============== BUTTERFLY SCROLL TRAVEL ==============
-     Scoped to: BIRTH at #audience -> uniform-speed travel through
-     §5/§6/§7 (per-section), aligned with actual section boundaries
-     -> slow drift+fade toward the §7/§8 divider line.
+     Serpentine path traced from the user's hand-drawn red line on the
+     3 May review screenshot. Birth (point A) at the top of the
+     #audience title "Three audiences. One operating model.", then a
+     wavy snake-like motion through #audience -> §5 -> §6 -> §7 with
+     left-right swings, growing in scale as the journey progresses,
+     drifting to the bottom-right corner at the §7/§8 divider line
+     and slowly fading.
 
-     v6 design: stops are anchored to a section + a fraction within
-     that section (e.g. "20% into §5" or "85% into §6"), and the
-     t-value for each stop is recomputed every update from the live
-     section positions. So when the user is at 50% of §5, the
-     interpolated butterfly state reflects "halfway between §5-entry
-     and §5-bloom" — not somewhere derived from a hardcoded fraction
-     that doesn't match the actual page layout.
+     Per-section anchoring: each waypoint is keyed to (section,
+     fraction-into-section), and t-values are computed live from
+     getBoundingClientRect so the butterfly's stops always align with
+     the actual scroll position of the underlying section.
 
-     Why this beats both prior attempts:
-       v4 (createScrollStage with element anchors): tied transitions
-         to .split-intro / .practitioner-benefits midpoints; speed
-         varied per section based on those elements' separations.
-       v5 (hardcoded t scrubber): uniform speed per scroll-pixel but
-         t-values were guessed and didn't align with where sections
-         actually sit, so the butterfly was "ahead of itself"
-         visually.
-       v6: per-section t-budget proportional to section height
-         (so sections "feel" right relative to content), AND uniform
-         speed within each section's allocated t-range. Across
-         sections, speed varies in proportion to section heights
-         (slightly slower in tall §5, slightly faster in short §6) —
-         which matches the natural reading pace through each section.
-       */
+     Mobile support: the JS update() function clamps the scale
+     multiplier based on viewport width so the butterfly stays sized
+     to the screen on narrow viewports. .butterfly base CSS width
+     also shrinks at 1024/740/480 breakpoints. Visible on every
+     screen size. */
   (function () {
     const bfStage = document.getElementById('butterflyStage');
     if (!bfStage) return;
@@ -9996,28 +9987,57 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       bfStage.style.opacity = '1';
       bfStage.style.transform =
-        'translate3d(82vw, 50vh, 0) translate3d(-50%, -50%, 0) scale3d(1.8, 1.8, 1)';
+        'translate3d(60vw, 50vh, 0) translate3d(-50%, -50%, 0) scale3d(1.4, 1.4, 1)';
       return;
     }
 
-    /* Section-keyed stops — each entry is anchored to a section element
-       (sec) and a fraction (f) into that section. The t-value (scroll
-       progress 0-1) is computed from live measurements every update. */
+    /* Serpentine waypoints. Each entry = (section, fraction-into-
+       section, top-vh, left-vw, scale, opacity). Adjacent waypoints
+       alternate left/right to create the snaking motion. Scale grows
+       monotonically from 0.55 (BIRTH) -> 2.20 (§7 bloom) -> 1.50
+       (divider drift). */
     const PLAN = [
-      { sec: audienceSec      || practitionerSec, f: 0.20, top: 38, left: 35, scale: 0.55, op: 0.70 },  // BIRTH
-      { sec: audienceSec      || practitionerSec, f: 0.85, top: 60, left: 75, scale: 1.10, op: 0.70 },  // audience drift
-      { sec: practitionerSec,                     f: 0.10, top: 35, left: 78, scale: 1.20, op: 0.85 },  // §5 entry
-      { sec: practitionerSec,                     f: 0.85, top: 65, left: 84, scale: 2.00, op: 0.85 },  // §5 bloom
-      { sec: csLeadersSec     || practitionerSec, f: 0.10, top: 35, left: 82, scale: 1.60, op: 0.85 },  // §6 entry
-      { sec: csLeadersSec     || practitionerSec, f: 0.85, top: 65, left: 86, scale: 2.20, op: 0.85 },  // §6 bloom
-      { sec: servicesFirmsSec,                    f: 0.10, top: 35, left: 84, scale: 1.80, op: 0.85 },  // §7 entry
-      { sec: servicesFirmsSec,                    f: 0.85, top: 60, left: 88, scale: 2.40, op: 0.85 },  // §7 bloom
-      { sec: servicesFirmsSec,                    f: 1.05, top: 92, left: 95, scale: 1.80, op: 0.85 },  // divider drift (just past §7)
+      // BIRTH at point A — top of #audience title
+      { sec: audienceSec      || practitionerSec, f: 0.10, top: 32, left: 32, scale: 0.55, op: 0.70 },
+      { sec: audienceSec      || practitionerSec, f: 0.42, top: 50, left: 62, scale: 0.85, op: 0.75 },
+      { sec: audienceSec      || practitionerSec, f: 0.78, top: 70, left: 48, scale: 1.05, op: 0.80 },
+
+      // §5 — For ITIL and SIAM practitioners (snake through)
+      { sec: practitionerSec, f: 0.05, top: 25, left: 65, scale: 1.10, op: 0.85 }, // top-right
+      { sec: practitionerSec, f: 0.30, top: 42, left: 38, scale: 1.30, op: 0.85 }, // swing left
+      { sec: practitionerSec, f: 0.60, top: 60, left: 62, scale: 1.50, op: 0.85 }, // swing right
+      { sec: practitionerSec, f: 0.90, top: 76, left: 42, scale: 1.70, op: 0.85 }, // swing left
+
+      // §6 — For CS leaders (continue snake)
+      { sec: csLeadersSec     || practitionerSec, f: 0.10, top: 28, left: 60, scale: 1.70, op: 0.85 },
+      { sec: csLeadersSec     || practitionerSec, f: 0.45, top: 50, left: 36, scale: 1.85, op: 0.85 },
+      { sec: csLeadersSec     || practitionerSec, f: 0.85, top: 72, left: 64, scale: 2.00, op: 0.85 },
+
+      // §7 — For services firms (final swings, largest)
+      { sec: servicesFirmsSec, f: 0.10, top: 28, left: 56, scale: 2.00, op: 0.85 },
+      { sec: servicesFirmsSec, f: 0.40, top: 48, left: 36, scale: 2.10, op: 0.85 },
+      { sec: servicesFirmsSec, f: 0.75, top: 66, left: 60, scale: 2.20, op: 0.85 },
+
+      // Divider drift — past §7 bottom, toward §7/§8 divider
+      { sec: servicesFirmsSec, f: 1.05, top: 95, left: 92, scale: 1.50, op: 0.85 },
     ];
 
     const lerp     = (a, b, t) => a + (b - a) * t;
     const smooth   = t => t * t * (3 - 2 * t);
     const clamp01  = t => t < 0 ? 0 : (t > 1 ? 1 : t);
+
+    /* Mobile-aware scale cap so wing tips stay within the viewport on
+       narrow screens. At 1280+ px we use the full scale range; below
+       that we cap progressively so the butterfly never dominates the
+       screen on tablet/mobile. */
+    function maxScaleForViewport() {
+      const vw = window.innerWidth;
+      if (vw >= 1280) return 2.40;
+      if (vw >= 1024) return 1.80;
+      if (vw >=  740) return 1.40;
+      if (vw >=  480) return 1.10;
+      return 0.85;
+    }
 
     function fadeFactor(el, startVh, endVh) {
       if (!el) return null;
@@ -10029,13 +10049,9 @@
       return clamp01((s - r.top) / (s - e));
     }
 
-    function absTop(el)    { return el.getBoundingClientRect().top + window.scrollY; }
-    function absBottom(el) { return absTop(el) + el.offsetHeight; }
+    function absTop(el) { return el.getBoundingClientRect().top + window.scrollY; }
 
     function computeStops() {
-      /* Total span: from top of #audience (or #practitioners as
-         fallback) to top of #author-community. The butterfly's full
-         journey plays out across this range. */
       const startEl = audienceSec || practitionerSec;
       const endEl   = authorSec   || servicesFirmsSec;
       const start   = absTop(startEl);
@@ -10044,9 +10060,6 @@
       if (span <= 0) return [];
 
       return PLAN.map(p => {
-        /* Each stop's t = (section's top + fraction*section's height
-           - global start) / global span. Fractions > 1.0 reach past
-           the section's bottom (used for the divider-drift stop). */
         const secTop    = absTop(p.sec);
         const secHeight = p.sec.offsetHeight;
         const stopAbs   = secTop + p.f * secHeight;
@@ -10061,8 +10074,6 @@
     }
 
     function update() {
-      /* Opacity: fadeIn as #audience enters viewport, fadeOut as
-         #author-community enters viewport. */
       let opacity = (audienceSec || practitionerSec) ? 0 : 1;
       const fi = fadeFactor(audienceSec || practitionerSec, 0.85, 0.55);
       if (fi !== null) opacity = fi;
@@ -10073,8 +10084,6 @@
       if (opacity <= 0.01) { bfStage.classList.add('is-hidden'); return; }
       bfStage.classList.remove('is-hidden');
 
-      /* Position: scroll-progress driven, with stop t-values computed
-         from live section positions so transitions align with content. */
       const stops = computeStops();
       if (!stops.length) return;
 
@@ -10106,11 +10115,14 @@
         }
       }
 
+      /* Mobile-aware scale cap. */
+      const cappedScale = Math.min(v.scale, maxScaleForViewport());
+
       if (v.op !== undefined) bfStage.style.opacity = (opacity * v.op).toFixed(3);
       bfStage.style.transform =
         'translate3d(' + v.left.toFixed(2) + 'vw, ' + v.top.toFixed(2) + 'vh, 0) ' +
         'translate3d(-50%, -50%, 0) ' +
-        'scale3d(' + v.scale.toFixed(3) + ', ' + v.scale.toFixed(3) + ', 1)';
+        'scale3d(' + cappedScale.toFixed(3) + ', ' + cappedScale.toFixed(3) + ', 1)';
     }
 
     let ticking = false;
@@ -10120,7 +10132,6 @@
       requestAnimationFrame(() => { update(); ticking = false; });
     }, { passive: true });
     window.addEventListener('resize', update);
-    /* Run after a tick to ensure all sections are laid out. */
     update();
     setTimeout(update, 100);
   })();
