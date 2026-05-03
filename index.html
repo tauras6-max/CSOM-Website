@@ -4542,10 +4542,9 @@
     pointer-events: none;
     will-change: transform, opacity;
     transform: translate3d(85vw, 48vh, 0) translate3d(-50%, -50%, 0) scale3d(1.4, 1.4, 1);
-    /* Transform is driven every scroll frame via JS lerp — no CSS
-       transition on transform (would fight the continuous updates).
-       Keep a short opacity transition so the fade-to-#model stays soft. */
     transition: opacity 0.4s ease;
+    /* Hidden — the new centred-layout hero owns its own inline globe. */
+    display: none !important;
   }
   .globe-stage.is-hidden { opacity: 0; }
 
@@ -4678,6 +4677,172 @@
     flex-wrap: wrap;
   }
   .gs.align-center .gs-actions { justify-content: center; }
+
+  /* ============== CENTRED-GLOBE HERO LAYOUT (#top) ==============
+     Eyebrow + title at the top, bigger inline globe in the middle
+     with halo glow + animated stars, lede + CTA + bridge cards
+     below. Replaces the prior left-aligned layout that used the
+     fixed-position globe-stage (now hidden via display:none). */
+  .gs-centered {
+    align-items: center !important;
+    text-align: center;
+    padding-top: clamp(80px, 10vh, 120px);
+    padding-bottom: clamp(60px, 8vh, 100px);
+  }
+  .gsc-top {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto clamp(28px, 4vh, 48px);
+    text-align: center;
+  }
+  .gsc-eyebrow {
+    display: inline-block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 7px 16px;
+    border: 1px solid rgba(255, 207, 84, 0.45);
+    border-radius: 999px;
+    background: rgba(4, 8, 18, 0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    margin-bottom: clamp(18px, 2.5vh, 28px);
+  }
+  .gsc-title {
+    margin: 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(36px, 5.2vw, 72px);
+    line-height: 1.06;
+    letter-spacing: -0.022em;
+    color: #ffffff;
+  }
+
+  /* Inline centred globe — bigger than the old fixed-position one. */
+  .gsc-globe-wrap {
+    position: relative;
+    width: clamp(280px, 42vw, 480px);
+    height: clamp(280px, 42vw, 480px);
+    margin: clamp(20px, 3vh, 32px) auto clamp(28px, 4vh, 48px);
+  }
+  .gsc-globe {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background-image: url('globe.jpeg');
+    background-size: cover;
+    background-position: left;
+    animation: gscGlobeRotate 30s linear infinite;
+    box-shadow:
+      0 0 60px rgba(63, 168, 224, 0.30),
+      0 0 120px rgba(255, 110, 60, 0.18),
+      -8px 0 12px #c3f4ff inset,
+      24px 4px 38px #000 inset,
+      -36px -4px 50px #c3f4ff99 inset,
+      380px 0 66px #00000066 inset,
+      230px 0 56px #000000aa inset;
+  }
+  @keyframes gscGlobeRotate {
+    from { background-position: 0 0; }
+    to   { background-position: 600px 0; }
+  }
+  .gsc-globe-wrap::before {
+    content: "";
+    position: absolute;
+    inset: -12%;
+    background: radial-gradient(circle, rgba(255, 245, 220, 0.30) 0%, rgba(255, 245, 220, 0) 65%);
+    pointer-events: none;
+    z-index: -1;
+    animation: gscGlobeGlow 6s ease-in-out infinite alternate;
+  }
+  @keyframes gscGlobeGlow {
+    from { opacity: 0.5; transform: scale(0.95); }
+    to   { opacity: 1;   transform: scale(1.05); }
+  }
+  .gsc-globe-star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+    animation: gscStarPulse 3s ease-in-out infinite;
+  }
+  @keyframes gscStarPulse {
+    0%, 100% { opacity: 0.2; }
+    50%      { opacity: 1; }
+  }
+
+  .gsc-bottom {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .gsc-lede {
+    margin: 0 auto clamp(18px, 2.5vh, 28px);
+    font-size: clamp(15px, 1.3vw, 18px);
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 1080px;
+    padding: 0 clamp(8px, 2vw, 24px);
+  }
+  .gsc-lede .tm { font-size: 0.7em; vertical-align: super; color: var(--gold); margin-left: 1px; }
+
+  .gsc-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: clamp(22px, 3vh, 32px) 0 clamp(28px, 4vh, 40px);
+  }
+  /* Override the global .btn-primary - high-contrast dark glass with
+     gold accent so it pops on the spectrum gradient hero background. */
+  .gsc-cta {
+    background: rgba(8, 12, 24, 0.70) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #ffffff !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.012em !important;
+    padding: 16px 32px !important;
+    border: 1.5px solid rgba(255, 207, 84, 0.55) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35) !important;
+    box-shadow:
+      0 14px 36px rgba(0, 0, 0, 0.32),
+      0 6px 16px rgba(255, 110, 60, 0.18),
+      inset 0 1px 0 rgba(255, 207, 84, 0.18) !important;
+  }
+  .gsc-cta:hover {
+    transform: translateY(-2px);
+    background: rgba(8, 12, 24, 0.85) !important;
+    border-color: rgba(255, 207, 84, 0.85) !important;
+  }
+  .gsc-cta svg { stroke: var(--gold); }
+
+  /* Bridge cards inside the centred hero — left-aligned text inside,
+     centred grid container, max-width capped. */
+  .gs-centered .hero-bridges {
+    margin: 0 auto;
+    max-width: 1080px;
+    text-align: left;
+  }
+
+  @media (max-width: 880px) {
+    .gsc-globe-wrap { width: clamp(240px, 60vw, 360px); height: clamp(240px, 60vw, 360px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gsc-globe, .gsc-globe-wrap::before, .gsc-globe-star {
+      animation: none !important;
+    }
+  }
+
   /* Hero CTA buttons - white text. Scoped to .gs-actions so other
      .btn-primary usages elsewhere on the site (eg §10 notify forms)
      keep their existing colour. */
@@ -8730,40 +8895,54 @@
   </div>
 </div>
 
-<!-- =============== SECTION 1: HERO — theme rebuild =============== -->
-<header class="gs align-left" id="top">
-  <div class="gs-content reveal">
-    <span class="gs-badge">The operating model for Customer Value Realization</span>
-    <h1 class="gs-title">
-      <span class="title-main">The product economy is scaling. <span class="hero-vr">Value Realization</span> is the work that defines it.</span>
+<!-- =============== SECTION 1: HERO — centred-globe layout =============== -->
+<header class="gs gs-centered" id="top">
+  <!-- TOP: eyebrow + headline -->
+  <div class="gsc-top reveal">
+    <span class="gsc-eyebrow">The operating model for Customer Value Realization</span>
+    <h1 class="gsc-title">
+      The product economy is scaling. Value Realization is the work that defines it.
     </h1>
-    <p class="hero-lede">
-      Product companies have built Customer Success. Services companies &mdash;
-      the ones deploying, integrating and running those products &mdash; have
-      built ITIL and SIAM. CSOM<span class="tm">&trade;</span> brings them
-      together as one operating model for Customer Value Realization, with
-      the dimensions neither carries alone.
+  </div>
+
+  <!-- MIDDLE: bigger centred inline globe -->
+  <div class="gsc-globe-wrap reveal" aria-hidden="true">
+    <span class="gsc-globe-star" style="left: -12px; top: 18px;  animation-delay: 0s;"></span>
+    <span class="gsc-globe-star" style="left: -28px; top: 80px;  animation-delay: 0.4s;"></span>
+    <span class="gsc-globe-star" style="right: -20px; top: 100px; animation-delay: 0.8s;"></span>
+    <span class="gsc-globe-star" style="right: -8px; bottom: 80px; animation-delay: 1.2s;"></span>
+    <span class="gsc-globe-star" style="left: 30%; top: -20px; animation-delay: 1.6s;"></span>
+    <span class="gsc-globe-star" style="left: 70%; bottom: -16px; animation-delay: 2.0s;"></span>
+    <div class="gsc-globe"></div>
+  </div>
+
+  <!-- BOTTOM: lede + CTA + bridge cards -->
+  <div class="gsc-bottom reveal">
+    <p class="gsc-lede">
+      Customer Success grew up inside product companies &mdash; a discipline
+      of adoption, retention, and value proven inside the product. ITIL and
+      SIAM grew up inside enterprise IT and services &mdash; disciplines of
+      governance, integration, and service quality across complex supplier
+      ecosystems. They evolved on parallel tracks, solving different halves
+      of the same problem: how customers actually realise value from what
+      they buy.
     </p>
-    <p class="hero-subtitle">
-      A new chapter for product companies. A new edge for services firms.
-      And a new path for ITIL and SIAM practitioners ready to lead it.
+    <p class="gsc-lede">
+      CSOM<span class="tm">&trade;</span> is the operating model that joins
+      those tracks &mdash; pairing the outcome lens of Customer Success with
+      the operational rigour of ITIL and SIAM to make end-to-end Customer
+      Value Realization a repeatable practice.
     </p>
-    <div class="gs-actions">
-      <a href="#model" class="btn btn-primary">
+
+    <div class="gsc-actions">
+      <a href="#model" class="btn btn-primary gsc-cta">
         Explore the Model
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-      <a href="#for-practitioners" class="btn btn-secondary">
-        For SIAM &amp; ITIL practitioners
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
     </div>
 
-    <!-- Three hero bridge cards: blue/green/orange brand-coloured
-         left-rail accent, brand-coloured title, white tagline.
-         Sets up the three-audience narrative the rest of the page
-         delivers in §2/§5/§6/§7. -->
-    <div class="hero-bridges reveal" role="list">
+    <!-- Three hero bridge cards (brand-coloured rail + tinted title + white tagline) -->
+    <div class="hero-bridges" role="list">
       <a href="#for-cs-leaders" class="hero-bridge hero-bridge-product" role="listitem">
         <h3 class="hero-bridge-title">For product companies</h3>
         <p class="hero-bridge-tagline">A new chapter &mdash; adoption becomes outcome.</p>
